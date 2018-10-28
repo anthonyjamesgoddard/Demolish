@@ -3,7 +3,7 @@
 
 
 
-std::string delta::getOutputPrefix() {
- return "delta\t";
+std::string demolish::getOutputPrefix() {
+ return "demolish\t";
 }
 

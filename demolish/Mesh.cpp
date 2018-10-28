@@ -114,7 +114,7 @@ void demolish::Mesh::compressFromVectors()
 	iREAL yC = _yCoordinates[i+2];
 	iREAL zC = _zCoordinates[i+2];
 
-	std::map<unsigned int, Vertex> 	                hashToVerticesMap;
+	std::map<unsigned int, demolish::Vertex> 	                hashToVerticesMap;
 	std::map<unsigned int, unsigned int> 		    hashToUniqueVertexPositionMap;
 
 	std::hash<std::string> v_hash;
@@ -189,7 +189,7 @@ void demolish::Mesh::compressFromVectors(
 	iREAL yC = yCoordinates[i+2];
 	iREAL zC = zCoordinates[i+2];
 
-	std::map<unsigned int, std::array<iREAL,3>> 	hashToVerticesMap;
+	std::map<unsigned int, Vertex> 	            hashToVerticesMap;
 	std::map<unsigned int, unsigned int> 		hashToVertexPositionMap;
 
 	std::ostringstream ssA;
@@ -564,7 +564,7 @@ void demolish::Mesh::computeCenterOfMass(
   refcentreOfMassZ = centreOfMassZ;
 }
 
-void demolish:Mesh::computeExplode(
+void demolish::Mesh::computeExplode(
 	                iREAL length
 ) {
   std::vector<iREAL> exCoordinates, eyCoordinates, ezCoordinates;
@@ -663,12 +663,12 @@ iREAL demolish::Mesh::computeHMin()
  *gets the inertia using simplex integration from solfec
  */
 void demolish::Mesh::computeInertia(
-		delta::geometry::material::MaterialType material,
+		demolish::material::MaterialType material,
 		iREAL& mass,
 		iREAL center[3],
 		iREAL inertia[9])
 {
-  delta::geometry::operators::physics::computeInertia(
+  demolish::operators::computeInertia(
 		_xCoordinates,
 		_yCoordinates,
 		_zCoordinates,
@@ -678,63 +678,63 @@ void demolish::Mesh::computeInertia(
 		inertia);
 }
 
-iREAL delta::geometry::mesh::Mesh::computeMass(
-    delta::geometry::material::MaterialType material)
+iREAL demolish::Mesh::computeMass(
+    demolish::material::MaterialType material)
 {
-  return delta::geometry::operators::physics::computeMass(
+  return demolish::operators::computeMass(
 	  _xCoordinates, _yCoordinates, _zCoordinates, material);
 }
 
-void delta::geometry::mesh::Mesh::computeInverseInertia(
+void demolish::Mesh::computeInverseInertia(
     iREAL inertia[9],
     iREAL inverse[9],
     bool isObject)
 {
-  delta::geometry::operators::physics::computeInverseInertia(inertia, inverse, isObject);
+  demolish::operators::computeInverseInertia(inertia, inverse, isObject);
 }
 
-iREAL delta::geometry::mesh::Mesh::computeVolume()
+iREAL demolish::Mesh::computeVolume()
 {
-  return delta::geometry::operators::physics::computeVolume(
+  return demolish::operators::computeVolume(
 	  _xCoordinates, _yCoordinates, _zCoordinates);
 }
 
-std::vector<std::array<int, 3>> delta::geometry::mesh::Mesh::getTriangleFaces()
+std::vector<std::array<int, 3>> demolish::Mesh::getTriangleFaces()
 {
   return _triangleFaces;
 }
 
-std::vector<std::array<iREAL, 3>> delta::geometry::mesh::Mesh::getUniqueVertices()
+std::vector<demolish::Vertex> demolish::Mesh::getUniqueVertices()
 {
   return _uniqueVertices;
 }
 
-iREAL delta::geometry::mesh::Mesh::getMaxMeshSize()
+iREAL demolish::Mesh::getMaxMeshSize()
 {
   return _maxMeshSize;
 }
 
-iREAL delta::geometry::mesh::Mesh::getMinMeshSize()
+iREAL demolish::Mesh::getMinMeshSize()
 {
   return _minMeshSize;
 }
 
-iREAL delta::geometry::mesh::Mesh::getAvgMeshSize()
+iREAL demolish::Mesh::getAvgMeshSize()
 {
   return _avgMeshSize;
 }
 
-std::array<iREAL, 3> delta::geometry::mesh::Mesh::getBoundaryMinVertex()
+demolish::Vertex demolish::Mesh::getBoundaryMinVertex()
 {
   return _minBoundary;
 }
 
-std::array<iREAL, 3> delta::geometry::mesh::Mesh::getBoundaryMaxVertex()
+demolish::Vertex demolish::Mesh::getBoundaryMaxVertex()
 {
   return _maxBoundary;
 }
 
-void delta::geometry::mesh::Mesh::toString()
+void demolish::Mesh::toString()
 {
   for(int i=0; i<_xCoordinates.size(); i+=3)
   {
@@ -744,6 +744,6 @@ void delta::geometry::mesh::Mesh::toString()
   }
 }
 
-delta::geometry::mesh::Mesh::Mesh::~Mesh() {
+demolish::Mesh::Mesh::~Mesh() {
 
 }

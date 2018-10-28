@@ -3,8 +3,9 @@
 #ifndef PHYSICS
 #define PHYSICS
 
-#include <demolish/material.h>
-#include <demolish/algo.h>
+#include "../material.h"
+#include "../algo.h"
+#include "../demolish.h"
 #include <vector>
 
 namespace demolish {

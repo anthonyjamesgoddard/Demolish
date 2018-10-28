@@ -1,4 +1,4 @@
-#include <demolish/operators/physics.h>
+#include "physics.h"
 
 iREAL demolish::operators::computeVolume(
 	std::vector<iREAL>& xCoordinates,

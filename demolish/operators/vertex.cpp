@@ -1,6 +1,6 @@
 
 
-#include "demolish/operators/vertex.h"
+#include "vertex.h"
 
 
 iREAL demolish::operators::computeXYZw(
@@ -17,7 +17,7 @@ iREAL demolish::operators::computeXYZw(
   return tmp>zw ? tmp : zw;
 }
 
-iREAL demolish::operators::vertex::computeXZw(
+iREAL demolish::operators::computeXZw(
 	std::vector<iREAL> xCoordinates,
 	std::vector<iREAL> yCoordinates,
 	std::vector<iREAL> zCoordinates)
@@ -28,7 +28,7 @@ iREAL demolish::operators::vertex::computeXZw(
   return xw>zw ? xw : zw;
 }
 
-iREAL demolish::operators::vertex::computeXw(
+iREAL demolish::operators::computeXw(
 	std::vector<iREAL> xCoordinates,
 	std::vector<iREAL> yCoordinates,
 	std::vector<iREAL> zCoordinates)
@@ -39,7 +39,7 @@ iREAL demolish::operators::vertex::computeXw(
   return std::abs(min.getX() - max.getX());
 }
 
-iREAL demolish::operators::vertex::computeYw(
+iREAL demolish::operators::computeYw(
 	std::vector<iREAL> xCoordinates,
 	std::vector<iREAL> yCoordinates,
 	std::vector<iREAL> zCoordinates)
@@ -50,7 +50,7 @@ iREAL demolish::operators::vertex::computeYw(
   return std::abs(min.getY() - max.getY());
 }
 
-iREAL demolish::operators::vertex::computeZw(
+iREAL demolish::operators::computeZw(
 	std::vector<iREAL> xCoordinates,
 	std::vector<iREAL> yCoordinates,
 	std::vector<iREAL> zCoordinates)

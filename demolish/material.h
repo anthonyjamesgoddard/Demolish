@@ -2,6 +2,8 @@
 #ifndef MATERIAL
 #define MATERIAL
 
+#include"demolish.h"
+
 #include <map>
 
 namespace demolish {
@@ -33,6 +35,5 @@ namespace demolish {
       int getCollisionInterface();
     }
   }
-}
 
 #endif

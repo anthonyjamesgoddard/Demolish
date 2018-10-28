@@ -1,15 +1,14 @@
-
 #ifndef GEOMETRY_STRUCTURES_MESH_H_
 #define GEOMETRY_STRUCTURES_MESH_H_
 
 #include "Vertex.h"
 #include "Triangle.h"
 
-#include <demolish/algo.h>
-#include <demolish/material.h>
-#include <demolish/operators/physics.h>
-#include <demolish/operators/mesh.h>
-#include <demolish/operators/vertex.h>
+#include "algo.h"
+#include "material.h"
+#include "operators/physics.h"
+#include "operators/mesh.h"
+#include "operators/vertex.h"
 
 namespace demolish{
 	  class Mesh;
@@ -323,7 +322,7 @@ class demolish::Mesh {
 	 *  @param none
 	 *  @returns xyz vertex
 	 */
-	std::array<iREAL, 3> computeBoundaryMinVertex();
+	demolish::Vertex computeBoundaryMinVertex();
 
 	/*
 	 *  Get Max Boundary Vertex
@@ -334,7 +333,7 @@ class demolish::Mesh {
 	 *  @param none
 	 *  @returns xyz vertex
 	 */
-	std::array<iREAL, 3> computeBoundaryMaxVertex();
+	demolish::Vertex computeBoundaryMaxVertex();
 
 	/*
 	 *  Get XY Width
@@ -465,7 +464,7 @@ class demolish::Mesh {
 	 *  @returns iREAL
 	 */
 	iREAL computeMass(
-	    delta::geometry::material::MaterialType material);
+	    demolish::material::MaterialType material);
 
 	/*
 	 *  Get Volume
@@ -491,7 +490,7 @@ class demolish::Mesh {
 	 *  @returns void
 	 */
 	void computeInertia(
-		delta::geometry::material::MaterialType material,
+		demolish::material::MaterialType material,
 		iREAL& mass,
 		iREAL center[3],
 		iREAL inertia[9]);
@@ -527,8 +526,8 @@ class demolish::Mesh {
 	iREAL getMinMeshSize();
 	iREAL getAvgMeshSize();
 
-	std::array<iREAL, 3> getBoundaryMinVertex();
-	std::array<iREAL, 3> getBoundaryMaxVertex();
+	demolish::Vertex getBoundaryMinVertex();
+	demolish::Vertex getBoundaryMaxVertex();
 
 	virtual ~Mesh();
 
@@ -572,14 +571,14 @@ class demolish::Mesh {
     void toString();
 
 	std::vector<std::array<int, 3>> 			_triangleFaces;
-	std::vector<Vertex>             		 	_uniqueVertices;
+	std::vector<demolish::Vertex>             	_uniqueVertices;
 
     std::vector<iREAL>   						_xCoordinates;
     std::vector<iREAL>   						_yCoordinates;
     std::vector<iREAL>   						_zCoordinates;
 
-    std::array<iREAL, 3>						_minBoundary;
-    std::array<iREAL, 3>						_maxBoundary;
+    demolish::Vertex						    _minBoundary;
+    demolish::Vertex						    _maxBoundary;
 
     //dimensions
     iREAL                						_wx;

@@ -2,6 +2,8 @@
 #ifndef VERTEX
 #define VERTEX
 
+#include "../demolish.h"
+#include "../Vertex.h"
 #include <vector>
 #include <array>
 #include <cmath>
@@ -30,12 +32,12 @@ namespace demolish {
 			std::vector<iREAL> yCoordinates,
 			std::vector<iREAL> zCoordinates);
 
-		std::array<iREAL, 3> computeBoundaryMinVertex(
+		demolish::Vertex computeBoundaryMinVertex(
 			std::vector<iREAL> xCoordinates,
 			std::vector<iREAL> yCoordinates,
 			std::vector<iREAL> zCoordinates);
 
-		std::array<iREAL, 3> computeBoundaryMaxVertex(
+		demolish::Vertex computeBoundaryMaxVertex(
 			std::vector<iREAL> xCoordinates,
 			std::vector<iREAL> yCoordinates,
 			std::vector<iREAL> zCoordinates);
@@ -51,8 +53,8 @@ namespace demolish {
 			std::vector<iREAL> zCoordinates);
 
 		iREAL computeDistanceAB(
-		    std::array<iREAL, 3> A,
-		    std::array<iREAL, 3> B);
+		    demolish::Vertex A,
+		    demolish::Vertex B);
 
 		iREAL computeMin(
 			  std::vector<iREAL> coordinates);

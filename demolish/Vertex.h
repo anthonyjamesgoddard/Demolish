@@ -30,8 +30,8 @@ public:
     iREAL       operator* (const Vertex&v) const;
     Vertex&     operator+=(const Vertex&v);
     Vertex&     operator*=(const iREAL& a);
+    iREAL       operator[](int          i);
     // member functions
-    void        fillPolars();
     Vertex      perpendicular();
     iREAL       norm();
     void        normalise();
@@ -58,7 +58,7 @@ public:
     }
     void        setX(iREAL x) {_x = x;}
     void        setY(iREAL y) {_y = y;}
-    void        set(iREAL x,iREAL y,iREAL z){_x = x;_y = y;_z=z}
+    void        set(iREAL x,iREAL y,iREAL z){_x = x;_y = y;_z=z;}
     void        setAssociatedSectorIndex(int i)
     {
         _associatedSectorIndex = i;

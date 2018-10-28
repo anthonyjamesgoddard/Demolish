@@ -3,6 +3,8 @@
 #ifndef MESH_OPERATORS
 #define MESH_OPERATORS
 
+#include "../demolish.h"
+
 #include <vector>
 #include <cmath>
 #include <iostream>

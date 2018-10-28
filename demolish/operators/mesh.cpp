@@ -5,7 +5,7 @@
  *      Author: konstantinos
  */
 
-#include <demolish/operators/mesh.h>
+#include "mesh.h"
 
 void demolish::operators::moveMeshFromPositionToOrigin(
     std::vector<iREAL> &xCoordinates,
