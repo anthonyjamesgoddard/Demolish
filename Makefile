@@ -1,4 +1,3 @@
-
 OBJS = demolish/demolish.o \
        demolish/ContactPoint.o \
        demolish/math.o \
@@ -6,15 +5,18 @@ OBJS = demolish/demolish.o \
 	   demolish/Vertex.o \
        demolish/Object.o \
        demolish/World.o \
+	   demolish/Timer.o \
+	   demolish/visuals/antmath.o \
+	   demolish/visuals/DEMDriver.o \
+	   demolish/visuals/GeometryGenerator.o \
+	   demolish/visuals/MathHelper.o \
+	   demolish/visuals/GLnixAPP.o \
 	   demolish/operators/mesh.o \
 	   demolish/operators/physics.o \
 	   demolish/operators/vertex.o \
        demolish/primitives/Sphere.o \
        demolish/primitives/Cylinder.o \
        demolish/primitives/Cube.o \
-       demolish/contactdetection/filter.o \
-       demolish/contactdetection/sphere.o \
-       demolish/contactdetection/tests/sphere.o \
        
        
 CFLAGS = -fPIC -std=c++17
@@ -51,4 +53,3 @@ build:	$(OBJS)
 
 clean:
 	rm -fr src-demolish $(OBJS)
-

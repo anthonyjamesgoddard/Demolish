@@ -1,4 +1,3 @@
-******************************************
 
 #include "MathHelper.h"
 #include <float.h>

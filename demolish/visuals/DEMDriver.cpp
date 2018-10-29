@@ -93,48 +93,49 @@ void DEMDriver::RedrawTheWindow()
     glXSwapBuffers(Xdisplay, glX_window_handle);
 }
 
-void BuildBuffers(std::vector<demolish::Object> objects)
+void DEMDriver::BuildBuffers(std::vector<demolish::Object> objects)
 {
     for(auto& o:objects)
     {
-        BuildMeshBuffer(o.getMesh());
+        if(o.getIsSphere())
+            BuildSphereBuffer(o.getRad());
     }
+}
+
+void DEMDriver::BuildSphereBuffer(float radius)
+{
+    
+    GeometryGenerator::MeshData meshObj;
+    geoGen.CreateSphere(radius,30,30,meshObj);
+
+    VAOIndexCounts.push_back(meshObj.Indices.size());
+    VAO.push_back(0);
+
+    GLnix_glGenVertexArrays(1,&VAO.back());
+    GLnix_glGenBuffers(2,BUFFERS);
+    GLnix_glBindVertexArray(VAO.back()); 
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+
+
+    GLnix_glBindBuffer(GL_ARRAY_BUFFER,BUFFERS[0]);
+    GLnix_glBufferData(GL_ARRAY_BUFFER,
+                                  meshObj.Vertices.size()*sizeof(GLfloat)*11,
+                                  &meshObj.Vertices.front(), GL_STATIC_DRAW);
+
+    
+    GLnix_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, BUFFERS[1]);
+    GLnix_glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+                                   meshObj.Indices.size() * sizeof(UINT), 
+                                   &meshObj.Indices.front(), GL_STATIC_DRAW);
+    
+    glVertexPointer(3, GL_FLOAT,sizeof(GLfloat)*11, 0); 
+    glNormalPointer(GL_FLOAT,sizeof(GLfloat)*11,(GLvoid*)(3*sizeof(GLfloat)));
 }
 
 void DEMDriver::BuildMeshBuffer(demolish::Mesh& mesh)
 {
-    // we are only going to consider sphere's for testing purposes
-    if(mesh.getIsSphere())
-    {
-        float radius = mesh.getRad();
-        GeometryGenerator::MeshData meshObj;
-        GeometryGenerator::CreateSphere(radius,30,30,meshObj);
-
-        VAOIndexCounts.push_back(meshObj.Indices.size());
-        VAO.push_back(0);
-
-        GLnix_glGenVertexArrays(1,&VAO.back());
-        GLnix_glGenBuffers(2,BUFFERS);
-        GLnix_glBindVertexArray(VAO.back()); 
-    
-        glEnableClientState(GL_VERTEX_ARRAY);
-        glEnableClientState(GL_NORMAL_ARRAY);
-
-
-        GLnix_glBindBuffer(GL_ARRAY_BUFFER,BUFFERS[0]);
-        GLnix_glBufferData(GL_ARRAY_BUFFER,
-                                      meshObj.Vertices.size()*sizeof(GLfloat)*11,
-                                      &meshObj.Vertices.front(), GL_STATIC_DRAW);
-
-        
-        GLnix_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, BUFFERS[1]);
-        GLnix_glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-                                       meshObj.Indices.size() * sizeof(UINT), 
-                                       &meshObj.Indices.front(), GL_STATIC_DRAW);
-        
-        glVertexPointer(3, GL_FLOAT,sizeof(GLfloat)*11, 0); 
-        glNormalPointer(GL_FLOAT,sizeof(GLfloat)*11,(GLvoid*)(3*sizeof(GLfloat)));
-    }
 }
 
 
@@ -181,7 +182,6 @@ void DEMDriver::OnMouseMove(int x, int y)
     else if(but ==2)
     {
         std::cout << "Middle Button Pressed" << std::endl;
-        pfem.timestep = 0;
     }
     
 

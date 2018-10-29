@@ -9,7 +9,8 @@ demolish::World::World(
 {
     _particles = objects;
     _visuals.Init();
-    _visuals.fillBuffers(objects);
+    _visuals.BuildBuffers(objects);
+    _worldPaused = false;
 }
  
 
@@ -23,7 +24,7 @@ int demolish::World::runSimulation()
 
             _timer.Tick();
 
-            if( !appPaused )
+            if( !_worldPaused )
             {
                 // updates the physics 
                 // then we update the visuals./..
@@ -34,11 +35,10 @@ int demolish::World::runSimulation()
             {
 
             }
-        }
+    }
     return 1;
 }
 
-}
                 
 std::vector<demolish::Object> demolish::World::getObjects()
 {

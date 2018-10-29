@@ -8,7 +8,6 @@ demolish::Object::Object()
 }
 
 demolish::Object::Object(
-    std::string                   			component,
     int                           			particleID,
     std::array<iREAL, 3>         			centre,
     demolish::material::MaterialType           material,
@@ -19,7 +18,6 @@ demolish::Object::Object(
 	std::array<iREAL, 3> 					linear,
 	std::array<iREAL, 3> 					angular)
 {
-  this->_component = component;
   this->_globalParticleID = particleID;
 
   this->_centre[0] = centre[0];
@@ -55,7 +53,6 @@ demolish::Object::Object(
 }
 
 demolish::Object::Object(
-std::string                   			component,
 int                           			particleID,
 demolish::Mesh*			mesh,
 std::array<iREAL, 3>         			centre,
@@ -67,7 +64,6 @@ iREAL 									epsilon,
 std::array<iREAL, 3> 					linear,
 std::array<iREAL, 3> 					angular)
 {
-  this->_component = component;
   this->_globalParticleID = particleID;
   this->_localParticleID = 0;
 
@@ -141,7 +137,6 @@ std::array<iREAL, 3> 					angular)
 
 //sphere object
 demolish::Object::Object(
-std::string                   			component,
 iREAL									rad,
 int                           			particleID,
 std::array<iREAL, 3>         			centre,
@@ -154,7 +149,6 @@ std::array<iREAL, 3> 					linear,
 std::array<iREAL, 3> 					angular)
 {
   this->_isSphere           = true;
-  this->_component 			= component;
   this->_rad					= rad;
   this->_globalParticleID 	= particleID;
   this->_localParticleID 	= 0;

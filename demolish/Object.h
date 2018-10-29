@@ -23,7 +23,6 @@ class demolish::Object
 	 * Mesh object with mesh unspecified
 	 */
 	Object(
-	  std::string                   				component,
 	  int                           				particleID,
 	  std::array<iREAL, 3>         				    centre,
 	  demolish::material::MaterialType 	            material,
@@ -39,7 +38,6 @@ class demolish::Object
 	 * Mesh object with mesh specified
 	 */
 	Object(
-	  std::string                   				component,
 	  int                           				particleID,
 	  demolish::Mesh*				    mesh,
 	  std::array<iREAL, 3>         				    centre,
@@ -56,7 +54,6 @@ class demolish::Object
 	 * Sphere object
 	 */
 	Object(
-	  std::string                   				component,
 	  iREAL										    rad,
 	  int                           				particleID,
 	  std::array<iREAL, 3>         				    centre,

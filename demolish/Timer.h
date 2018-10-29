@@ -1,3 +1,5 @@
+#ifndef _GAMETIMER
+#define _GAMETIMER
 typedef unsigned int UINT;
 
 
@@ -27,3 +29,5 @@ private:
 
 	bool stopped;
 };
+
+#endif 
