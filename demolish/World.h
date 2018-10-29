@@ -11,6 +11,8 @@
 #include "visuals/DEMDriver.h"
 #include "detection/sphere.h"
 #include "ContactPoint.h"
+#include "Object.h"
+
 
 namespace demolish{
 	class World;
@@ -20,20 +22,20 @@ class demolish::World {
 
   public:
 	World(
-      std::vector<demolish::Object>&                objects);
+      std::vector<Object>&                objects);
 	virtual ~World();
 
     int                                             runSimulation();
 
-	std::vector<demolish::Object>                   getObjects();
-    std::vector<demolish::ContactPoint>             getContactPoints();
+	std::vector<Object>                   getObjects();
+    std::vector<ContactPoint>             getContactPoints();
     void                                            updateWorld();
   private:
     bool                                            _worldPaused;
 
-    demolish::GameTimer                             _timer;
-	std::vector<demolish::Object> 	                _particles;
-    std::vector<demolish::ContactPoint>             _contactpoints;
+    GameTimer                             _timer;
+	std::vector<Object> 	                _particles;
+    std::vector<ContactPoint>             _contactpoints;
     DEMDriver                                       _visuals;
 };
 
