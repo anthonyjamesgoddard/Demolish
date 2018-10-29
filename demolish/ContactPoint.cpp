@@ -60,7 +60,7 @@ demolish::ContactPoint::ContactPoint(
   normal[2] /= normalLength;
 
   distance = outside ? normalLength : -normalLength;
-
+/*
   #if DELTA_DEBUG>=1
   std::cout << demolish::getOutputPrefix() << "create contact point between point "
             << std::setprecision(3)
@@ -69,7 +69,7 @@ demolish::ContactPoint::ContactPoint(
             << "(" << xQB << "," << yQB << "," << zQB << ")^T"
 			<< ": " << toString()
 		    << std::endl;
-  #endif
+  #endif*/
 }
 
 

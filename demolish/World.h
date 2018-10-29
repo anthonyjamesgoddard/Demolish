@@ -25,18 +25,19 @@ class demolish::World {
       std::vector<Object>&                objects);
 	virtual ~World();
 
-    int                                             runSimulation();
+    int                                   runSimulation();
 
 	std::vector<Object>                   getObjects();
     std::vector<ContactPoint>             getContactPoints();
-    void                                            updateWorld();
+    void                                  updateWorld(float dt);
   private:
-    bool                                            _worldPaused;
+    bool                                  _worldPaused;
 
     GameTimer                             _timer;
-	std::vector<Object> 	                _particles;
+	std::vector<Object> 	              _particles;
     std::vector<ContactPoint>             _contactpoints;
-    DEMDriver                                       _visuals;
+    iREAL                                 _gravity;
+    DEMDriver                             _visuals;
 };
 
 #endif /* DELTA_WORLD_WORLD_H_ */

@@ -27,7 +27,7 @@ int demolish::World::runSimulation()
             if( !_worldPaused )
             {
                 // updates the physics 
-                updateWorld();
+                updateWorld(_timer.DeltaTime());
                 _visuals.setContactPoints(_contactpoints);
                 _visuals.UpdateScene(_timer.DeltaTime());
                 _visuals.RedrawTheWindow();
@@ -41,7 +41,7 @@ int demolish::World::runSimulation()
 }
 
 
-void demolish::World::updateWorld()
+void demolish::World::updateWorld(float dt)
 {
    _contactpoints.clear();
    for(int i=0;i<_particles.size();i++)
@@ -73,6 +73,11 @@ void demolish::World::updateWorld()
 
         }
     }
+    
+    // update using gravity
+     
+
+    
 }
                 
 std::vector<demolish::Object> demolish::World::getObjects()

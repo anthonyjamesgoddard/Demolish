@@ -43,4 +43,6 @@ public:
     float theta;
     float phi;
     float radius;
+
+    int  fill = 0;
 };

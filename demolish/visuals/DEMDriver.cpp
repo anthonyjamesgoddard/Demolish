@@ -108,7 +108,9 @@ void DEMDriver::RedrawTheWindow()
 
     for(int i=0;i<contactpoints.size();i++)
     {
-        glBegin(GL_POINT);
+        glColor4f(1,0,1,1);
+        glPointSize(5.0);
+        glBegin(GL_POINTS);
         glVertex3f(contactpoints[i].x[0],
                    contactpoints[i].x[1],
                    contactpoints[i].x[2]);
@@ -120,7 +122,10 @@ void DEMDriver::RedrawTheWindow()
   
     // then we need to draw all the polygons
 
-    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+    if(fill%2)
+    {glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);}
+    else{glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);}
+
     glLoadMatrixf(viewModelMatrix.m);
     glColor4f(1,1,1, 1);
     for(int j=0; j<VAO.size();j++)
@@ -208,7 +213,6 @@ void DEMDriver::OnMouseMove(int x, int y)
 
         // Restrict the angle mPhi.
         phi = MathHelper::Clamp(phi, 0.1f, MathHelper::Pi-0.1f);
-        std::cout << "Left Button Pressed" << std::endl;
     }
     else if (but == 3)
     {
@@ -221,12 +225,11 @@ void DEMDriver::OnMouseMove(int x, int y)
 
         // Restrict the radius.
         radius = MathHelper::Clamp(radius, 1.0f, 200.0f);
-        std::cout << "Right Button Pressed" << std::endl;
     }
 
     else if(but ==2)
     {
-        std::cout << "Middle Button Pressed" << std::endl;
+        fill = fill+1;
     }
     
 
