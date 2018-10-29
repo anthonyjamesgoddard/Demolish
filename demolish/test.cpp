@@ -7,7 +7,7 @@
 int main() {
 
   // DEFINE A SPHERE AND TRY AND DRAW IT
-  std::array<iREAL, 3> centre = {1,1,0};
+  std::array<iREAL, 3> centre = {1,11,0};
   std::array<iREAL, 3> linear = {0,0,0};
   std::array<iREAL, 3> angular = {0,0,0};
   demolish::Object asphere(
@@ -22,9 +22,9 @@ int main() {
                           linear,
                           angular);
 
-  centre = {1,-1,10};
+  centre = {1,-11,30};
   demolish::Object asphere2(
-                          10.0,
+                          5.0,
                           0,
                           centre,
                           demolish::material::MaterialType::WOOD,

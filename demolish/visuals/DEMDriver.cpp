@@ -13,13 +13,13 @@ PFNGLBINDVERTEXARRAYPROC GLnix_glBindVertexArray;
 PFNGLGENVERTEXARRAYSPROC GLnix_glGenVertexArrays;
 
 
-float const light0_dir[]={0,1,1,0};
+float const light0_dir[]={1,0,0,0};
 float const light0_color[]={78./255., 8./255., 184./255.,1};
 
-float const light1_dir[]={-1,1,1,0};
+float const light1_dir[]={0,0,1,0};
 float const light1_color[]={25./255., 220./255., 70./255.,1};
 
-float const light2_dir[]={0,-1,0,0};
+float const light2_dir[]={0,1,0,0};
 float const light2_color[]={31./255., 75./255., 160./255.,1};
 
 DEMDriver::DEMDriver()
@@ -106,6 +106,15 @@ void DEMDriver::RedrawTheWindow()
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 
+    for(int i=0;i<contactpoints.size();i++)
+    {
+        glBegin(GL_POINT);
+        glVertex3f(contactpoints[i].x[0],
+                   contactpoints[i].x[1],
+                   contactpoints[i].x[2]);
+        glEnd();
+    }
+
 	glCullFace(GL_BACK);
     glMatrixMode(GL_MODELVIEW);
   
@@ -121,6 +130,11 @@ void DEMDriver::RedrawTheWindow()
     }
     
     glXSwapBuffers(Xdisplay, glX_window_handle);
+}
+
+void DEMDriver::setContactPoints(std::vector<demolish::ContactPoint>& cps)
+{
+    contactpoints = cps;
 }
 
 void DEMDriver::BuildBuffers(std::vector<demolish::Object> objects)

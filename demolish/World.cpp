@@ -27,7 +27,8 @@ int demolish::World::runSimulation()
             if( !_worldPaused )
             {
                 // updates the physics 
-                // then we update the visuals./..
+                updateWorld();
+                _visuals.setContactPoints(_contactpoints);
                 _visuals.UpdateScene(_timer.DeltaTime());
                 _visuals.RedrawTheWindow();
             }
@@ -39,10 +40,43 @@ int demolish::World::runSimulation()
     return 1;
 }
 
+void demolish::World::updateWorld()
+{
+   _contactpoints.clear();
+   for(int i=0;i<_particles.size();i++)
+   {
+       for(int j=i;j<_particles.size();j++)
+       {
+            auto locationi = _particles[i].getCentre();
+            auto locationj = _particles[j].getCentre();
+            auto contactpoints = demolish::detection::spherewithsphere(std::get<0>(locationi),
+                                                                          std::get<1>(locationi),
+                                                                          std::get<2>(locationi),
+                                                                          _particles[i].getRad(),
+                                                                          0.1,
+                                                                          false,
+                                                                          0,
+                                                                          std::get<0>(locationj),
+                                                                          std::get<1>(locationj),
+                                                                          std::get<2>(locationj),
+                                                                          _particles[i].getRad(),
+                                                                          0.1,
+                                                                          false,
+                                                                          1);
+           _contactpoints.push_back(contactpoints[0]); 
+
+        }
+    }
+}
                 
 std::vector<demolish::Object> demolish::World::getObjects()
 {
     return _particles;
+}
+
+std::vector<demolish::ContactPoint> demolish::World::getContactPoints()
+{
+    return _contactpoints;
 }
 
 demolish::World::~World() {

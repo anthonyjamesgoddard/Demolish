@@ -2,6 +2,7 @@
 #include"MathHelper.h"
 #include"GeometryGenerator.h"
 #include"../Object.h"
+#include"../ContactPoint.h"
 using std::vector;
 
 class DEMDriver : public GLnixAPP
@@ -11,11 +12,14 @@ public:
     bool Init(); /* Initialisation routine */
     void UpdateScene(float dt);
     void RedrawTheWindow();
-      
+
+    void setContactPoints(std::vector<demolish::ContactPoint>& cps);
+
     void BuildBuffers(std::vector<demolish::Object> objects);
     void OnMouseDown(XButtonEvent btn,int x, int y);
     void OnMouseUp(XButtonEvent btn,int x, int y);
     void OnMouseMove(int x, int y);
+
 private:
     void BuildSphereBuffer(float radius,std::array<iREAL,3> position);
     void BuildMeshBuffer(demolish::Mesh& mesh);
@@ -30,6 +34,7 @@ public:
    
     GeometryGenerator geoGen;
     std::vector<GeometryGenerator::MeshData>  geoGenObjects;
+    std::vector<demolish::ContactPoint>       contactpoints;
 
     AV4X4FLOAT viewModelMatrix;
     AV4X4FLOAT projMatrix;
