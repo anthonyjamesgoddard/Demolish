@@ -87,8 +87,8 @@ bool GLnixAPP::Init()
 	return true;
 }
 
-void UpdateScene(float dt){};
-void RedrawTheWindow(){};
+void GLnixAPP::UpdateScene(float dt){};
+void GLnixAPP::RedrawTheWindow(){};
 
 
 int GLnixAPP::UpdateTheMessageQueue()

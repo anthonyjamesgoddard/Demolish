@@ -12,7 +12,16 @@ PFNGLUNMAPBUFFERPROC GLnix_glUnmapBuffer;
 PFNGLBINDVERTEXARRAYPROC GLnix_glBindVertexArray;
 PFNGLGENVERTEXARRAYSPROC GLnix_glGenVertexArrays;
 
-//
+
+float const light0_dir[]={0,1,1,0};
+float const light0_color[]={78./255., 8./255., 184./255.,1};
+
+float const light1_dir[]={-1,1,1,0};
+float const light1_color[]={25./255., 220./255., 70./255.,1};
+
+float const light2_dir[]={0,-1,0,0};
+float const light2_color[]={31./255., 75./255., 160./255.,1};
+
 DEMDriver::DEMDriver()
 : GLnixAPP(), phi(1.5f*MathHelper::Pi),theta(1.5f*MathHelper::Pi), radius(10)
 {
@@ -67,28 +76,49 @@ void DEMDriver::UpdateScene(float dt)
 void DEMDriver::RedrawTheWindow()
 {
     float const aspect = AspectRatio();
+	glDrawBuffer(GL_BACK);
+
+	glViewport(0, 0, width, height);
+	glClearColor(0.0, 0, 0.0, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glLoadMatrixf(projMatrix.m);
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glLightfv(GL_LIGHT0, GL_POSITION, light0_dir);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light0_color);
+
+	glLightfv(GL_LIGHT1, GL_POSITION, light1_dir);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, light1_color);
+
+	glLightfv(GL_LIGHT2, GL_POSITION, light2_dir);
+	glLightfv(GL_LIGHT2, GL_DIFFUSE, light2_color);
 
 
-    glDrawBuffer(GL_BACK);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT1);
+	glEnable(GL_LIGHTING);
 
-    glViewport(0, 0, width, height);
-    glClearColor(0, 0, 0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glLoadMatrixf(projMatrix.m);
-
-   
+	glCullFace(GL_BACK);
     glMatrixMode(GL_MODELVIEW);
   
     // then we need to draw all the polygons
 
-    glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
     glLoadMatrixf(viewModelMatrix.m);
     glColor4f(1,1,1, 1);
-    GLnix_glBindVertexArray(VAO[0]);
-    glDrawElements(GL_TRIANGLES, VAOIndexCounts[0], GL_UNSIGNED_INT, 0);
+    for(int j=0; j<VAO.size();j++)
+    {
+        GLnix_glBindVertexArray(VAO[j]);
+        glDrawElements(GL_TRIANGLES, VAOIndexCounts[j], GL_UNSIGNED_INT, 0);
+    }
     
     glXSwapBuffers(Xdisplay, glX_window_handle);
 }
@@ -98,15 +128,16 @@ void DEMDriver::BuildBuffers(std::vector<demolish::Object> objects)
     for(auto& o:objects)
     {
         if(o.getIsSphere())
-            BuildSphereBuffer(o.getRad());
+            BuildSphereBuffer(o.getRad(),o.getCentre());
     }
 }
 
-void DEMDriver::BuildSphereBuffer(float radius)
-{
-    
+void DEMDriver::BuildSphereBuffer(float radius,std::array<iREAL,3> position)
+{ 
+
     GeometryGenerator::MeshData meshObj;
-    geoGen.CreateSphere(radius,30,30,meshObj);
+    geoGenObjects.push_back(meshObj);
+    geoGen.CreateSphere(radius,30,30,meshObj,position);
 
     VAOIndexCounts.push_back(meshObj.Indices.size());
     VAO.push_back(0);

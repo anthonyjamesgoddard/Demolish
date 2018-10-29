@@ -17,7 +17,7 @@ public:
     void OnMouseUp(XButtonEvent btn,int x, int y);
     void OnMouseMove(int x, int y);
 private:
-    void BuildSphereBuffer(float radius);
+    void BuildSphereBuffer(float radius,std::array<iREAL,3> position);
     void BuildMeshBuffer(demolish::Mesh& mesh);
 public:
     std::vector<UINT> VAO;

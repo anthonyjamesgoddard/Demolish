@@ -20,6 +20,7 @@ OBJS = demolish/demolish.o \
        
        
 CFLAGS = -fPIC -std=c++17
+LDFLAGS=-lm -lX11 -lGL -lGLU -lXext -lXrender
 
 
 all:	release
@@ -37,7 +38,7 @@ test: LIBNAME=libdemolish_debug.so
 test: build
 test: 
 	$(CXX) -c demolish/test.cpp -o demolish/test.o
-	$(CXX) $(OBJS) demolish/test.o -o demolish-test
+	$(CXX) $(OBJS) demolish/test.o -o  demolish-test $(LDFLAGS)
 
 
 build:	$(OBJS)

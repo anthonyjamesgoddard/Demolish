@@ -82,7 +82,11 @@ void GeometryGenerator::CreateBox(float width, float height, float depth, MeshDa
 	meshData.Indices.assign(&i[0], &i[36]);
 }
 
-void GeometryGenerator::CreateSphere(float radius, UINT sliceCount, UINT stackCount, MeshData& meshData)
+void GeometryGenerator::CreateSphere(float radius,
+                                     UINT sliceCount,
+                                     UINT stackCount,
+                                     MeshData& meshData,
+                                     std::array<iREAL,3> position)
 {
 	meshData.Vertices.clear();
 	meshData.Indices.clear();
@@ -94,8 +98,8 @@ void GeometryGenerator::CreateSphere(float radius, UINT sliceCount, UINT stackCo
 	// Poles: note that there will be texture coordinate distortion as there is
 	// not a unique point on the texture map to assign to the pole when mapping
 	// a rectangular texture onto a sphere.
-	Vertex topVertex(0.0f, +radius, 0.0f, 0.0f, +1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-	Vertex bottomVertex(0.0f, -radius, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+	Vertex topVertex(std::get<0>(position), std::get<1>(position)+radius, std::get<2>(position), 0.0f, +1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+	Vertex bottomVertex(std::get<0>(position), std::get<1>(position)-radius, std::get<2>(position), 0.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
 	meshData.Vertices.push_back( topVertex );
 
@@ -115,9 +119,9 @@ void GeometryGenerator::CreateSphere(float radius, UINT sliceCount, UINT stackCo
 			Vertex v;
 
 			// spherical to cartesian
-			v.Position.x = radius*sinf(phi)*cosf(theta);
-			v.Position.y = radius*cosf(phi);
-			v.Position.z = radius*sinf(phi)*sinf(theta);
+			v.Position.x = radius*sinf(phi)*cosf(theta) + std::get<0>(position);
+			v.Position.y = radius*cosf(phi)             + std::get<1>(position);
+			v.Position.z = radius*sinf(phi)*sinf(theta) + std::get<2>(position);
 
 			// Partial derivative of P with respect to theta
 			v.TangentU.x = -radius*sinf(phi)*sinf(theta);

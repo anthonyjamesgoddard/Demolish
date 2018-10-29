@@ -1,7 +1,7 @@
 #ifndef GEOMETRYGENERATOR_H
 #define GEOMETRYGENERATOR_H
 #include "antmath.h"
-
+#include "../demolish.h"
 typedef unsigned int UINT;
 
 class GeometryGenerator
@@ -38,7 +38,11 @@ public:
 	void CreateBox(float width, float height, float depth, MeshData& meshData);
 
 
-	void CreateSphere(float radius, UINT sliceCount, UINT stackCount, MeshData& meshData);
+	void CreateSphere(float radius,
+                      UINT sliceCount,
+                      UINT stackCount,
+                      MeshData& meshData,
+                      std::array<iREAL,3> position);
 
 
 	void CreateGrid(float width, float depth, UINT m, UINT n, MeshData& meshData);
