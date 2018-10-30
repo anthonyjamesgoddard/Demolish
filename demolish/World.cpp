@@ -29,7 +29,7 @@ int demolish::World::runSimulation()
                 // updates the physics 
                 updateWorld(_timer.DeltaTime());
                 _visuals.setContactPoints(_contactpoints);
-                _visuals.UpdateScene(_timer.DeltaTime());
+                _visuals.UpdateScene(_timer.DeltaTime(),_particles);
                 _visuals.RedrawTheWindow();
             }
             else
@@ -58,26 +58,51 @@ void demolish::World::updateWorld(float dt)
                                                                           radi,
                                                                           0.1,
                                                                           false,
-                                                                          i,
+                                                                          _particles[i].getGlobalParticleId(),
                                                                           std::get<0>(locationj),
                                                                           std::get<1>(locationj),
                                                                           std::get<2>(locationj),
                                                                           radj,
                                                                           0.1,
                                                                           false,
-                                                                          j);
+                                                                          _particles[j].getGlobalParticleId());
            if(contactpoints.size()>0)
            {
                _contactpoints.push_back(contactpoints[0]);
            };
-
         }
     }
     
-    // update using gravity
-     
+    // now lets obtain the forces
+    for(int i=0;i<_contactpoints.size();i++)
+    {
+        iREAL forceMagnitude;
+        iREAL forceVector[3];
+        iREAL relativeVelocity[3];
+        auto velocityOfA = _particles[_contactpoints[i].indexA].getLinearVelocity();
+        auto velocityOfB = _particles[_contactpoints[i].indexB].getLinearVelocity();
+        auto massA       = _particles[_contactpoints[i].indexA].getMass();
+        auto massB       = _particles[_contactpoints[i].indexB].getMass();
 
+        relativeVelocity[0] = std::get<0>(velocityOfB)-std::get<0>(velocityOfA);
+        relativeVelocity[1] = std::get<1>(velocityOfB)-std::get<1>(velocityOfA);
+        relativeVelocity[2] = std::get<2>(velocityOfB)-std::get<2>(velocityOfA);
+
+        demolish::resolution::springSphere(_contactpoints[i].normal,
+                                           _contactpoints[i].distance,
+                                           relativeVelocity,
+                                           massA,
+                                           massB,
+                                           forceVector,
+                                           forceMagnitude);
+        // lets update the velocities and positions of the particles
+        // we have to reverse the vels right?
     
+    }
+    auto temp = _particles[0].getCentre();
+    std::get<0>(temp) += 0.001;
+    std::get<2>(temp) += 0.001;
+    _particles[0].setCentre(temp);
 }
                 
 std::vector<demolish::Object> demolish::World::getObjects()

@@ -18,7 +18,7 @@ OBJS = demolish/demolish.o \
        demolish/primitives/Cylinder.o \
        demolish/primitives/Cube.o \
 	   demolish/detection/sphere.o \
-
+	   demolish/resolution/sphere.o \
        
        
 CFLAGS = -fPIC -std=c++17

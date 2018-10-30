@@ -23,7 +23,7 @@ namespace demolish {
         GRAPHITEGOLD
       };
 
-      static const std::map<demolish::material::MaterialType, iREAL> materialToDensitymap(
+      static std::map<demolish::material::MaterialType, iREAL> materialToDensitymap(
     	  		  {{demolish::material::MaterialType::WOOD,     20000},
     	  		  { demolish::material::MaterialType::GRAPHITE, 1000},
     	  		  { demolish::material::MaterialType::GOLD,     1000}});

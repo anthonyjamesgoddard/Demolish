@@ -54,7 +54,7 @@ bool DEMDriver::Init()
 }
 
 
-void DEMDriver::UpdateScene(float dt)
+void DEMDriver::UpdateScene(float dt, std::vector<demolish::Object>& objects)
 {
 	float x = radius*sinf(phi)*cosf(theta);
 	float z = radius*sinf(phi)*sinf(theta);
@@ -68,9 +68,23 @@ void DEMDriver::UpdateScene(float dt)
 
 	viewModelMatrix = formViewModelMatrix(position,target,up);
 
+    for(int i=0;i<VAO.size();i++)
+    {
+        GLnix_glBindVertexArray(VAO[i]);
+        geoGen.CreateSphere(objects[i].getRad(),
+                            30,
+                            30,
+                            geoGenObjects[i],
+                            objects[i].getCentre());
+
+
+        VAOIndexCounts[i] = geoGenObjects[i].Indices.size();
+        GLnix_glBufferSubData(GL_ARRAY_BUFFER,
+                                0,
+                                geoGenObjects[i].Vertices.size()*sizeof(GLfloat)*11,
+                                &(geoGenObjects[i].Vertices[0]));
+    }
     
-    // use a for loop to go through all objects in VAO and execute similar code to below.
-    //
 }
 
 void DEMDriver::RedrawTheWindow()
@@ -122,9 +136,7 @@ void DEMDriver::RedrawTheWindow()
   
     // then we need to draw all the polygons
 
-    if(fill%2)
-    {glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);}
-    else{glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);}
+    glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 
     glLoadMatrixf(viewModelMatrix.m);
     glColor4f(1,1,1, 1);
@@ -142,7 +154,7 @@ void DEMDriver::setContactPoints(std::vector<demolish::ContactPoint>& cps)
     contactpoints = cps;
 }
 
-void DEMDriver::BuildBuffers(std::vector<demolish::Object> objects)
+void DEMDriver::BuildBuffers(std::vector<demolish::Object>& objects)
 {
     for(auto& o:objects)
     {
@@ -229,7 +241,7 @@ void DEMDriver::OnMouseMove(int x, int y)
 
     else if(but ==2)
     {
-        fill = fill+1;
+
     }
     
 

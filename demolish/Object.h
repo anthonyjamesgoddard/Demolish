@@ -60,7 +60,6 @@ class demolish::Object
 	  demolish::material::MaterialType 	            material,
 	  bool                          				isObstacle,
 	  bool                          				isFriction,
-	  bool                          				isConvex,
 	  iREAL 										epsilon,
 	  std::array<iREAL, 3> 						    linear,
 	  std::array<iREAL, 3> 						    angular
@@ -70,6 +69,8 @@ class demolish::Object
 
     void setCentre(
     		  iREAL centre[3]);
+
+    void setCentre(std::array<iREAL, 3>& centre);
 
     void setRad(
     		  iREAL rad);
@@ -278,8 +279,8 @@ class demolish::Object
     std::array<iREAL, 3> 	_linearVelocity;
     std::array<iREAL, 3> 	_angularVelocity;
 
-    std::array<iREAL, 3> 	_centre;
-    std::array<iREAL, 3> 	_centreOfMass;
+    std::array<iREAL, 3> 	_centre;                // where is the aprticle currently located (?)
+    std::array<iREAL, 3> 	_centreOfMass;          //centre of mass 
 
   private:
     std::string           	_component;

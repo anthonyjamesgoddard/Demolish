@@ -10,12 +10,12 @@ class DEMDriver : public GLnixAPP
 public:
     DEMDriver(); /* Constructor */
     bool Init(); /* Initialisation routine */
-    void UpdateScene(float dt);
+    void UpdateScene(float dt, std::vector<demolish::Object>& objects);
     void RedrawTheWindow();
 
     void setContactPoints(std::vector<demolish::ContactPoint>& cps);
 
-    void BuildBuffers(std::vector<demolish::Object> objects);
+    void BuildBuffers(std::vector<demolish::Object> &objects);
     void OnMouseDown(XButtonEvent btn,int x, int y);
     void OnMouseUp(XButtonEvent btn,int x, int y);
     void OnMouseMove(int x, int y);

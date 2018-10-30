@@ -43,6 +43,8 @@ std::vector<demolish::ContactPoint> demolish::detection::spherewithsphere(
 
   bool outside = false;
   demolish::ContactPoint newContactPoint(xPA, yPA, zPA, xPB, yPB, zPB,outside);
-
+  newContactPoint.indexA = particleA;
+  newContactPoint.indexB = particleB;
   result.push_back( newContactPoint );
+  return result;
 }

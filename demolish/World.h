@@ -10,6 +10,7 @@
 #include "Timer.h"
 #include "visuals/DEMDriver.h"
 #include "detection/sphere.h"
+#include "resolution/sphere.h"
 #include "ContactPoint.h"
 #include "Object.h"
 

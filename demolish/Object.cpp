@@ -143,7 +143,6 @@ std::array<iREAL, 3>         			centre,
 demolish::material::MaterialType 	material,
 bool                          			isObstacle,
 bool                          			isFriction,
-bool                          			isConvex,
 iREAL 									epsilon,
 std::array<iREAL, 3> 					linear,
 std::array<iREAL, 3> 					angular)
@@ -177,9 +176,8 @@ std::array<iREAL, 3> 					angular)
 
   this->_haloDiameter 	= 	(_diameter+epsilon*2) * 1.1;
   this->_diameter		=	rad*2;
-  this->_mass			=	0;
-  this->_isConvex 		= 	isConvex;
-  this-> _mesh			= 	nullptr;
+  this->_mass			=	(4.0/3.0)*M_PI*rad*rad*rad*demolish::material::materialToDensitymap[material];
+  this->_mesh			= 	nullptr;
 
   this->_minBoundBox 	=	{centre[0] - _rad, centre[1] - _rad, centre[2] - _rad};
   this->_maxBoundBox 	=	{centre[0] + _rad, centre[1] + _rad, centre[2] + _rad};
@@ -291,6 +289,12 @@ void demolish::Object::setCentre(iREAL centre[3])
   this->_centreOfMass[2] = _centre[2];
 }
 
+
+void demolish::Object::setCentre(std::array<iREAL,3>& centre)
+{
+    _centre = centre;
+}
+
 iREAL demolish::Object::getEpsilon()
 {
   return _epsilon;
@@ -318,6 +322,7 @@ void demolish::Object::setRad(iREAL rad)
 
 iREAL demolish::Object::getMass()
 {
+
   return _mass;
 }
 
