@@ -99,6 +99,10 @@ class demolish::Object
     void setMesh(
     		  demolish::Mesh& mesh);
 
+
+    void setLocation(
+          std::array<iREAL,3> newlocation);
+
     void setMesh(
 		  std::vector<iREAL> xCoordinates,
 		  std::vector<iREAL> yCoordinates,

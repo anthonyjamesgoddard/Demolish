@@ -268,6 +268,11 @@ int demolish::Object::getLocalParticleId()
   return _localParticleID;
 }
 
+void demolish::Object::setLocation(std::array<iREAL,3> newlocation)
+{
+    _location = newlocation;
+}
+
 iREAL demolish::Object::getDiameter()
 {
   return _rad*2;

@@ -26,10 +26,10 @@ int demolish::World::runSimulation()
 
             if( !_worldPaused )
             {
-                // updates the physics 
-                updateWorld(_timer.DeltaTime());
+                // updates the physics
+                updateWorld(0.1);
                 _visuals.setContactPoints(_contactpoints);
-                _visuals.UpdateScene(_timer.DeltaTime(),_particles);
+                _visuals.UpdateScene(_particles);
             }
             else
             {
@@ -76,7 +76,7 @@ void demolish::World::updateWorld(float dt)
     for(int i=0;i<_contactpoints.size();i++)
     {
         iREAL forceMagnitude;
-        iREAL forceVector[3];
+        std::array<iREAL, 3> forceVector;
         iREAL relativeVelocity[3];
         auto velocityOfA = _particles[_contactpoints[i].indexA].getLinearVelocity();
         auto velocityOfB = _particles[_contactpoints[i].indexB].getLinearVelocity();
@@ -96,16 +96,35 @@ void demolish::World::updateWorld(float dt)
                                            forceMagnitude);
         // lets update the velocities and positions of the particles
         // we have to reverse the vels right?
+        //
+        
+        // for each contact point we are going to update the position
+        // of each of the asociated with the contact points.
+        
+        iREAL gravity = 1.0*0;
+        std::array<iREAL, 3> newVelocityOfA = {velocityOfA[0] + dt*forceVector[0]*(1/massA),
+                                                velocityOfA[1] + dt*forceVector[1]*(1/massA)-gravity*dt,
+                                                velocityOfA[2] + dt*forceVector[2]*(1/massA)};
+
+        std::array<iREAL, 3> newVelocityOfB = {velocityOfB[0] - dt*forceVector[0]*(1/massB),
+                                                velocityOfB[1] - dt*forceVector[1]*(1/massB)-gravity*dt,
+                                                velocityOfB[2] - dt*forceVector[2]*(1/massB)};
     
+        _particles[_contactpoints[i].indexA].setLinearVelocity(newVelocityOfA);
+        _particles[_contactpoints[i].indexB].setLinearVelocity(newVelocityOfB);
     }
-    auto temp = _particles[1].getLocation();
-    std::get<0>(temp) += 0.001;
-    std::get<2>(temp) += 0.001;
-    _particles[1].setCentre(temp);
-    temp = _particles[2].getLocation();
-    std::get<0>(temp) += 0.001;
-    std::get<2>(temp) += 0.001;
-    _particles[2].setCentre(temp);
+
+    for(int i=0;i<_particles.size();i++)
+    {
+        auto vel = _particles[i].getLinearVelocity();
+        auto pos = _particles[i].getLocation();
+        std::array<iREAL, 3> newpos = {pos[0] + vel[0]*dt,
+                                       pos[1] + vel[1]*dt,
+                                       pos[2] + vel[2]*dt};
+
+        _particles[i].setLocation(newpos);
+    }
+    
 }
                 
 std::vector<demolish::Object> demolish::World::getObjects()

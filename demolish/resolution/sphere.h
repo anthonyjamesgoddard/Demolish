@@ -1,6 +1,8 @@
 #include"../demolish.h"
 
-#define SSPRING 2E5
+#include<array>
+
+#define SSPRING 200000
 #define SDAMPER 0.5
 #define SFRICTIONGOLD 1
 #define SFRICTIONWOOD 1
@@ -29,7 +31,7 @@ namespace demolish{
 		  iREAL relativeVelocity[3],
 		  iREAL massA,
 		  iREAL massB,
-		  iREAL f[3],
+		  std::array<iREAL, 3> & f,
 		  iREAL& forc);
 
     }

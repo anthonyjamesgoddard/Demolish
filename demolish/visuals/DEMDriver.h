@@ -10,7 +10,7 @@ class DEMDriver : public GLnixAPP
 public:
     DEMDriver(); /* Constructor */
     bool Init(); /* Initialisation routine */
-    void UpdateScene(float dt, std::vector<demolish::Object>& objects);
+    void UpdateScene(std::vector<demolish::Object>& objects);
     void RedrawTheWindow();
 
     void setContactPoints(std::vector<demolish::ContactPoint>& cps);
@@ -25,8 +25,8 @@ private:
     void BuildMeshBuffer(demolish::Mesh& mesh);
 public:
     UINT* VAO;
-    std::vector<UINT> VAOIndexCounts;
-    UINT BUFFERS[2];          
+    std::vector<UINT>                   VAOIndexCounts;
+    std::vector<std::pair<UINT,UINT>>   VBO;          
  
     int mousex;
     int mousey;

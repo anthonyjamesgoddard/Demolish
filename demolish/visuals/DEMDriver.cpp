@@ -54,7 +54,7 @@ bool DEMDriver::Init()
 }
 
 
-void DEMDriver::UpdateScene(float dt, std::vector<demolish::Object>& objects)
+void DEMDriver::UpdateScene(std::vector<demolish::Object>& objects)
 {
 	float x = radius*sinf(phi)*cosf(theta);
 	float z = radius*sinf(phi)*sinf(theta);
@@ -78,7 +78,7 @@ void DEMDriver::UpdateScene(float dt, std::vector<demolish::Object>& objects)
 
         VAOIndexCounts[i] = geoGenObjects[i].Indices.size();
 
-        GLnix_glBindVertexArray(VAO[i]);
+        GLnix_glBindBuffer(GL_ARRAY_BUFFER, VBO[i].first);
         GLnix_glBufferSubData(GL_ARRAY_BUFFER,
                                 0,
                                 geoGenObjects[i].Vertices.size()*sizeof(GLfloat)*11,
@@ -180,7 +180,9 @@ void DEMDriver::BuildSphereBuffer(float radius,std::array<iREAL,3> position,int 
     GeometryGenerator::MeshData meshObj;
     geoGenObjects.push_back(meshObj);
     geoGen.CreateSphere(radius,30,30,meshObj,position);
-    
+   
+    UINT BUFFERS[2];
+
     VAOIndexCounts.push_back(meshObj.Indices.size());
     GLnix_glGenBuffers(2,BUFFERS);
     GLnix_glBindVertexArray(VAO[counter]); 
@@ -202,6 +204,8 @@ void DEMDriver::BuildSphereBuffer(float radius,std::array<iREAL,3> position,int 
     
     glVertexPointer(3, GL_FLOAT,sizeof(GLfloat)*11, 0); 
     glNormalPointer(GL_FLOAT,sizeof(GLfloat)*11,(GLvoid*)(3*sizeof(GLfloat)));
+
+    VBO.push_back(std::make_pair(BUFFERS[0],BUFFERS[1]));
 }
 
 void DEMDriver::BuildMeshBuffer(demolish::Mesh& mesh)

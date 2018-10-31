@@ -1,12 +1,13 @@
 #include"sphere.h"
 #include<math.h>
+
 void demolish::resolution::springSphere(
     iREAL normal[3],
     iREAL depth,
     iREAL relativeVelocity[3],
     iREAL massA,
     iREAL massB,
-    iREAL f[3],
+    std::array<iREAL, 3>& f,
     iREAL &forc)
 {
   iREAL ma = 1.0/((1.0/massA) + (1.0/massB));
