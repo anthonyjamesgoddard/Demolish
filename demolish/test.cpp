@@ -33,9 +33,21 @@ int main() {
                           linear,
                           angular);
 
+  centre = {0,-10.1,10};
+  demolish::Object asphere3(
+                          10.0,
+                          1,
+                          centre,
+                          demolish::material::MaterialType::WOOD,
+                          false,
+                          false,
+                          0.01,
+                          linear,
+                          angular);
   std::vector<demolish::Object> objz;
   objz.push_back(asphere);
   objz.push_back(asphere2);
+  objz.push_back(asphere3);
   demolish::World aworld(objz);
   aworld.runSimulation();
   return 0;

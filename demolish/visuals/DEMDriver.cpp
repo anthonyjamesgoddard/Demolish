@@ -68,22 +68,24 @@ void DEMDriver::UpdateScene(float dt, std::vector<demolish::Object>& objects)
 
 	viewModelMatrix = formViewModelMatrix(position,target,up);
 
-    for(int i=0;i<VAO.size();i++)
+    for(int i=0;i<objects.size();i++)
     {
-        GLnix_glBindVertexArray(VAO[i]);
         geoGen.CreateSphere(objects[i].getRad(),
                             30,
                             30,
                             geoGenObjects[i],
-                            objects[i].getCentre());
-
+                            objects[i].getLocation());
 
         VAOIndexCounts[i] = geoGenObjects[i].Indices.size();
+
+        GLnix_glBindVertexArray(VAO[i]);
         GLnix_glBufferSubData(GL_ARRAY_BUFFER,
                                 0,
                                 geoGenObjects[i].Vertices.size()*sizeof(GLfloat)*11,
-                                &(geoGenObjects[i].Vertices[0]));
+                                &geoGenObjects[i].Vertices.front());
     }
+
+    RedrawTheWindow();
     
 }
 
@@ -140,12 +142,12 @@ void DEMDriver::RedrawTheWindow()
 
     glLoadMatrixf(viewModelMatrix.m);
     glColor4f(1,1,1, 1);
-    for(int j=0; j<VAO.size();j++)
+    for(int j=0; j<geoGenObjects.size();j++)
     {
         GLnix_glBindVertexArray(VAO[j]);
         glDrawElements(GL_TRIANGLES, VAOIndexCounts[j], GL_UNSIGNED_INT, 0);
     }
-    
+     
     glXSwapBuffers(Xdisplay, glX_window_handle);
 }
 
@@ -156,26 +158,32 @@ void DEMDriver::setContactPoints(std::vector<demolish::ContactPoint>& cps)
 
 void DEMDriver::BuildBuffers(std::vector<demolish::Object>& objects)
 {
+    VAO = new UINT[objects.size()];
+    GLnix_glGenVertexArrays(objects.size(),VAO);
+    int counter = 0;
     for(auto& o:objects)
     {
         if(o.getIsSphere())
-            BuildSphereBuffer(o.getRad(),o.getCentre());
+        {
+            BuildSphereBuffer(o.getRad(),o.getLocation(),counter);
+            counter++;
+        }
+        else
+        {
+        }
     }
 }
 
-void DEMDriver::BuildSphereBuffer(float radius,std::array<iREAL,3> position)
+void DEMDriver::BuildSphereBuffer(float radius,std::array<iREAL,3> position,int counter)
 { 
 
     GeometryGenerator::MeshData meshObj;
     geoGenObjects.push_back(meshObj);
     geoGen.CreateSphere(radius,30,30,meshObj,position);
-
+    
     VAOIndexCounts.push_back(meshObj.Indices.size());
-    VAO.push_back(0);
-
-    GLnix_glGenVertexArrays(1,&VAO.back());
     GLnix_glGenBuffers(2,BUFFERS);
-    GLnix_glBindVertexArray(VAO.back()); 
+    GLnix_glBindVertexArray(VAO[counter]); 
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);

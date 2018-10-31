@@ -152,7 +152,7 @@ class demolish::Object
 	 *  @param none
 	 *  @returns vertex
 	 */
-    std::array<iREAL, 3> getCentre();
+    std::array<iREAL, 3> getLocation();
 
 	/*
 	 *  Get Inertia
@@ -279,7 +279,7 @@ class demolish::Object
     std::array<iREAL, 3> 	_linearVelocity;
     std::array<iREAL, 3> 	_angularVelocity;
 
-    std::array<iREAL, 3> 	_centre;                // where is the aprticle currently located (?)
+    std::array<iREAL, 3> 	_location;
     std::array<iREAL, 3> 	_centreOfMass;          //centre of mass 
 
   private:

@@ -20,9 +20,9 @@ demolish::Object::Object(
 {
   this->_globalParticleID = particleID;
 
-  this->_centre[0] = centre[0];
-  this->_centre[1] = centre[1];
-  this->_centre[2] = centre[2];
+  this->_location[0] = centre[0];
+  this->_location[1] = centre[1];
+  this->_location[2] = centre[2];
 
   this->_material 	= material;
   this->_isObstacle 	= isObstacle;
@@ -69,9 +69,9 @@ std::array<iREAL, 3> 					angular)
 
   this->_isConvex = isConvex;
 
-  this->_centre[0] = centre[0];
-  this->_centre[1] = centre[1];
-  this->_centre[2] = centre[2];
+  this->_location[0] = centre[0];
+  this->_location[1] = centre[1];
+  this->_location[2] = centre[2];
 
   this->_material 	    = material;
   this->_isObstacle 	= isObstacle;
@@ -152,13 +152,13 @@ std::array<iREAL, 3> 					angular)
   this->_globalParticleID 	= particleID;
   this->_localParticleID 	= 0;
 
-  this->_centre[0] 	= centre[0];
-  this->_centre[1] 	= centre[1];
-  this->_centre[2] 	= centre[2];
+  this->_location[0] 	= centre[0];
+  this->_location[1] 	= centre[1];
+  this->_location[2] 	= centre[2];
 
-  this->_centreOfMass[0] = _centre[0];
-  this->_centreOfMass[1] = _centre[1];
-  this->_centreOfMass[2] = _centre[2];
+  this->_centreOfMass[0] = _location[0];
+  this->_centreOfMass[1] = _location[1];
+  this->_centreOfMass[2] = _location[2];
 
   this->_material 		= material;
   this->_isObstacle 		= isObstacle;
@@ -273,26 +273,22 @@ iREAL demolish::Object::getDiameter()
   return _rad*2;
 }
 
-std::array<iREAL, 3> demolish::Object::getCentre()
+std::array<iREAL, 3> demolish::Object::getLocation()
 {
-  return _centre;
+  return _location;
 }
 
 void demolish::Object::setCentre(iREAL centre[3])
 {
-  this->_centre[0] = centre[0];
-  this->_centre[1] = centre[1];
-  this->_centre[2] = centre[2];
-
-  this->_centreOfMass[0] = _centre[0];
-  this->_centreOfMass[1] = _centre[1];
-  this->_centreOfMass[2] = _centre[2];
+  this->_location[0] = centre[0];
+  this->_location[1] = centre[1];
+  this->_location[2] = centre[2];
 }
 
 
 void demolish::Object::setCentre(std::array<iREAL,3>& centre)
 {
-    _centre = centre;
+    this->_location = centre;
 }
 
 iREAL demolish::Object::getEpsilon()
@@ -312,8 +308,8 @@ iREAL demolish::Object::getRad()
 
 void demolish::Object::setRad(iREAL rad)
 {
-  this->_minBoundBox 	=	{_centre[0] - _rad, _centre[1] - _rad, _centre[2] - _rad};
-  this->_maxBoundBox 	=	{_centre[0] + _rad, _centre[1] + _rad, _centre[2] + _rad};
+  this->_minBoundBox 	=	{_location[0] - _rad, _location[1] - _rad, _location[2] - _rad};
+  this->_maxBoundBox 	=	{_location[0] + _rad, _location[1] + _rad, _location[2] + _rad};
 
   _rad = rad;
   this->_haloDiameter 	= 	(_diameter+_epsilon*2) * 1.1;

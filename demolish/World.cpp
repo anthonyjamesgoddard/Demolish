@@ -30,7 +30,6 @@ int demolish::World::runSimulation()
                 updateWorld(_timer.DeltaTime());
                 _visuals.setContactPoints(_contactpoints);
                 _visuals.UpdateScene(_timer.DeltaTime(),_particles);
-                _visuals.RedrawTheWindow();
             }
             else
             {
@@ -48,8 +47,8 @@ void demolish::World::updateWorld(float dt)
    {
        for(int j=i+1;j<_particles.size();j++)
        {
-            auto locationi = _particles[i].getCentre();
-            auto locationj = _particles[j].getCentre();
+            auto locationi = _particles[i].getLocation();
+            auto locationj = _particles[j].getLocation();
             auto radi      = _particles[i].getRad();
             auto radj      = _particles[j].getRad();
             auto contactpoints = demolish::detection::spherewithsphere(std::get<0>(locationi),
@@ -99,10 +98,14 @@ void demolish::World::updateWorld(float dt)
         // we have to reverse the vels right?
     
     }
-    auto temp = _particles[0].getCentre();
+    auto temp = _particles[1].getLocation();
     std::get<0>(temp) += 0.001;
     std::get<2>(temp) += 0.001;
-    _particles[0].setCentre(temp);
+    _particles[1].setCentre(temp);
+    temp = _particles[2].getLocation();
+    std::get<0>(temp) += 0.001;
+    std::get<2>(temp) += 0.001;
+    _particles[2].setCentre(temp);
 }
                 
 std::vector<demolish::Object> demolish::World::getObjects()

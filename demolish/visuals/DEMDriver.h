@@ -21,10 +21,10 @@ public:
     void OnMouseMove(int x, int y);
 
 private:
-    void BuildSphereBuffer(float radius,std::array<iREAL,3> position);
+    void BuildSphereBuffer(float radius,std::array<iREAL,3> position,int counter);
     void BuildMeshBuffer(demolish::Mesh& mesh);
 public:
-    std::vector<UINT> VAO;
+    UINT* VAO;
     std::vector<UINT> VAOIndexCounts;
     UINT BUFFERS[2];          
  
