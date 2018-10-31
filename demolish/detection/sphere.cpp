@@ -51,3 +51,72 @@ std::vector<demolish::ContactPoint> demolish::detection::spherewithsphere(
   result.push_back( newContactPoint );
   return result;
 }
+
+
+std::vector<demolish::ContactPoint> demolish::detection::sphereWithMesh(
+  iREAL   xCoordinatesOfPointsOfGeometryA,
+  iREAL   yCoordinatesOfPointsOfGeometryA,
+  iREAL   zCoordinatesOfPointsOfGeometryA,
+  iREAL   radA,
+  iREAL   epsilonA,
+  bool    frictionA,
+  int 	  particleA,
+
+  const iREAL   *xCoordinatesOfPointsOfGeometryB,
+  const iREAL   *yCoordinatesOfPointsOfGeometryB,
+  const iREAL   *zCoordinatesOfPointsOfGeometryB,
+  int   			numberOfTrianglesOfGeometryB,
+  iREAL   		epsilonB,
+  bool    		frictionB,
+  int 			particleB)
+{
+  std::vector<demolish::ContactPoint> result;
+
+  for(int i=0; i<numberOfTrianglesOfGeometryB*3; i+=3)
+  {
+	iREAL P[3], Q[3];
+	iREAL xPA, yPA, zPA, xPB, yPB, zPB;
+
+	iREAL TP1[3], TP2[3], TP3[3];
+	TP1[0] = xCoordinatesOfPointsOfGeometryB[i];
+	TP1[1] = yCoordinatesOfPointsOfGeometryB[i];
+	TP1[2] = zCoordinatesOfPointsOfGeometryB[i];
+
+	TP2[0] = xCoordinatesOfPointsOfGeometryB[i+1];
+	TP2[1] = yCoordinatesOfPointsOfGeometryB[i+1];
+	TP2[2] = zCoordinatesOfPointsOfGeometryB[i+1];
+
+	TP3[0] = xCoordinatesOfPointsOfGeometryB[i+2];
+	TP3[1] = yCoordinatesOfPointsOfGeometryB[i+2];
+	TP3[2] = zCoordinatesOfPointsOfGeometryB[i+2];
+
+	P[0] = xCoordinatesOfPointsOfGeometryA;
+	P[1] = yCoordinatesOfPointsOfGeometryA;
+	P[2] = zCoordinatesOfPointsOfGeometryA;
+
+	iREAL distance = demolish::detection::pt(TP1, TP2, TP3, P, Q) - radA;
+
+	iREAL xnormal = (Q[0] - P[0])/(distance+radA);
+	iREAL ynormal = (Q[1] - P[1])/(distance+radA);
+	iREAL znormal = (Q[2] - P[2])/(distance+radA);
+
+	xPA = P[0] + (radA * xnormal);
+	yPA = P[1] + (radA * ynormal);
+	zPA = P[2] + (radA * znormal);
+
+	xPB = Q[0];
+	yPB = Q[1];
+	zPB = Q[2];
+
+    bool outside = true;
+	demolish::ContactPoint newContactPoint(xPA,yPA, zPA,
+                                    xPB, yPB, zPB,
+                                    outside);
+
+	if(newContactPoint.distance <= (epsilonA+epsilonB))
+	{
+	  result.push_back( newContactPoint );
+	}
+  }
+  return result;
+}

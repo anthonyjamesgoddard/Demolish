@@ -3,7 +3,7 @@
 #include<array>
 
 #define SSPRING 200000
-#define SDAMPER 0.5
+#define SDAMPER 50
 #define SFRICTIONGOLD 1
 #define SFRICTIONWOOD 1
 #define SFRICTIONROLLING 0.5

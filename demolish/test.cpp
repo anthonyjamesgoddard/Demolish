@@ -8,7 +8,7 @@ int main() {
 
   // DEFINE A SPHERE AND TRY AND DRAW IT
   std::array<iREAL, 3> centre = {0,20,0};
-  std::array<iREAL, 3> linear = {0,-2,0};
+  std::array<iREAL, 3> linear = {0,-3,0};
   std::array<iREAL, 3> angular = {0,0,0};
   demolish::Object asphere(
                           10.0,
