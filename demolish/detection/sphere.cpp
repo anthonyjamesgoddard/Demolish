@@ -25,6 +25,8 @@ std::vector<demolish::ContactPoint> demolish::detection::spherewithsphere(
   {
       return result;
   }
+
+
   iREAL xd = xCoordinatesOfPointsOfGeometryB - xCoordinatesOfPointsOfGeometryA;
   iREAL yd = yCoordinatesOfPointsOfGeometryB - yCoordinatesOfPointsOfGeometryA;
   iREAL zd = zCoordinatesOfPointsOfGeometryB - zCoordinatesOfPointsOfGeometryA;
@@ -41,7 +43,8 @@ std::vector<demolish::ContactPoint> demolish::detection::spherewithsphere(
   iREAL yPB = yCoordinatesOfPointsOfGeometryB - (radB * ynormal);
   iREAL zPB = zCoordinatesOfPointsOfGeometryB - (radB * znormal);
 
-  bool outside = false;
+  bool outside = true;
+  if(distance<radA + radB) outside = false;
   demolish::ContactPoint newContactPoint(xPA, yPA, zPA, xPB, yPB, zPB,outside);
   newContactPoint.indexA = particleA;
   newContactPoint.indexB = particleB;

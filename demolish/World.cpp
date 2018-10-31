@@ -18,23 +18,16 @@ int demolish::World::runSimulation()
 {
 
     _timer.Reset();
-
+    _timer.Start();
     while(_visuals.UpdateTheMessageQueue())
     {
-
-            _timer.Tick();
-
-            if( !_worldPaused )
-            {
-                // updates the physics
-                updateWorld(0.1);
-                _visuals.setContactPoints(_contactpoints);
-                _visuals.UpdateScene(_particles);
-            }
-            else
-            {
-
-            }
+        _timer.Tick();
+        // updates the physics
+        auto dt = _timer.DeltaTime();
+        if(dt>0.5)continue;
+        updateWorld(_timer.DeltaTime());
+        _visuals.setContactPoints(_contactpoints);
+        _visuals.UpdateScene(_particles);
     }
     return 1;
 }
@@ -42,6 +35,7 @@ int demolish::World::runSimulation()
 
 void demolish::World::updateWorld(float dt)
 {
+    std::cout << dt << std::endl;
    _contactpoints.clear();
    for(int i=0;i<_particles.size();i++)
    {

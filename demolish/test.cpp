@@ -7,8 +7,8 @@
 int main() {
 
   // DEFINE A SPHERE AND TRY AND DRAW IT
-  std::array<iREAL, 3> centre = {0,10,0};
-  std::array<iREAL, 3> linear = {0,0,0};
+  std::array<iREAL, 3> centre = {0,20,0};
+  std::array<iREAL, 3> linear = {0,-2,0};
   std::array<iREAL, 3> angular = {0,0,0};
   demolish::Object asphere(
                           10.0,
@@ -17,11 +17,12 @@ int main() {
                           demolish::material::MaterialType::GRAPHITE,
                           false,
                           false,
-                          0.01,
+                          0.1,
                           linear,
                           angular);
 
-  centre = {0,-9,0};
+  centre = {0,-20,0};
+  std::array<iREAL,3> linear2 = {0,2,0};
   demolish::Object asphere2(
                           10.0,
                           1,
@@ -29,8 +30,8 @@ int main() {
                           demolish::material::MaterialType::GRAPHITE,
                           false,
                           false,
-                          0.01,
-                          linear,
+                          0.1,
+                          linear2,
                           angular);
 
   std::vector<demolish::Object> objz;
