@@ -68,8 +68,7 @@ void demolish::World::updateWorld(float dt)
            }
            if(_particles[i].getIsSphere() || _particles[j].getIsSphere()) // this should only execute if ONLY one is a sphere
            {
-                std::cout << "ONLY one of us is a sphere" << std::endl;
-                std::cout << i << " " << j << std::endl;
+
            }
            
         }

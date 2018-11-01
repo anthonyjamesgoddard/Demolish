@@ -129,7 +129,7 @@ void DEMDriver::RedrawTheWindow()
 	glEnable(GL_LIGHTING);
 
 	glEnable(GL_COLOR_MATERIAL);
-	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
 
     for(int i=0;i<contactpoints.size();i++)
     {
@@ -147,7 +147,7 @@ void DEMDriver::RedrawTheWindow()
   
     // then we need to draw all the polygons
 
-    glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
 
     glLoadMatrixf(viewModelMatrix.m);
     glColor4f(1,1,1, 1);
@@ -226,8 +226,7 @@ void DEMDriver::BuildDynamicSphereBuffer(float radius,std::array<iREAL,3> positi
     GLnix_glBufferData(GL_ARRAY_BUFFER,
                                   meshObj.Vertices.size()*sizeof(GLfloat)*11,
                                   &meshObj.Vertices.front(), GL_STATIC_DRAW);
-
-    
+ 
     GLnix_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, BUFFERS[1]);
     GLnix_glBufferData(GL_ELEMENT_ARRAY_BUFFER,
                                    meshObj.Indices.size() * sizeof(UINT), 
@@ -275,8 +274,31 @@ void DEMDriver::BuildStaticMeshBuffer(demolish::Mesh* mesh)
 {
     VAOStatic.push_back(0);
     GLnix_glGenVertexArrays(1,&VAOStatic.back());
-    GeometryGenerator::MeshData geoGenMesh;
-    geoGen.CreateMeshFromMesh(mesh,geoGenMesh);
+    GeometryGenerator::MeshData meshObj;
+    geoGen.CreateMeshFromMesh(mesh,meshObj);
+    UINT BUFFERS[2];
+
+    VAOIndexCountsStatic.push_back(meshObj.Indices.size());
+    GLnix_glGenBuffers(2,BUFFERS);
+    GLnix_glBindVertexArray(VAOStatic.back()); 
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+
+    GLnix_glBindBuffer(GL_ARRAY_BUFFER,BUFFERS[0]);
+    GLnix_glBufferData(GL_ARRAY_BUFFER,
+                       meshObj.Vertices.size()*sizeof(GLfloat)*11,
+                       &meshObj.Vertices.front(), GL_STATIC_DRAW);
+
+    GLnix_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, BUFFERS[1]);
+    GLnix_glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+                       meshObj.Indices.size() * sizeof(UINT), 
+                       &meshObj.Indices.front(), GL_STATIC_DRAW);
+    
+    glVertexPointer(3, GL_FLOAT,sizeof(GLfloat)*11, 0); 
+    glNormalPointer(GL_FLOAT,sizeof(GLfloat)*11,(GLvoid*)(3*sizeof(GLfloat)));
+
+    VBOStatic.push_back(std::make_pair(BUFFERS[0],BUFFERS[1]));
 }
 
 

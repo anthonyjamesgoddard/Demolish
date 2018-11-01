@@ -41,8 +41,8 @@ int main() {
   demolish::Vertex B(0.0,0.0,0.0);
   demolish::Vertex C(100.0,0.0,0.0);
   demolish::Vertex D(100.0,0.0,100.0);
-  std::array<int,3> tri1 = {0,1,2};
-  std::array<int,3> tri2 = {1,3,2};
+  std::array<int,3> tri1 = {0,2,1};
+  std::array<int,3> tri2 = {2,0,3};
   std::vector<std::array<int,3>> meshTriangles;
   std::vector<demolish::Vertex> meshVertices;
   meshVertices.push_back(A);

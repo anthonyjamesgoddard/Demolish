@@ -294,6 +294,16 @@ void demolish::Mesh::flatten()
   _avgMeshSize = _avgMeshSize / _xCoordinates.size();
 }
 
+std::vector<demolish::Vertex> demolish::Mesh::getVertices()
+{
+    return _uniqueVertices;
+}
+
+std::vector<std::array<int, 3>> demolish::Mesh::getTriangles()
+{
+    return _triangleFaces;
+}
+
 void demolish::Mesh::flatten(
 	std::vector<iREAL>& xCoordinates,
 	std::vector<iREAL>& yCoordinates,

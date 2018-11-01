@@ -261,6 +261,32 @@ void GeometryGenerator::CreateGrid(float width, float depth, UINT m, UINT n, Mes
 
 void GeometryGenerator::CreateMeshFromMesh(demolish::Mesh* mesh, MeshData& meshData)
 {
+    auto verts = mesh->getVertices();
+    std::vector<demolish::Vertex> normals;
+    std::vector<demolish::Vertex> tangents;
+    for(int i=0;i<verts.size()-1;i++)
+    {
+        normals.push_back(demolish::Vertex(0,0,0));
+    }
+    normals.push_back(demolish::Vertex(0,0,0));
+    for(int i=0;i<verts.size();i++)
+    {
+        meshData.Vertices.push_back(Vertex(verts[i].getX(),
+                                           verts[i].getY(),
+                                           verts[i].getZ(),
+                                           normals[i].getX(),
+                                           normals[i].getY(),
+                                           normals[i].getZ(),
+                                           0,0,0,0,0));
+    }
 
+    auto triangles = mesh->getTriangles();
+    for(int i=0;i<triangles.size();i++)
+    {
+        meshData.Indices.push_back(triangles[i][0]);
+        meshData.Indices.push_back(triangles[i][1]);
+        meshData.Indices.push_back(triangles[i][2]);
+    }
 
+   
 }

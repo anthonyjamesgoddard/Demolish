@@ -158,6 +158,8 @@ class demolish::Mesh {
 	 */
 	void rotateZ(iREAL alphaZ);
 
+    std::vector<Vertex> getVertices();
+    std::vector<std::array<int, 3>> getTriangles();
 	/*
 	 *  Compute Diagonal
 	 *

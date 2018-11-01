@@ -15,7 +15,7 @@ void demolish::cross(iREAL a[3], iREAL b[3], iREAL result[3]) {
 }
 
 
-demolish::Vertex demolish::cross(demolish::Vertex&a,demolish::Vertex&b,demolish::Vertex&c) {
+demolish::Vertex demolish::cross(demolish::Vertex&a,demolish::Vertex&b) {
     iREAL tempres[3];
   tempres[0] = a[1] * b[2] - a[2] * b[1];
   tempres[1] = a[2] * b[0] - a[0] * b[2];
