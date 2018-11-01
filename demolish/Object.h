@@ -226,7 +226,7 @@ class demolish::Object
 	 *  @param none
 	 *  @returns mesh
 	 */
-    demolish::Mesh 	getMesh();
+    demolish::Mesh* 	getMesh();
 
 	/*
 	 *  Compute Inertia

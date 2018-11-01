@@ -2,6 +2,10 @@
 #define GEOMETRYGENERATOR_H
 #include "antmath.h"
 #include "../demolish.h"
+#include "../Mesh.h"
+#include "../Vertex.h"
+#include "../math.h"
+
 typedef unsigned int UINT;
 
 class GeometryGenerator
@@ -47,7 +51,7 @@ public:
 
 	void CreateGrid(float width, float depth, UINT m, UINT n, MeshData& meshData);
 
-    
+    void CreateMeshFromMesh(demolish::Mesh* mesh,MeshData& meshData);
 };
 
 #endif 

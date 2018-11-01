@@ -208,9 +208,9 @@ void demolish::Object::setMesh(
   _mesh = new demolish::Mesh(xCoordinates, yCoordinates, zCoordinates);
 }
 
-demolish::Mesh demolish::Object::getMesh()
+demolish::Mesh* demolish::Object::getMesh()
 {
-  return *_mesh;
+  return _mesh;
 }
 
 void demolish::Object::setMesh(
@@ -426,9 +426,9 @@ iREAL demolish::Object::computeVolume()
   std::vector<iREAL> xCoordinates;
   std::vector<iREAL> yCoordinates;
   std::vector<iREAL> zCoordinates;
-  this->getMesh().flatten(xCoordinates, yCoordinates, zCoordinates);
+  this->getMesh()->flatten(xCoordinates, yCoordinates, zCoordinates);
 
-  return this->getMesh().computeVolume();
+  return this->getMesh()->computeVolume();
 }
 
 /*
@@ -440,7 +440,7 @@ void demolish::Object::computeInertia(
 		iREAL center[3],
 		iREAL inertia[9])
 {
-  this->getMesh().computeInertia(material, mass, center, inertia);
+  this->getMesh()->computeInertia(material, mass, center, inertia);
   this->setInertia(inertia);
   this->setMass(mass);
 }
@@ -448,7 +448,7 @@ void demolish::Object::computeInertia(
 iREAL demolish::Object::computeMass(
 		demolish::material::MaterialType material)
 {
-  iREAL mass = this->getMesh().computeMass(material);
+  iREAL mass = this->getMesh()->computeMass(material);
   this->setMass(mass);
   return mass;
 }

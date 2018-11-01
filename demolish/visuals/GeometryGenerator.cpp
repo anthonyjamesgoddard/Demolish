@@ -1,6 +1,7 @@
 #include "GeometryGenerator.h"
 #include "MathHelper.h"
 
+
 void GeometryGenerator::CreateBox(float width, float height, float depth, MeshData& meshData)
 {
 
@@ -256,4 +257,10 @@ void GeometryGenerator::CreateGrid(float width, float depth, UINT m, UINT n, Mes
 			k += 6; // next quad
 		}
 	}
+}
+
+void GeometryGenerator::CreateMeshFromMesh(demolish::Mesh* mesh, MeshData& meshData)
+{
+
+
 }

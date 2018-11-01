@@ -15,6 +15,17 @@ void demolish::cross(iREAL a[3], iREAL b[3], iREAL result[3]) {
 }
 
 
+demolish::Vertex demolish::cross(demolish::Vertex&a,demolish::Vertex&b,demolish::Vertex&c) {
+    iREAL tempres[3];
+  tempres[0] = a[1] * b[2] - a[2] * b[1];
+  tempres[1] = a[2] * b[0] - a[0] * b[2];
+  tempres[2] = a[0] * b[1] - a[1] * b[0];
+  return demolish::Vertex(tempres[0],
+                tempres[1],
+                tempres[2]);
+
+}
+
 iREAL demolish::det(iREAL col0[3], iREAL col1[3], iREAL col2[3]) {
   return col0[0] * (col1[1] * col2[2] - col1[2] * col2[1]) -
 		 col1[0] * (col0[1] * col2[2] - col2[1] * col0[2]) +

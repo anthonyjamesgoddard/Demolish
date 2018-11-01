@@ -4,7 +4,7 @@
 
 
 #include "demolish.h"
-
+#include "Vertex.h"
 
 namespace demolish {
   /**
@@ -16,6 +16,8 @@ namespace demolish {
    * Cross product
    */
   void cross(iREAL a[3], iREAL b[3], iREAL result[3]);
+
+  Vertex cross(Vertex& a,Vertex&b, Vertex&c);
 
   /**
    * Solves a 3x3 product via direct inversion. The matrix is given

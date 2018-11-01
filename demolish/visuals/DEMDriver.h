@@ -21,19 +21,29 @@ public:
     void OnMouseMove(int x, int y);
 
 private:
-    void BuildSphereBuffer(float radius,std::array<iREAL,3> position,int counter);
-    void BuildMeshBuffer(demolish::Mesh& mesh);
+    void BuildDynamicSphereBuffer(float radius,std::array<iREAL,3> position,int counter);
+    void BuildStaticSphereBuffer(float radius,std::array<iREAL,3> position,int counter);
+    void BuildStaticMeshBuffer(demolish::Mesh* mesh);
 public:
-    std::vector<UINT>                   VAO;
-    std::vector<UINT>                   VAOIndexCounts;
-    std::vector<std::pair<UINT,UINT>>   VBO;          
+    //graphics pipeline stuff for moving things
+    std::vector<UINT>                   VAODynamic;
+    std::vector<UINT>                   VAOIndexCountsDynamic;
+    std::vector<std::pair<UINT,UINT>>   VBODynamic;         
+
+    //graphics pipeline stuff for non-moving things
+    std::vector<UINT>                   VAOStatic;
+    std::vector<UINT>                   VAOIndexCountsStatic;
+    std::vector<std::pair<UINT,UINT>>   VBOStatic;          
  
     int mousex;
     int mousey;
     int but;
-   
-    GeometryGenerator geoGen;
-    std::vector<GeometryGenerator::MeshData>  geoGenObjects;
+  
+    int staticCount;
+    int dynamicCount;
+    GeometryGenerator                         geoGen;
+    std::vector<GeometryGenerator::MeshData>  geoGenObjectsDynamic;
+    std::vector<GeometryGenerator::MeshData>  geoGenObjectsStatic;
     std::vector<demolish::ContactPoint>       contactpoints;
 
     AV4X4FLOAT viewModelMatrix;

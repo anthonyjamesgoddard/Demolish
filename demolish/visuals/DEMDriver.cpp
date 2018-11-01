@@ -68,21 +68,30 @@ void DEMDriver::UpdateScene(std::vector<demolish::Object>& objects)
 
 	viewModelMatrix = formViewModelMatrix(position,target,up);
 
-    for(int i=0;i<objects.size();i++)
+    for(int i=0;i<VAODynamic.size();i++)
     {
+        // this is going to need to change when the moving objects are
+        // no longer all spheres.
+        //
+        // Also, at the moment we are abusing the order in which they 
+        // appear. i.e we KNOW that moving object appear first
+        // and so this loop will work.
+        //
+
         geoGen.CreateSphere(objects[i].getRad(),
                             30,
                             30,
-                            geoGenObjects[i],
+                            geoGenObjectsDynamic[i],
                             objects[i].getLocation());
 
-        VAOIndexCounts[i] = geoGenObjects[i].Indices.size();
+        // this is not necc. I think...
+        VAOIndexCountsDynamic[i] = geoGenObjectsDynamic[i].Indices.size();
 
-        GLnix_glBindBuffer(GL_ARRAY_BUFFER, VBO[i].first);
+        GLnix_glBindBuffer(GL_ARRAY_BUFFER, VBODynamic[i].first);
         GLnix_glBufferSubData(GL_ARRAY_BUFFER,
                                 0,
-                                geoGenObjects[i].Vertices.size()*sizeof(GLfloat)*11,
-                                &geoGenObjects[i].Vertices.front());
+                                geoGenObjectsDynamic[i].Vertices.size()*sizeof(GLfloat)*11,
+                                &geoGenObjectsDynamic[i].Vertices.front());
     }
 
     RedrawTheWindow();
@@ -142,10 +151,16 @@ void DEMDriver::RedrawTheWindow()
 
     glLoadMatrixf(viewModelMatrix.m);
     glColor4f(1,1,1, 1);
-    for(int j=0; j<geoGenObjects.size();j++)
+
+    for(int j=0; j<VAODynamic.size();j++)
     {
-        GLnix_glBindVertexArray(VAO[j]);
-        glDrawElements(GL_TRIANGLES, VAOIndexCounts[j], GL_UNSIGNED_INT, 0);
+        GLnix_glBindVertexArray(VAODynamic[j]);
+        glDrawElements(GL_TRIANGLES, VAOIndexCountsDynamic[j], GL_UNSIGNED_INT, 0);
+    }
+    for(int j=0; j<VAOStatic.size();j++)
+    {
+        GLnix_glBindVertexArray(VAOStatic[j]);
+        glDrawElements(GL_TRIANGLES, VAOIndexCountsStatic[j], GL_UNSIGNED_INT, 0);
     }
      
     glXSwapBuffers(Xdisplay, glX_window_handle);
@@ -158,34 +173,50 @@ void DEMDriver::setContactPoints(std::vector<demolish::ContactPoint>& cps)
 
 void DEMDriver::BuildBuffers(std::vector<demolish::Object>& objects)
 {
-    VAO.resize(objects.size());
-    GLnix_glGenVertexArrays(objects.size(),VAO);
-    int counter = 0;
+    staticCount = 0; dynamicCount=0;
     for(auto& o:objects)
     {
         if(o.getIsSphere())
         {
-            BuildSphereBuffer(o.getRad(),o.getLocation(),counter);
-            counter++;
+            if(o.getIsObstacle())
+            {
+                BuildStaticSphereBuffer(o.getRad(),o.getLocation(),staticCount);
+                staticCount++;
+            }
+            else
+            {
+                BuildDynamicSphereBuffer(o.getRad(),o.getLocation(),dynamicCount);
+                dynamicCount++;
+            }
         }
         else
         {
+            if(o.getIsObstacle())
+            {
+                BuildStaticMeshBuffer(o.getMesh());
+                staticCount++;
+            }
+            else
+            {
+
+            }
         }
     }
 }
 
-void DEMDriver::BuildSphereBuffer(float radius,std::array<iREAL,3> position,int counter)
+void DEMDriver::BuildDynamicSphereBuffer(float radius,std::array<iREAL,3> position,int counter)
 { 
-
+    VAODynamic.push_back(0);
+    GLnix_glGenVertexArrays(1,&VAODynamic.back());
     GeometryGenerator::MeshData meshObj;
-    geoGenObjects.push_back(meshObj);
+    geoGenObjectsDynamic.push_back(meshObj);
     geoGen.CreateSphere(radius,30,30,meshObj,position);
    
     UINT BUFFERS[2];
 
-    VAOIndexCounts.push_back(meshObj.Indices.size());
+    VAOIndexCountsDynamic.push_back(meshObj.Indices.size());
     GLnix_glGenBuffers(2,BUFFERS);
-    GLnix_glBindVertexArray(VAO[counter]); 
+    GLnix_glBindVertexArray(VAODynamic.back()); 
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
@@ -205,11 +236,47 @@ void DEMDriver::BuildSphereBuffer(float radius,std::array<iREAL,3> position,int 
     glVertexPointer(3, GL_FLOAT,sizeof(GLfloat)*11, 0); 
     glNormalPointer(GL_FLOAT,sizeof(GLfloat)*11,(GLvoid*)(3*sizeof(GLfloat)));
 
-    VBO.push_back(std::make_pair(BUFFERS[0],BUFFERS[1]));
+    VBODynamic.push_back(std::make_pair(BUFFERS[0],BUFFERS[1]));
 }
 
-void DEMDriver::BuildMeshBuffer(demolish::Mesh& mesh)
+void DEMDriver::BuildStaticSphereBuffer(float radius,std::array<iREAL,3> position,int counter)
+{ 
+    VAOStatic.push_back(0);
+    GLnix_glGenVertexArrays(1,&VAOStatic.back());
+    GeometryGenerator::MeshData meshObj;
+    geoGenObjectsStatic.push_back(meshObj);
+    geoGen.CreateSphere(radius,30,30,meshObj,position);
+   
+    UINT BUFFERS[2];
+
+    VAOIndexCountsStatic.push_back(meshObj.Indices.size());
+    GLnix_glGenBuffers(2,BUFFERS);
+    GLnix_glBindVertexArray(VAOStatic.back()); 
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+
+    GLnix_glBindBuffer(GL_ARRAY_BUFFER,BUFFERS[0]);
+    GLnix_glBufferData(GL_ARRAY_BUFFER,
+                       meshObj.Vertices.size()*sizeof(GLfloat)*11,
+                       &meshObj.Vertices.front(), GL_STATIC_DRAW);
+
+    GLnix_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, BUFFERS[1]);
+    GLnix_glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+                       meshObj.Indices.size() * sizeof(UINT), 
+                       &meshObj.Indices.front(), GL_STATIC_DRAW);
+    
+    glVertexPointer(3, GL_FLOAT,sizeof(GLfloat)*11, 0); 
+    glNormalPointer(GL_FLOAT,sizeof(GLfloat)*11,(GLvoid*)(3*sizeof(GLfloat)));
+
+    VBOStatic.push_back(std::make_pair(BUFFERS[0],BUFFERS[1]));
+}
+void DEMDriver::BuildStaticMeshBuffer(demolish::Mesh* mesh)
 {
+    VAOStatic.push_back(0);
+    GLnix_glGenVertexArrays(1,&VAOStatic.back());
+    GeometryGenerator::MeshData geoGenMesh;
+    geoGen.CreateMeshFromMesh(mesh,geoGenMesh);
 }
 
 
