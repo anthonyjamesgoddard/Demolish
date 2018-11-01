@@ -35,34 +35,43 @@ int demolish::World::runSimulation()
 
 void demolish::World::updateWorld(float dt)
 {
-    std::cout << dt << std::endl;
    _contactpoints.clear();
    for(int i=0;i<_particles.size();i++)
    {
        for(int j=i+1;j<_particles.size();j++)
        {
-            auto locationi = _particles[i].getLocation();
-            auto locationj = _particles[j].getLocation();
-            auto radi      = _particles[i].getRad();
-            auto radj      = _particles[j].getRad();
-            auto contactpoints = demolish::detection::spherewithsphere(std::get<0>(locationi),
-                                                                          std::get<1>(locationi),
-                                                                          std::get<2>(locationi),
-                                                                          radi,
-                                                                          0.1,
-                                                                          false,
-                                                                          _particles[i].getGlobalParticleId(),
-                                                                          std::get<0>(locationj),
-                                                                          std::get<1>(locationj),
-                                                                          std::get<2>(locationj),
-                                                                          radj,
-                                                                          0.1,
-                                                                          false,
-                                                                          _particles[j].getGlobalParticleId());
-           if(contactpoints.size()>0)
+           if(_particles[i].getIsSphere() && _particles[j].getIsSphere())
            {
-               _contactpoints.push_back(contactpoints[0]);
-           };
+               auto locationi = _particles[i].getLocation();
+               auto locationj = _particles[j].getLocation();
+               auto radi      = _particles[i].getRad();
+               auto radj      = _particles[j].getRad();
+               auto contactpoints = demolish::detection::spherewithsphere(std::get<0>(locationi),
+                                                                             std::get<1>(locationi),
+                                                                             std::get<2>(locationi),
+                                                                             radi,
+                                                                             0.1,
+                                                                             false,
+                                                                             _particles[i].getGlobalParticleId(),
+                                                                             std::get<0>(locationj),
+                                                                             std::get<1>(locationj),
+                                                                             std::get<2>(locationj),
+                                                                             radj,
+                                                                             0.1,
+                                                                             false,
+                                                                             _particles[j].getGlobalParticleId());
+               if(contactpoints.size()>0)
+               {
+                   _contactpoints.push_back(contactpoints[0]);
+               };
+               continue;
+           }
+           if(_particles[i].getIsSphere() || _particles[j].getIsSphere()) // this should only execute if ONLY one is a sphere
+           {
+                std::cout << "ONLY one of us is a sphere" << std::endl;
+                std::cout << i << " " << j << std::endl;
+           }
+           
         }
     }
     
@@ -95,7 +104,7 @@ void demolish::World::updateWorld(float dt)
         // for each contact point we are going to update the position
         // of each of the asociated with the contact points.
         
-        iREAL gravity = 1.0*0;
+        iREAL gravity = 0*98.0;
         std::array<iREAL, 3> newVelocityOfA = {velocityOfA[0] + dt*forceVector[0]*(1/massA),
                                                 velocityOfA[1] + dt*forceVector[1]*(1/massA)-gravity*dt,
                                                 velocityOfA[2] + dt*forceVector[2]*(1/massA)};

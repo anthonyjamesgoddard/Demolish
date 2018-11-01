@@ -24,7 +24,7 @@ private:
     void BuildSphereBuffer(float radius,std::array<iREAL,3> position,int counter);
     void BuildMeshBuffer(demolish::Mesh& mesh);
 public:
-    UINT* VAO;
+    std::vector<UINT>                   VAO;
     std::vector<UINT>                   VAOIndexCounts;
     std::vector<std::pair<UINT,UINT>>   VBO;          
  

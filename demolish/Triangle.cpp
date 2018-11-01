@@ -2,9 +2,9 @@
 #include "Triangle.h"
 
 demolish::Triangle::Triangle(
-	Vertex A,
-	Vertex B,
-	Vertex C)
+	Vertex& A,
+	Vertex& B,
+	Vertex& C)
 {
   _A = A;
   _B = B;
@@ -34,9 +34,9 @@ demolish::Triangle::Triangle(
 	iREAL Cy,
 	iREAL Cz)
 {
-  _A.set(A[0], A[1], A[2]);
-  _B.set(B[0], B[1], B[2]);
-  _C.set(C[0], C[1], C[2]);
+  _A.set(Ax, Ay, Az);
+  _B.set(Bx, By, Bz);
+  _C.set(Cx, Cy, Cz);
 }
 
 Vertex demolish::Triangle::getVertexA()
@@ -164,7 +164,7 @@ iREAL demolish::Triangle::getMaxZAxis()
 
 iREAL demolish::Triangle::getMinXAxis()
 {
-  iREAL x[3] = {_A.getX(), _BgetX(), _C.getX()};
+  iREAL x[3] = {_A.getX(), _B.getX(), _C.getX()};
 
   iREAL min = std::numeric_limits<iREAL>::max();
 

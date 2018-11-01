@@ -3,7 +3,7 @@
 #define TRIANGLE
 
 #include"demolish.h"
-
+#include"Vertex.h"
 #include <map>
 #include <vector>
 #include <array>
@@ -16,12 +16,14 @@ namespace demolish {
 
 }
 
+using demolish::Vertex;
+
 class demolish::Triangle {
   public:
 	Triangle(
-		Vertex A,
-		Vertex B,
-		Vertex C);
+		Vertex& A,
+		Vertex& B,
+		Vertex& C);
 
 	Triangle(
 		iREAL A[3],
@@ -49,7 +51,7 @@ class demolish::Triangle {
 	 *  @param none
 	 *  @returns std::array of three elements of type iREAL
 	 */
-	std::array<iREAL, 3> getVertexA();
+	demolish::Vertex getVertexA();
 
 	/*
 	 *  Gets Vertex B
@@ -59,7 +61,7 @@ class demolish::Triangle {
 	 *  @param none
 	 *  @returns std::array of three elements of type iREAL
 	 */
-	std::array<iREAL, 3> getVertexB();
+	demolish::Vertex getVertexB();
 
 	/*
 	 *  Gets Vertex C
@@ -69,7 +71,7 @@ class demolish::Triangle {
 	 *  @param none
 	 *  @returns std::array of three elements of type iREAL
 	 */
-	std::array<iREAL, 3> getVertexC();
+	demolish::Vertex getVertexC();
 
 	/*
 	 *  Gets Minimum Boundary Vertex
@@ -79,7 +81,7 @@ class demolish::Triangle {
 	 *  @param none
 	 *  @returns std::array of three elements of type iREAL
 	 */
-	std::array<iREAL, 3> getMinBoundaryVertex();
+	demolish::Vertex getMinBoundaryVertex();
 
 	/*
 	 *  Gets Maximum Boundary Vertex
@@ -89,7 +91,7 @@ class demolish::Triangle {
 	 *  @param none
 	 *  @returns std::array of three elements of type iREAL
 	 */
-	std::array<iREAL, 3> getMaxBoundaryVertex();
+	demolish::Vertex getMaxBoundaryVertex();
 
 	/*
 	 *  Gets Triangle Length

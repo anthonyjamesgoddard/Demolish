@@ -27,7 +27,6 @@ class demolish::Mesh {
 		std::vector<iREAL>& yCoordinates,
 		std::vector<iREAL>& zCoordinates);
 
-	Mesh(std::vector<demolish::Triangle> _triangles);
 
 	/*
 	 *  Flatten Data Structure

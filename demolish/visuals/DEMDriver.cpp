@@ -23,7 +23,7 @@ float const light2_dir[]={0,1,0,0};
 float const light2_color[]={31./255., 75./255., 160./255.,1};
 
 DEMDriver::DEMDriver()
-: GLnixAPP(), phi(1.5f*MathHelper::Pi),theta(1.5f*MathHelper::Pi), radius(10)
+: GLnixAPP(), phi(1.5f*MathHelper::Pi),theta(1.5f*MathHelper::Pi), radius(100)
 {
     load_extension_function_pointers();
     mousex = 0;
@@ -158,7 +158,7 @@ void DEMDriver::setContactPoints(std::vector<demolish::ContactPoint>& cps)
 
 void DEMDriver::BuildBuffers(std::vector<demolish::Object>& objects)
 {
-    VAO = new UINT[objects.size()];
+    VAO.resize(objects.size());
     GLnix_glGenVertexArrays(objects.size(),VAO);
     int counter = 0;
     for(auto& o:objects)

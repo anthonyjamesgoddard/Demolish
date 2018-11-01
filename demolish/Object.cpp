@@ -76,8 +76,10 @@ std::array<iREAL, 3> 					angular)
   this->_material 	    = material;
   this->_isObstacle 	= isObstacle;
   this->_isFriction 	= isFriction;
+  
+  this->_isSphere       = false;
 
-  this->_epsilon = epsilon;
+  this->_epsilon        = epsilon;
 
   this->_linearVelocity[0] = linear[0];
   this->_linearVelocity[1] = linear[1];

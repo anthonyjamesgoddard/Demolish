@@ -1,14 +1,7 @@
-/*
- * point.cpp
- *
- *  Created on: 19 Jun 2018
- *      Author: konstantinos
- */
+#include "point.h"
+#include "../algo.h"
 
-#include "delta/contact/detection/point.h"
-#include "delta/core/algo.h"
-
-iREAL delta::contact::detection::pt(iREAL TP1[3], iREAL TP2[3], iREAL TP3[3], iREAL cPoint[3], iREAL tq[3])
+iREAL demolish::detection::pt(iREAL TP1[3], iREAL TP2[3], iREAL TP3[3], iREAL cPoint[3], iREAL tq[3])
 {
   //191 flops
   iREAL E0[3];
@@ -207,7 +200,7 @@ iREAL delta::contact::detection::pt(iREAL TP1[3], iREAL TP2[3], iREAL TP3[3], iR
   return sqrt(sqrDistance);
 }
 
-std::vector<delta::contact::contactpoint> delta::contact::detection::pointToGeometry(
+std::vector<demolish::ContactPoint> demolish::detection::pointToGeometry(
 iREAL   xCoordinatesOfPointOfGeometryA,
 iREAL   yCoordinatesOfPointOfGeometryA,
 iREAL   zCoordinatesOfPointOfGeometryA,
@@ -221,8 +214,8 @@ int   			numberOfTrianglesOfGeometryB,
 int				particleB,
 iREAL   			epsilonB)
 {
-  /*
-  std::vector<delta::contact::contactpoint> result;
+
+  std::vector<demolish::ContactPoint> result;
 
   #pragma code_align(byteAlignment)
   #pragma omp simd
@@ -247,46 +240,12 @@ iREAL   			epsilonB)
 	P[1] = yCoordinatesOfPointOfGeometryA;
 	P[2] = zCoordinatesOfPointOfGeometryA;
 
-	iREAL distance = delta::contact::detection::pt(TP1, TP2, TP3, P, Q);
+	iREAL distance = demolish::detection::pt(TP1, TP2, TP3, P, Q);
 
 	if(distance <= (epsilonA+epsilonB))
 	{
-	  contactpoint newContactPoint(P[0], P[1], P[2], epsilonA, particleA, TP1, TP2, TP3, Q[0], Q[1], Q[2], epsilonB, particleB, false);
-	  result.push_back( newContactPoint );
-	}
-  }
-  */
-
-  std::vector<delta::contact::contactpoint> result;
-
-  #pragma code_align(byteAlignment)
-  #pragma omp simd
-  for(int i=0; i<numberOfTrianglesOfGeometryB*3; i+=3)
-  {
-	iREAL P[3], Q[3];
-
-	iREAL TP1[3], TP2[3], TP3[3];
-	TP1[0] = xCoordinatesOfPointsOfGeometryB[i];
-	TP1[1] = yCoordinatesOfPointsOfGeometryB[i];
-	TP1[2] = zCoordinatesOfPointsOfGeometryB[i];
-
-	TP2[0] = xCoordinatesOfPointsOfGeometryB[i+1];
-	TP2[1] = yCoordinatesOfPointsOfGeometryB[i+1];
-	TP2[2] = zCoordinatesOfPointsOfGeometryB[i+1];
-
-	TP3[0] = xCoordinatesOfPointsOfGeometryB[i+2];
-	TP3[1] = yCoordinatesOfPointsOfGeometryB[i+2];
-	TP3[2] = zCoordinatesOfPointsOfGeometryB[i+2];
-
-	P[0] = xCoordinatesOfPointOfGeometryA;
-	P[1] = yCoordinatesOfPointOfGeometryA;
-	P[2] = zCoordinatesOfPointOfGeometryA;
-
-	iREAL distance = delta::contact::detection::pt(TP1, TP2, TP3, P, Q);
-
-	if(distance <= (epsilonA+epsilonB))
-	{
-	  contactpoint newContactPoint(P[0], P[1], P[2], epsilonA, particleA, TP1, TP2, TP3, Q[0], Q[1], Q[2], epsilonB, particleB, false);
+	  demolish::ContactPoint newContactPoint(P[0], P[1], P[2],
+                                            Q[0], Q[1], Q[2],false);
 	  result.push_back( newContactPoint );
 	}
   }

@@ -1,6 +1,7 @@
 OBJS = demolish/demolish.o \
        demolish/ContactPoint.o \
        demolish/math.o \
+	   demolish/Triangle.o \
 	   demolish/Mesh.o \
 	   demolish/Vertex.o \
        demolish/Object.o \
@@ -18,6 +19,7 @@ OBJS = demolish/demolish.o \
        demolish/primitives/Cylinder.o \
        demolish/primitives/Cube.o \
 	   demolish/detection/sphere.o \
+	   demolish/detection/point.o \
 	   demolish/resolution/sphere.o \
        
        

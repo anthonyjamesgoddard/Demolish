@@ -3,12 +3,13 @@
 #ifndef DELTA_CONTACT_DETECTION_POINT_H_
 #define DELTA_CONTACT_DETECTION_POINT_H_
 
-#include "demolish/ContactPoint.h"
+#include "../ContactPoint.h"
+#include<vector>
 
-namespace delta {
+namespace demolish{
 	namespace detection {
 
-	std::vector<delta::contact::contactpoint> pointToGeometry(
+	std::vector<demolish::ContactPoint> pointToGeometry(
 		iREAL   xCoordinatesOfPointOfGeometryA,
 		iREAL   yCoordinatesOfPointOfGeometryA,
 		iREAL   zCoordinatesOfPointOfGeometryA,

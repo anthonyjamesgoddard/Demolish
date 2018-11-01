@@ -39,7 +39,7 @@ class demolish::Object
 	 */
 	Object(
 	  int                           				particleID,
-	  demolish::Mesh*				    mesh,
+	  demolish::Mesh*				                mesh,
 	  std::array<iREAL, 3>         				    centre,
 	  demolish::material::MaterialType 	            material,
 	  bool                          				isObstacle,

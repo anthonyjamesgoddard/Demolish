@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "../ContactPoint.h"
-
+#include "point.h"
 namespace demolish {
 	namespace detection {
 	  std::vector<demolish::ContactPoint> spherewithsphere(
