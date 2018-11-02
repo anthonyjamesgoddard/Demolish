@@ -261,32 +261,51 @@ void GeometryGenerator::CreateGrid(float width, float depth, UINT m, UINT n, Mes
 
 void GeometryGenerator::CreateMeshFromMesh(demolish::Mesh* mesh, MeshData& meshData)
 {
-    auto verts = mesh->getVertices();
     std::vector<demolish::Vertex> normals;
-    std::vector<demolish::Vertex> tangents;
-    for(int i=0;i<verts.size()-1;i++)
-    {
-        normals.push_back(demolish::Vertex(0,0,0));
-    }
-    normals.push_back(demolish::Vertex(0,0,0));
-    for(int i=0;i<verts.size();i++)
-    {
-        meshData.Vertices.push_back(Vertex(verts[i].getX(),
-                                           verts[i].getY(),
-                                           verts[i].getZ(),
-                                           normals[i].getX(),
-                                           normals[i].getY(),
-                                           normals[i].getZ(),
-                                           0,0,0,0,0));
-    }
-
+    auto verts = mesh->getVertices();
     auto triangles = mesh->getTriangles();
+    std::vector<Vertex> mdvs(verts.size());
+
     for(int i=0;i<triangles.size();i++)
     {
-        meshData.Indices.push_back(triangles[i][0]);
-        meshData.Indices.push_back(triangles[i][1]);
-        meshData.Indices.push_back(triangles[i][2]);
-    }
+        auto normal = demolish::cross(verts[triangles[i][1]]-verts[triangles[i][0]],
+                                          verts[triangles[i][2]]-verts[triangles[i][0]]);
 
+        normal.normalise();
+        mdvs[triangles[i][0]].Position.x = verts[triangles[i][0]].getX();    
+        mdvs[triangles[i][0]].Position.y = verts[triangles[i][0]].getY();    
+        mdvs[triangles[i][0]].Position.z = verts[triangles[i][0]].getZ();  
+
+        mdvs[triangles[i][1]].Position.x = verts[triangles[i][1]].getX();    
+        mdvs[triangles[i][1]].Position.y = verts[triangles[i][1]].getY();    
+        mdvs[triangles[i][1]].Position.z = verts[triangles[i][1]].getZ();    
+        
+        mdvs[triangles[i][2]].Position.x = verts[triangles[i][2]].getX();    
+        mdvs[triangles[i][2]].Position.y = verts[triangles[i][2]].getY();    
+        mdvs[triangles[i][2]].Position.z = verts[triangles[i][2]].getZ();    
+
+        mdvs[triangles[i][0]].Normal.x = normal.getX();    
+        mdvs[triangles[i][0]].Normal.y = normal.getY();    
+        mdvs[triangles[i][0]].Normal.z = normal.getZ();  
+
+        mdvs[triangles[i][1]].Normal.x = normal.getX();    
+        mdvs[triangles[i][1]].Normal.y = normal.getY();    
+        mdvs[triangles[i][1]].Normal.z = normal.getZ();    
+        
+        mdvs[triangles[i][2]].Normal.x = normal.getX();    
+        mdvs[triangles[i][2]].Normal.y = normal.getY();    
+        mdvs[triangles[i][2]].Normal.z = normal.getZ();    
+
+        meshData.Indices.push_back(triangles[i][0]);
+        meshData.Indices.push_back(triangles[i][2]);
+        meshData.Indices.push_back(triangles[i][1]);
+
+    }
+   
+    meshData.Vertices = mdvs;
+    for(int i=0;i<meshData.Vertices.size();i++)
+    {
+       std::cout << meshData.Vertices[i].Normal.x << " " << meshData.Vertices[i].Normal.y << " " << meshData.Vertices[i].Normal.z << std::endl;
+    }
    
 }

@@ -214,9 +214,7 @@ int   			numberOfTrianglesOfGeometryB,
 int				particleB,
 iREAL   			epsilonB)
 {
-
   std::vector<demolish::ContactPoint> result;
-
   #pragma code_align(byteAlignment)
   #pragma omp simd
   for(int i=0; i<numberOfTrianglesOfGeometryB*3; i+=3)
