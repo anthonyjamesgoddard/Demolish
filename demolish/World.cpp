@@ -98,6 +98,7 @@ void demolish::World::updateWorld(float dt)
                if(contactpoints.size()>0)
                {
                    _contactpoints.push_back(contactpoints[0]);
+                   std::cout << "there is a contact point" << std::endl;
                }
                continue;
            }
@@ -112,58 +113,58 @@ void demolish::World::updateWorld(float dt)
 // RESOLUTION
 //
 //**********************************************************************
+
     for(int i=0;i<_contactpoints.size();i++)
     {
-        if(_particles[_contactpoints[i].indexA].getIsSphere() && _particles[_contactpoints[i].indexB].getIsSphere())
-        {
-            iREAL forceMagnitude;
-            std::array<iREAL, 3> forceVector;
-            iREAL relativeVelocity[3];
-            auto velocityOfA = _particles[_contactpoints[i].indexA].getLinearVelocity();
-            auto velocityOfB = _particles[_contactpoints[i].indexB].getLinearVelocity();
-            auto massA       = _particles[_contactpoints[i].indexA].getMass();
-            auto massB       = _particles[_contactpoints[i].indexB].getMass();
+        iREAL forceMagnitude;
+        std::array<iREAL, 3> forceVector;
+        iREAL relativeVelocity[3];
+        auto velocityOfA = _particles[_contactpoints[i].indexA].getLinearVelocity();
+        auto velocityOfB = _particles[_contactpoints[i].indexB].getLinearVelocity();
+        auto massA       = _particles[_contactpoints[i].indexA].getMass();
+        auto massB       = _particles[_contactpoints[i].indexB].getMass();
 
-            relativeVelocity[0] = std::get<0>(velocityOfB)-std::get<0>(velocityOfA);
-            relativeVelocity[1] = std::get<1>(velocityOfB)-std::get<1>(velocityOfA);
-            relativeVelocity[2] = std::get<2>(velocityOfB)-std::get<2>(velocityOfA);
+        relativeVelocity[0] = std::get<0>(velocityOfB)-std::get<0>(velocityOfA);
+        relativeVelocity[1] = std::get<1>(velocityOfB)-std::get<1>(velocityOfA);
+        relativeVelocity[2] = std::get<2>(velocityOfB)-std::get<2>(velocityOfA);
 
-            demolish::resolution::springSphere(_contactpoints[i].normal,
-                                               _contactpoints[i].distance,
-                                               relativeVelocity,
-                                               massA,
-                                               massB,
-                                               forceVector,
-                                               forceMagnitude);
-            // lets update the velocities and positions of the particles
-            // we have to reverse the vels right?
-            //
-            
-            // for each contact point we are going to update the position
-            // of each of the asociated with the contact points.
-            
-            std::array<iREAL, 3> newVelocityOfA = {velocityOfA[0] + dt*forceVector[0]*(1/massA),
-                                                    velocityOfA[1] + dt*forceVector[1]*(1/massA),
-                                                    velocityOfA[2] + dt*forceVector[2]*(1/massA)};
-
-            std::array<iREAL, 3> newVelocityOfB = {velocityOfB[0] - dt*forceVector[0]*(1/massB),
-                                                    velocityOfB[1] - dt*forceVector[1]*(1/massB),
-                                                    velocityOfB[2] - dt*forceVector[2]*(1/massB)};
+        demolish::resolution::springSphere(_contactpoints[i].normal,
+                                           _contactpoints[i].distance,
+                                           relativeVelocity,
+                                           massA,
+                                           massB,
+                                           forceVector,
+                                           forceMagnitude);
+        // lets update the velocities and positions of the particles
+        // we have to reverse the vels right?
+        //
         
-            _particles[_contactpoints[i].indexA].setLinearVelocity(newVelocityOfA);
-            _particles[_contactpoints[i].indexB].setLinearVelocity(newVelocityOfB);
-            continue;
-        }
-        if(_particles[_contactpoints[i].indexA].getIsSphere() || _particles[_contactpoints[i].indexB].getIsSphere())
+        // for each contact point we are going to update the position
+        // of each of the asociated with the contact points.
+        if(!_particles[_contactpoints[i].indexA].getIsObstacle()) 
         {
-
+            std::array<iREAL, 3> newVelocityOfA = {velocityOfA[0] + dt*forceVector[0]*(1/massA),
+                                                velocityOfA[1] + dt*forceVector[1]*(1/massA),
+                                                velocityOfA[2] + dt*forceVector[2]*(1/massA)};
+            _particles[_contactpoints[i].indexA].setLinearVelocity(newVelocityOfA);
         }
-        // fill in details of mesh-mesh interaction.
+        if(!_particles[_contactpoints[i].indexB].getIsObstacle()) 
+        {
+            std::array<iREAL, 3> newVelocityOfB = {velocityOfB[0] - dt*forceVector[0]*(1/massB),
+                                                velocityOfB[1] - dt*forceVector[1]*(1/massB),
+                                                velocityOfB[2] - dt*forceVector[2]*(1/massB)};
+            _particles[_contactpoints[i].indexB].setLinearVelocity(newVelocityOfB);
+        } 
+        continue;
     }
-    // acceleration due to gravity
     iREAL gravity = 9.8;
+    // acceleration due to gravity
+    if (_contactpoints.size()==0)
+    {
+
     for(int i=0;i<_particles.size();i++)
     {
+        if(_particles[i].getIsObstacle()) continue;
         auto vel = _particles[i].getLinearVelocity();
         std::array<iREAL, 3> newpos = {vel[0], 
                                        vel[1] - gravity*dt,
@@ -181,6 +182,7 @@ void demolish::World::updateWorld(float dt)
                                        pos[2] + vel[2]*dt};
 
         _particles[i].setLocation(newpos);
+    }
     }
     
 }

@@ -1,4 +1,4 @@
-#include <delta/contact/contactpoint.h>
+#include"../ContactPoint.h"
 #include <vector>
 #include <cmath>
 #include <iostream>
@@ -21,9 +21,8 @@
  (C) [8] = (A)[2]*(B)[6]+(A)[5]*(B)[7]+(A)[8]*(B)[8];\
 }
 
-namespace delta {
-  namespace contact {
-	namespace forces {
+namespace demolish {
+	namespace resolution {
 
 		/*
 		* Spring Force
@@ -90,28 +89,6 @@ namespace delta {
 		  int materialB,
 		  bool isSphere);
 
-	  /*
-	   * Spring Sphere
-	   *
-	   * Returns the force between two spheres
-	   *
-	   * @param normal is the contact normal
-	   * @param depth is the penetration depth
-	   * @param relativeVelocity is the relative velocity between the two spheres
-	   * @param massA is the mass of particle A
-	   * @param massB is the mass of particle B
-	   * @param f is the vector force at the contact point
-	   * @param force is the force magnitude at the contact point
-	   * @return void
-	   */
-	  void springSphere(
-		  iREAL normal[3],
-		  iREAL depth,
-		  iREAL relativeVelocity[3],
-		  iREAL massA,
-		  iREAL massB,
-		  iREAL f[3],
-		  iREAL &forc);
 
 	  /**
 	   * Get Contact Forces
@@ -141,7 +118,7 @@ namespace delta {
 	   *
 	   */
 	  void getContactsForces(
-		std::vector<delta::contact::contactpoint> &conpnt,
+		std::vector<demolish::ContactPoint> &conpnt,
 		iREAL positionASpatial[3],
 		iREAL positionAReferential[3],
 		iREAL angularA[3],
@@ -162,39 +139,11 @@ namespace delta {
 		iREAL rotationB[9],
 		int   materialB,
 
-		iREAL force[3],
-		iREAL torque[3],
+		std::array<iREAL, 3> &f ,
+		std::array<iREAL, 3> &torque,
 		bool  isSphere);
 
-	  /*
-	   * dummy function of getContactsForces() used for plotting
-	   */
-	  void getContactForce(
-		delta::contact::contactpoint conpnt,
-		iREAL positionASpatial[3],
-		iREAL positionAReferential[3],
-		iREAL angularA[3],
-		iREAL refAngularA[3],
-		iREAL linearA[3],
-		iREAL massA,
-		iREAL inverseA[9],
-		iREAL rotationA[9],
-		int   materialA,
-		iREAL positionB[3],
-		iREAL positionBReferential[3],
-		iREAL angularB[3],
-		iREAL refAngularB[3],
-		iREAL linearB[3],
-		iREAL massB,
-		iREAL inverseB[9],
-		iREAL rotationB[9],
-		int   materialB,
-		iREAL force[3],
-		iREAL torque[3],
-		iREAL frict[3],
-		bool  isSphere);
 	}
-  }
 }
 
 

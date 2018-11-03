@@ -112,7 +112,8 @@ std::vector<demolish::ContactPoint> demolish::detection::sphereWithMesh(
 	demolish::ContactPoint newContactPoint(xPA,yPA, zPA,
                                     xPB, yPB, zPB,
                                     outside);
-
+    
+    std::cout << distance << std::endl;
 	if(newContactPoint.distance <= (epsilonA+epsilonB))
 	{
       newContactPoint.indexA = particleA;

@@ -7,11 +7,11 @@
 int main() {
 
   // HERE WE DEFINE TWO SPHERES THAT ARE GOING TO COLLISDE.
-  std::array<iREAL, 3> centre = {0,10,0};
+  std::array<iREAL, 3> centre = {0,80,0};
   std::array<iREAL, 3> linear = {0,0,0};
   std::array<iREAL, 3> angular = {0,0,0};
   demolish::Object asphere(
-                          10.0,
+                          20.0,
                           0,
                           centre,
                           demolish::material::MaterialType::GRAPHITE,
@@ -20,7 +20,7 @@ int main() {
                           0.1,
                           linear,
                           angular);
-
+  /*
   centre = {0,-50,0};
   std::array<iREAL,3> linear2 = {0,0,0};
   demolish::Object asphere2(
@@ -33,7 +33,7 @@ int main() {
                           0.1,
                           linear2,
                           angular);
-
+*/
 
   // HERE WE DEFINE A PLATFORM ONTO WHICH SPHERES WILL FALL ONTO.
   
@@ -102,7 +102,7 @@ int main() {
 
   std::vector<demolish::Object> objz;
   objz.push_back(asphere);
-  objz.push_back(asphere2);
+  //objz.push_back(asphere2);
   objz.push_back(floor);
 
   demolish::World aworld(objz);
