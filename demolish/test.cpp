@@ -41,10 +41,10 @@ int main() {
   demolish::Vertex B(-50.0,0.0,-50.0);
   demolish::Vertex C(50.0,0.0,-50.0);
   demolish::Vertex D(50.0,0.0,50.0);
-  demolish::Vertex E(-50.0,-20.0,50.0);
-  demolish::Vertex F(-50.0,-20.0,-50.0);
-  demolish::Vertex G(50.0,-20.0,-50.0);
-  demolish::Vertex H(50.0,-20.0,50.0);
+  demolish::Vertex E(-50.0,-5.0,50.0);
+  demolish::Vertex F(-50.0,-5.0,-50.0);
+  demolish::Vertex G(50.0,-5.0,-50.0);
+  demolish::Vertex H(50.0,-5.0,50.0);
   std::array<int,3> tri1 = {0,1,2};
   std::array<int,3> tri2 = {2,3,0};
   std::array<int,3> tri3 = {4,6,5};
