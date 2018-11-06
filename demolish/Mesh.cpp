@@ -254,8 +254,8 @@ void demolish::Mesh::flatten()
   for(int i=0; i<_triangleFaces.size(); i++)
   {
     int idxA = _triangleFaces[i][0];
-    int idxB = _triangleFaces[i][2];
-    int idxC = _triangleFaces[i][1];
+    int idxB = _triangleFaces[i][1];
+    int idxC = _triangleFaces[i][2];
 
 	demolish::Vertex A = _uniqueVertices[idxA];
 	demolish::Vertex B = _uniqueVertices[idxB];

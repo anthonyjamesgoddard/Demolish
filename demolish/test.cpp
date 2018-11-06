@@ -36,15 +36,17 @@ int main() {
 */
 
   // HERE WE DEFINE A PLATFORM ONTO WHICH SPHERES WILL FALL ONTO.
-  
-  demolish::Vertex A(-50.0,0.0,50.0);
-  demolish::Vertex B(-50.0,0.0,-50.0);
-  demolish::Vertex C(50.0,0.0,-50.0);
-  demolish::Vertex D(50.0,0.0,50.0);
-  demolish::Vertex E(-50.0,-5.0,50.0);
-  demolish::Vertex F(-50.0,-5.0,-50.0);
-  demolish::Vertex G(50.0,-5.0,-50.0);
-  demolish::Vertex H(50.0,-5.0,50.0);
+
+  iREAL lowY = -10;
+  iREAL highY = 3;
+  demolish::Vertex A(-50.0,highY,50.0);
+  demolish::Vertex B(-50.0,highY,-50.0);
+  demolish::Vertex C(50.0,highY,-50.0);
+  demolish::Vertex D(50.0,highY,50.0);
+  demolish::Vertex E(-50.0,lowY,50.0);
+  demolish::Vertex F(-50.0,lowY,-50.0);
+  demolish::Vertex G(50.0,lowY,-50.0);
+  demolish::Vertex H(50.0,lowY,50.0);
   std::array<int,3> tri1 = {0,1,2};
   std::array<int,3> tri2 = {2,3,0};
   std::array<int,3> tri3 = {4,6,5};
