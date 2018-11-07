@@ -28,6 +28,8 @@ demolish::Mesh::Mesh(
   _uniqueVertices = uniqueVertices;
 
   demolish::Mesh::flatten();
+  for(int i=0;i<_yCoordinates.size();i++)
+      std::cout << _yCoordinates[i] << std::endl;
 }
 
 demolish::Mesh::Mesh(
@@ -336,6 +338,7 @@ void demolish::Mesh::flatten(
 	xCoordinates.push_back(C[0]);
 	yCoordinates.push_back(C[1]);
 	zCoordinates.push_back(C[2]);
+
 
 	iREAL AB = sqrt((A[0]-B[0])*(A[0]-B[0])+(A[1]-B[1])*(A[1]-B[1])+(A[2]-B[2])*(A[2]-B[2]));
 	iREAL BC = sqrt((B[0]-C[0])*(B[0]-C[0])+(B[1]-C[1])*(B[1]-C[1])+(B[2]-C[2])*(B[2]-C[2]));

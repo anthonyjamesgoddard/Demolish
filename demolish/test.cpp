@@ -37,8 +37,8 @@ int main() {
 
   // HERE WE DEFINE A PLATFORM ONTO WHICH SPHERES WILL FALL ONTO.
 
-  iREAL lowY = -10;
-  iREAL highY = 3;
+  iREAL lowY = 0.0;
+  iREAL highY = 1.0;
   demolish::Vertex A(-50.0,highY,50.0);
   demolish::Vertex B(-50.0,highY,-50.0);
   demolish::Vertex C(50.0,highY,-50.0);
@@ -101,7 +101,10 @@ int main() {
                         angular);
 
 
+  auto yvec = floor.getMesh()->getYCoordinates();
 
+  for(int i =0;i<5;i++)
+      std::cout << yvec[i] << std::endl;
   std::vector<demolish::Object> objz;
   objz.push_back(asphere);
   //objz.push_back(asphere2);

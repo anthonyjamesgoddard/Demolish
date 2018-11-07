@@ -98,7 +98,6 @@ void demolish::World::updateWorld(float dt)
                if(contactpoints.size()>0)
                {
                    _contactpoints.push_back(contactpoints[0]);
-                   std::cout << "there is a contact point" << std::endl;
                }
                continue;
            }

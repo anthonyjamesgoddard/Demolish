@@ -94,12 +94,12 @@ std::vector<demolish::ContactPoint> demolish::detection::sphereWithMesh(
 	P[1] = yCoordinatesOfPointsOfGeometryA;
 	P[2] = zCoordinatesOfPointsOfGeometryA;
 
-    std::cout << TP1[0] << " " << TP1[1] << " " << TP1[2] << std::endl;
-    std::cout << TP2[0] << " " << TP2[1] << " " << TP2[2] << std::endl;
-    std::cout << TP3[0] << " " << TP3[1] << " " << TP3[2] << std::endl;
+    //std::cout << TP1[0] << " " << TP1[1] << " " << TP1[2] << std::endl;
+    //std::cout << TP2[0] << " " << TP2[1] << " " << TP2[2] << std::endl;
+    //std::cout << TP3[0] << " " << TP3[1] << " " << TP3[2] << std::endl;
 	iREAL distance = demolish::detection::pt(TP1, TP2, TP3, P, Q) - radA;
 
-    std::cout << distance << std::endl;
+    //std::cout << distance << std::endl;
 	iREAL xnormal = (Q[0] - P[0])/(distance+radA);
 	iREAL ynormal = (Q[1] - P[1])/(distance+radA);
 	iREAL znormal = (Q[2] - P[2])/(distance+radA);
