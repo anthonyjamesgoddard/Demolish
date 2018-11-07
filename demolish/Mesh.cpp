@@ -422,8 +422,15 @@ void  demolish::Mesh::moveMeshToPosition(iREAL center[3])
 {
   iREAL currentPosition[3] = {0,0,0};
   computeCenterOfGeometry(currentPosition);
-  demolish::operators::moveMeshFromPositionToOrigin(_xCoordinates, _yCoordinates, _zCoordinates, currentPosition);
-  demolish::operators::moveMeshFromOriginToPosition(_xCoordinates, _yCoordinates, _zCoordinates, center);
+  demolish::operators::moveMeshFromPositionToOrigin(_xCoordinates,
+                                                    _yCoordinates,
+                                                    _zCoordinates,
+                                                    currentPosition);
+
+  demolish::operators::moveMeshFromOriginToPosition(_xCoordinates,
+                                                    _yCoordinates,
+                                                    _zCoordinates,
+                                                    center);
 }
 
 void demolish::Mesh::moveMeshFromPositionToOrigin(iREAL center[3])

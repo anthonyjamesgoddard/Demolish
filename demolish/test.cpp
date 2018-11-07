@@ -102,9 +102,11 @@ int main() {
 
 
   auto yvec = floor.getMesh()->getYCoordinates();
+  auto yvec2 = floor.getMesh()->getYCoordinatesAsVector();
 
-  for(int i =0;i<5;i++)
+  for(int i =0;i<5;i++){
       std::cout << yvec[i] << std::endl;
+      std::cout << yvec2[i] << std::endl;}
   std::vector<demolish::Object> objz;
   objz.push_back(asphere);
   //objz.push_back(asphere2);

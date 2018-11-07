@@ -123,6 +123,9 @@ std::array<iREAL, 3> 					angular)
   _centreOfMass[1] = centerOfMass[1];
   _centreOfMass[2] = centerOfMass[2];
 
+
+  std::cout << _centreOfMass[0] << _centreOfMass[1] << _centreOfMass[2] << std::endl;
+
   this->_diameter		=	mesh->computeDiameter();
   this->_rad				= 	_diameter/2;
   this->_haloDiameter 	= 	(_diameter+epsilon*2) * 1.1;

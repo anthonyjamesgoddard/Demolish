@@ -1,9 +1,3 @@
-/*
- * mesh.cpp
- *
- *  Created on: 10 May 2018
- *      Author: konstantinos
- */
 
 #include "mesh.h"
 
