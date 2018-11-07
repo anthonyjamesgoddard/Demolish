@@ -91,8 +91,6 @@ std::array<iREAL, 3> 					angular)
 
   this-> _mesh			= 	mesh;
 
-  iREAL po[3] = {centre[0], centre[1], centre[2]};
-  mesh->moveMeshToPosition(po);
 
   iREAL mass, centerOfMass[3], inertia[9], inverse[9];
 
@@ -122,9 +120,12 @@ std::array<iREAL, 3> 					angular)
   _centreOfMass[0] = centerOfMass[0];
   _centreOfMass[1] = centerOfMass[1];
   _centreOfMass[2] = centerOfMass[2];
+ 
 
-
-  std::cout << _centreOfMass[0] << _centreOfMass[1] << _centreOfMass[2] << std::endl;
+  std::cout << "The objects centre of mass is located at (before translation):\n" 
+            <<        _centreOfMass[0] 
+            << " " << _centreOfMass[1] 
+            << " " << _centreOfMass[2] << std::endl;
 
   this->_diameter		=	mesh->computeDiameter();
   this->_rad				= 	_diameter/2;
@@ -133,6 +134,15 @@ std::array<iREAL, 3> 					angular)
 
   this->_minBoundBox 	=	mesh->getBoundaryMinVertex();
   this->_maxBoundBox 	=	mesh->getBoundaryMinVertex();
+
+
+  // first we shift the mesh such that the origin is 
+  // where to centre of mass is. Then we shift the
+  // object such that the centre of mass is equal to 
+  // location.
+
+  
+  mesh->shiftMesh(centerOfMass);
 
   //dimensions
   _wx = 0;

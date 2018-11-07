@@ -84,54 +84,8 @@ class demolish::Mesh {
 	 *  @param centre : centre of geometry
 	 *  @returns void
 	 */
-	void moveMeshToPosition(iREAL center[3]);
+    void shiftMesh(iREAL centre[3]);
 
-	/*
-	 *  Move Mesh From Position To Origin
-	 *
-	 *  Set center of geometry to origin.
-	 *  This modifies the local data.
-	 *
-	 *
-	 *  @param centre : centre of geometry
-	 *  @returns void
-	 */
-	void moveMeshFromPositionToOrigin(iREAL center[3]);
-
-	/*
-	 *  Move Mesh From Origin To Position
-	 *
-	 *  Set center of geometry to position.
-	 *  This modifies the local data.
-	 *
-	 *
-	 *  @param centre : centre of geometry
-	 *  @returns void
-	 */
-	void moveMeshFromOriginToPosition(iREAL center[3]);
-
-	/*
-	 *  Scale XYZ
-	 *
-	 *  Resize by scale factor towards all axis directions.
-	 *  This modifies the local data.
-	 *
-	 *
-	 *  @param scale : scale factor
-	 *  @returns void
-	 */
-	void scaleXYZ(iREAL scale);
-
-	/*
-	 *  Rotate X
-	 *
-	 *  Rotate along X axis by value.
-	 *  This modifies the local data.
-	 *
-	 *
-	 *  @param alphaX : rotation value 0-1 that correspond to 0 to 360 degrees.
-	 *  @returns void
-	 */
 	void rotateX(iREAL alphaX);
 
 	/*

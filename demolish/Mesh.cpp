@@ -262,7 +262,6 @@ void demolish::Mesh::flatten()
 	demolish::Vertex A = _uniqueVertices[idxA];
 	demolish::Vertex B = _uniqueVertices[idxB];
 	demolish::Vertex C = _uniqueVertices[idxC];
-	//std::cout << _triangleFaces[i][0] << " " << _triangleFaces[i][1] << " " << _triangleFaces[i][2] << std::endl;
 
 	_xCoordinates.push_back(A[0]);
 	_yCoordinates.push_back(A[1]);
@@ -418,43 +417,13 @@ iREAL*  demolish::Mesh::getZCoordinates()
   return _zCoordinates.data();
 }
 
-void  demolish::Mesh::moveMeshToPosition(iREAL center[3])
-{
-  iREAL currentPosition[3] = {0,0,0};
-  computeCenterOfGeometry(currentPosition);
-  demolish::operators::moveMeshFromPositionToOrigin(_xCoordinates,
-                                                    _yCoordinates,
-                                                    _zCoordinates,
-                                                    currentPosition);
 
-  demolish::operators::moveMeshFromOriginToPosition(_xCoordinates,
-                                                    _yCoordinates,
-                                                    _zCoordinates,
-                                                    center);
-}
-
-void demolish::Mesh::moveMeshFromPositionToOrigin(iREAL center[3])
+void demolish::Mesh::shiftMesh(iREAL centre[3])
 {
-  demolish::operators::moveMeshFromPositionToOrigin(_xCoordinates,
-                                                    _yCoordinates,
-                                                    _zCoordinates,
-                                                    center);
-}
-
-void demolish::Mesh::moveMeshFromOriginToPosition(iREAL center[3])
-{
-  demolish::operators::moveMeshFromOriginToPosition(_xCoordinates,
-                                                    _yCoordinates,
-                                                    _zCoordinates,
-                                                    center);
-}
-
-void demolish::Mesh::scaleXYZ(iREAL scale)
-{
-  iREAL currentPosition[3] = {0,0,0};
-  computeCenterOfGeometry(currentPosition);
-  demolish::operators::moveMeshFromPositionToOrigin(_xCoordinates, _yCoordinates, _zCoordinates, currentPosition);
-  demolish::operators::scaleXYZ(_xCoordinates, _yCoordinates, _zCoordinates, scale, currentPosition);
+    demolish::operators::shiftMesh(_xCoordinates,
+                                   _yCoordinates,
+                                   _zCoordinates,
+                                   centre);
 }
 
 void demolish::Mesh::rotateX(iREAL alphaX)

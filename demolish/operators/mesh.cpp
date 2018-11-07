@@ -1,7 +1,7 @@
 
 #include "mesh.h"
 
-void demolish::operators::moveMeshFromPositionToOrigin(
+void demolish::operators::shiftMesh(
     std::vector<iREAL> &xCoordinates,
     std::vector<iREAL> &yCoordinates,
     std::vector<iREAL> &zCoordinates,
@@ -18,20 +18,6 @@ void demolish::operators::moveMeshFromPositionToOrigin(
   }
 }
 
-void demolish::operators::moveMeshFromOriginToPosition(
-    std::vector<iREAL> &xCoordinates,
-    std::vector<iREAL> &yCoordinates,
-    std::vector<iREAL> &zCoordinates,
-    iREAL center[3])
-{
-
-  for(unsigned i=0;i<xCoordinates.size();i++)
-  {
-    xCoordinates[i] = (xCoordinates[i])+center[0];
-    yCoordinates[i] = (yCoordinates[i])+center[1];
-    zCoordinates[i] = (zCoordinates[i])+center[2];
-  }
-}
 
 void demolish::operators::scaleXYZ(
     std::vector<iREAL> &xCoordinates,
@@ -40,7 +26,7 @@ void demolish::operators::scaleXYZ(
     iREAL scale,
     iREAL position[3])
 {
-  demolish::operators::moveMeshFromPositionToOrigin(xCoordinates, yCoordinates, zCoordinates, position);
+  demolish::operators::shiftMesh(xCoordinates, yCoordinates, zCoordinates, position);
 
   for(unsigned i=0;i<xCoordinates.size();i++)
   {
@@ -48,7 +34,9 @@ void demolish::operators::scaleXYZ(
       yCoordinates[i] = yCoordinates[i]*scale;
       zCoordinates[i] = zCoordinates[i]*scale;
   }
-  demolish::operators::moveMeshFromOriginToPosition(xCoordinates, yCoordinates, zCoordinates, position);
+  iREAL backToPosition[3] = {-position[0],-position[1],-position[2]};
+  demolish::operators::shiftMesh(xCoordinates, yCoordinates, zCoordinates,
+                                                    backToPosition);
 }
 
 void demolish::operators::rotateX(
@@ -126,39 +114,5 @@ void demolish::operators::rotateZ(
   }
 }
 
-// WHAT IS THE PURPOSE OF THIS?!?!?!?!?!?
 
-void demolish::operators::moveMeshFromPositionToOrigin(
-    std::vector<iREAL> &points,
-    iREAL center[3])
-{
-  for(unsigned i=0;i<points.size();i++)
-  {
-    points[i] = points[i]-center[0];
-  }
-}
-
-void demolish::operators::moveMeshFromOriginToPosition(
-    std::vector<iREAL> &points,
-    iREAL center[3])
-{
-  for(unsigned i=0;i<points.size();i++)
-  {
-    points[i] = (points[i])+center[0];
-  }
-}
-
-void demolish::operators::scaleXYZ(
-    std::vector<iREAL> &points,
-    iREAL scale,
-    iREAL position[3])
-{
-  demolish::operators::moveMeshFromPositionToOrigin(points, position);
-
-  for(unsigned i=0;i<points.size();i++)
-  {
-      points[i] = points[i]*scale;
-  }
-  demolish::operators::moveMeshFromOriginToPosition(points, position);
-}
 
