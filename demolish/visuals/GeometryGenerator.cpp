@@ -271,7 +271,7 @@ void GeometryGenerator::CreateMeshFromMesh(demolish::Mesh* mesh, MeshData& meshD
 
         // change this to use the x,y,z coordinates directly...
         // it will be faster!
-        /*
+        
         auto normal = demolish::cross(verts[triangles[i][1]]-verts[triangles[i][0]],
                                           verts[triangles[i][2]]-verts[triangles[i][0]]);
 
@@ -303,7 +303,7 @@ void GeometryGenerator::CreateMeshFromMesh(demolish::Mesh* mesh, MeshData& meshD
         meshData.Indices.push_back(triangles[i][0]);
         meshData.Indices.push_back(triangles[i][2]);
         meshData.Indices.push_back(triangles[i][1]);
-        */
+        
 
         
     }

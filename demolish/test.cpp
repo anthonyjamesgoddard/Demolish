@@ -20,9 +20,9 @@ int main() {
                           0.1,
                           linear,
                           angular);
-  /*
+  
   centre = {0,-50,0};
-  std::array<iREAL,3> linear2 = {0,0,0};
+  std::array<iREAL,3> linear2 = {0,30,0};
   demolish::Object asphere2(
                           10.0,
                           1,
@@ -33,7 +33,7 @@ int main() {
                           0.1,
                           linear2,
                           angular);
-*/
+
 
   // HERE WE DEFINE A PLATFORM ONTO WHICH SPHERES WILL FALL ONTO.
 
@@ -104,7 +104,7 @@ int main() {
 
   std::vector<demolish::Object> objz;
   objz.push_back(asphere);
-  //objz.push_back(asphere2);
+  objz.push_back(asphere2);
   objz.push_back(floor);
 
   demolish::World aworld(objz);

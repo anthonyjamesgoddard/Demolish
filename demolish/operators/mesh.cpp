@@ -5,6 +5,7 @@ void demolish::operators::shiftMesh(
     std::vector<iREAL> &xCoordinates,
     std::vector<iREAL> &yCoordinates,
     std::vector<iREAL> &zCoordinates,
+    std::vector<demolish::Vertex> &verts,
     iREAL center[3])
 {
   #ifdef OMPProcess
@@ -16,6 +17,15 @@ void demolish::operators::shiftMesh(
     yCoordinates[i] = yCoordinates[i]-center[1];
     zCoordinates[i] = zCoordinates[i]-center[2];
   }
+
+// we only need this for the visualisation.
+// there is something I can do to deal with this.
+  demolish::Vertex shift(center[0],center[1],center[2]);
+
+  for(unsigned i =0;i<verts.size();i++)
+  {
+      verts[i] = verts[i] - shift;
+  }
 }
 
 
@@ -23,10 +33,11 @@ void demolish::operators::scaleXYZ(
     std::vector<iREAL> &xCoordinates,
     std::vector<iREAL> &yCoordinates,
     std::vector<iREAL> &zCoordinates,
+    std::vector<demolish::Vertex> &verts,
     iREAL scale,
     iREAL position[3])
 {
-  demolish::operators::shiftMesh(xCoordinates, yCoordinates, zCoordinates, position);
+  demolish::operators::shiftMesh(xCoordinates, yCoordinates, zCoordinates,verts, position);
 
   for(unsigned i=0;i<xCoordinates.size();i++)
   {
@@ -35,7 +46,7 @@ void demolish::operators::scaleXYZ(
       zCoordinates[i] = zCoordinates[i]*scale;
   }
   iREAL backToPosition[3] = {-position[0],-position[1],-position[2]};
-  demolish::operators::shiftMesh(xCoordinates, yCoordinates, zCoordinates,
+  demolish::operators::shiftMesh(xCoordinates, yCoordinates, zCoordinates,verts,
                                                     backToPosition);
 }
 

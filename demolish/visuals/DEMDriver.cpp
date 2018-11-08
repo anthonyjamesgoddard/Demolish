@@ -14,13 +14,13 @@ PFNGLGENVERTEXARRAYSPROC GLnix_glGenVertexArrays;
 
 
 float const light0_dir[]={1,0,0,0};
-float const light0_color[]={78./255., 8./255., 184./255.,1};
+float const light0_color[]={78./255., 78./255., 184./255.,1};
 
 float const light1_dir[]={0,0,1,0};
-float const light1_color[]={25./255., 220./255., 70./255.,1};
+float const light1_color[]={25./255., 220./255., 220./255.,1};
 
 float const light2_dir[]={0,1,0,0};
-float const light2_color[]={31./255., 75./255., 160./255.,1};
+float const light2_color[]={75./255., 75./255., 160./255.,1};
 
 DEMDriver::DEMDriver()
 : GLnixAPP(), phi(1.5f*MathHelper::Pi),theta(1.5f*MathHelper::Pi), radius(100)
@@ -130,6 +130,28 @@ void DEMDriver::RedrawTheWindow()
 
 	glEnable(GL_COLOR_MATERIAL);
 	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+
+    
+    glColor4f(1,0,0,1);
+    glLineWidth(3.0);
+    glBegin(GL_LINES);
+    glVertex3f(30,30,30);
+    glVertex3f(33,30,30);
+    glEnd();
+
+    glColor4f(0,1,0,1);
+    glLineWidth(3.0);
+    glBegin(GL_LINES);
+    glVertex3f(30,30,30);
+    glVertex3f(30,33,30);
+    glEnd();
+
+    glColor4f(0,0,1,1);
+    glLineWidth(3.0);
+    glBegin(GL_LINES);
+    glVertex3f(30,30,30);
+    glVertex3f(30,30,33);
+    glEnd();
 
     for(int i=0;i<contactpoints.size();i++)
     {

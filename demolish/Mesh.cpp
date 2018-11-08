@@ -423,6 +423,7 @@ void demolish::Mesh::shiftMesh(iREAL centre[3])
     demolish::operators::shiftMesh(_xCoordinates,
                                    _yCoordinates,
                                    _zCoordinates,
+                                   _uniqueVertices,
                                    centre);
 }
 

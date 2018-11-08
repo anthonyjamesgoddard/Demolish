@@ -141,9 +141,11 @@ std::array<iREAL, 3> 					angular)
   // object such that the centre of mass is equal to 
   // location.
 
+  iREAL minusLocation[3] = {-_location[0],-_location[1],-_location[2]}; 
+
   
   mesh->shiftMesh(centerOfMass);
-
+  mesh->shiftMesh(minusLocation);
   //dimensions
   _wx = 0;
   _wy = 0;
