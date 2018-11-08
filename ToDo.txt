@@ -1,14 +1,7 @@
-FIRST WE NEED TO MAKE SURE THAT THE INDICES OF THE COLLISION POINT IS BEING UPDATED WHEN
-WE COLLIDE A MESHED OBJECT WITH A SPHERE!"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+We have fixed the bug. 
+We need to finish the implementation of the mesh-sphere interactions.
 
-THIS IS WHY ( ITHINK) OUR RESOLUTION ROUTINE IS NOT UPDATING WHEN WE COLLIDE TWO 
-OBJECTS THAT ARE NOT BOTH SPHERES!!!!!!!
+That is, we want to get to a stage where a sphere can
+properly interact with a meshed 3D object.
 
-We need to generalise the collison detection routine.
- That is, we need to look at updating the angular velocity
- of meshed objects when they collide with spheres.
-
- We should experiment with this in the current situation.
- The two balls and a slab situation.
-
-
+Changing its angular velocity etc.

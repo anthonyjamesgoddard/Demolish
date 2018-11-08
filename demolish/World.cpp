@@ -96,7 +96,7 @@ void demolish::World::updateWorld(float dt)
                                                                         true,
                                                                         _particles[meshIndex].getGlobalParticleId());
                if(contactpoints.size()>0)
-               {
+               { 
                    _contactpoints.push_back(contactpoints[0]);
                }
                continue;
