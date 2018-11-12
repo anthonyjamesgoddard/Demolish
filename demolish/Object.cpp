@@ -92,6 +92,16 @@ std::array<iREAL, 3> 					angular)
   this-> _mesh			= 	mesh;
 
 
+    this->_orientation[0] = 1.0;
+  this->_orientation[1] = 0;
+  this->_orientation[2] = 0;
+  this->_orientation[3] = 0;
+  this->_orientation[4] = 1.0;
+  this->_orientation[5] = 0;
+  this->_orientation[6] = 0;
+  this->_orientation[7] = 0;
+  this->_orientation[8] = 1.0;
+
   iREAL mass, centerOfMass[3], inertia[9], inverse[9];
 
   mesh->computeInertia(_material, mass, centerOfMass, inertia);
@@ -152,7 +162,10 @@ std::array<iREAL, 3> 					angular)
   _wz = 0;
 }
 
-//sphere object
+// ****************************************************
+//  sphere object
+// ****************************************************
+
 demolish::Object::Object(
 iREAL									rad,
 int                           			particleID,
@@ -367,6 +380,11 @@ bool demolish::Object::getIsFriction()
 std::array<iREAL, 9> demolish::Object::getInertia()
 {
   return _inertia;
+}
+
+std::array<iREAL, 9> demolish::Object::getOrientation()
+{
+    return _orientation;
 }
 
 void demolish::Object::setInertia(iREAL inertia[9])

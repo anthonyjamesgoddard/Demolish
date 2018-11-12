@@ -70,14 +70,6 @@ void DEMDriver::UpdateScene(std::vector<demolish::Object>& objects)
 
     for(int i=0;i<VAODynamic.size();i++)
     {
-        // this is going to need to change when the moving objects are
-        // no longer all spheres.
-        //
-        // Also, at the moment we are abusing the order in which they 
-        // appear. i.e we KNOW that moving object appear first
-        // and so this loop will work.
-        //
-
         geoGen.CreateSphere(objects[i].getRad(),
                             30,
                             30,
@@ -220,7 +212,8 @@ void DEMDriver::BuildBuffers(std::vector<demolish::Object>& objects)
             }
             else
             {
-
+                BuildDynamicSphereBuffer(o.getMesh());
+                dynamicCount++;
             }
         }
     }
@@ -321,6 +314,36 @@ void DEMDriver::BuildStaticMeshBuffer(demolish::Mesh* mesh)
     glNormalPointer(GL_FLOAT,sizeof(GLfloat)*11,(GLvoid*)(3*sizeof(GLfloat)));
 
     VBOStatic.push_back(std::make_pair(BUFFERS[0],BUFFERS[1]));
+}
+void DEMDriver::BuildDynamicMeshBuffer(demolish::Mesh*mesh)
+{ 
+    VAODynamic.push_back(0);
+    GLnix_glGenVertexArrays(1,&VAODynamic.back());
+    GeometryGenerator::MeshData meshObj;
+    geoGen.CreateMeshFromMesh(mesh,meshObj);
+    UINT BUFFERS[2];
+
+    VAOIndexCountsDynamic.push_back(meshObj.Indices.size());
+    GLnix_glGenBuffers(2,BUFFERS);
+    GLnix_glBindVertexArray(VAODynamic.back()); 
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_NORMAL_ARRAY);
+
+    GLnix_glBindBuffer(GL_ARRAY_BUFFER,BUFFERS[0]);
+    GLnix_glBufferData(GL_ARRAY_BUFFER,
+                       meshObj.Vertices.size()*sizeof(GLfloat)*11,
+                       &meshObj.Vertices.front(), GL_STATIC_DRAW);
+
+    GLnix_glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, BUFFERS[1]);
+    GLnix_glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+                       meshObj.Indices.size() * sizeof(UINT), 
+                       &meshObj.Indices.front(), GL_STATIC_DRAW);
+    
+    glVertexPointer(3, GL_FLOAT,sizeof(GLfloat)*11, 0); 
+    glNormalPointer(GL_FLOAT,sizeof(GLfloat)*11,(GLvoid*)(3*sizeof(GLfloat)));
+
+    VBODynamic.push_back(std::make_pair(BUFFERS[0],BUFFERS[1]));
 }
 
 

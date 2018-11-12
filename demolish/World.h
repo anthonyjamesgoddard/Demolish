@@ -13,7 +13,7 @@
 #include "resolution/sphere.h"
 #include "ContactPoint.h"
 #include "Object.h"
-
+#include "dynamics.h"
 
 namespace demolish{
 	class World;

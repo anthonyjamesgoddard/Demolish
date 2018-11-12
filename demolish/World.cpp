@@ -96,7 +96,7 @@ void demolish::World::updateWorld(float dt)
                                                                         true,
                                                                         _particles[meshIndex].getGlobalParticleId());
                if(contactpoints.size()>0)
-               { 
+               {
                    _contactpoints.push_back(contactpoints[0]);
                }
                continue;
@@ -115,81 +115,64 @@ void demolish::World::updateWorld(float dt)
 
     for(int i=0;i<_contactpoints.size();i++)
     {
-        if(_particles[_contactpoints[i].indexA].getIsSphere() && _particles[_contactpoints[i].indexB].getIsSphere())
+        std::array<iREAL, 3> force;
+        std::array<iREAL, 3> torq;
+        demolish::resolution::getContactForces(_contactpoints[i],
+                                               _particles[contactpoints[i].indexA].getLocation().data(),
+                                               _particles[contactpoints[i].indexA].getAngularVelocity().data(),
+                                               _particles[contactpoints[i].indexA].getLinearVelocity().data(),
+                                               _particles[contactpoints[i].indexA].getMass(),
+                                               _particles[contactpoints[i].indexA].getOrientation().data(),
+                                               _particles[contactpoints[i].indexA].getMaterial(),
+                                               _particles[contactpoints[i].indexB].getLocation().data(),
+                                               _particles[contactpoints[i].indexB].getAngularVelocity().data(),
+                                               _particles[contactpoints[i].indexB].getLinearVelocity().data(),
+                                               _particles[contactpoints[i].indexB].getMass(),
+                                               _particles[contactpoints[i].indexB].getOrientation().data(),
+                                               _particles[contactpoints[i].indexB].getMaterial(),
+                                               force,
+                                               torq,
+                                               (_particles[contactpoints[i].indexA].getIsSphere() && _particles[contactpoints[i].indexB].getIsSphere()));
+
+        
+                                                
+        if(!_particles[_contactpoints[i].indexA].getIsObstacle()) 
         {
-            iREAL forceMagnitude;
-            std::array<iREAL, 3> forceVector;
-            iREAL relativeVelocity[3];
-            auto velocityOfA = _particles[_contactpoints[i].indexA].getLinearVelocity();
-            auto velocityOfB = _particles[_contactpoints[i].indexB].getLinearVelocity();
-            auto massA       = _particles[_contactpoints[i].indexA].getMass();
-            auto massB       = _particles[_contactpoints[i].indexB].getMass();
+            std::array<iREAL, 3> newVelocityOfA = {velocityOfA[0] + dt*force[0]*(1/massA),
+                                                velocityOfA[1] + dt*force[1]*(1/massA),
+                                                velocityOfA[2] + dt*force[2]*(1/massA)};
+            _particles[_contactpoints[i].indexA].setLinearVelocity(newVelocityOfA);
 
-            relativeVelocity[0] = std::get<0>(velocityOfB)-std::get<0>(velocityOfA);
-            relativeVelocity[1] = std::get<1>(velocityOfB)-std::get<1>(velocityOfA);
-            relativeVelocity[2] = std::get<2>(velocityOfB)-std::get<2>(velocityOfA);
 
-            demolish::resolution::springSphere(_contactpoints[i].normal,
-                                               _contactpoints[i].distance,
-                                               relativeVelocity,
-                                               massA,
-                                               massB,
-                                               forceVector,
-                                               forceMagnitude);
-            // lets update the velocities and positions of the particles
-            // we have to reverse the vels right?
-            //
+            demolish::dynamics::updateAngular(_particles[_contactpoints[i].indexA].getAngularVelocity().data(),
+                                              _particles[_contactpoints[i].indexA].getOrientation().data(),
+                                              _particles[_contactpoints[i].indexA].getInertia().data(),
+                                              _particles[_contactpoints[i].indexA].getInverse().data(),
+                                              torque,
+                                              dt);
+
+        }
+        if(!_particles[_contactpoints[i].indexB].getIsObstacle()) 
+        {
+            std::array<iREAL, 3> newVelocityOfB = {velocityOfB[0] - dt*force[0]*(1/massB),
+                                                velocityOfB[1] - dt*force[1]*(1/massB),
+                                                velocityOfB[2] - dt*force[2]*(1/massB)};
+            _particles[_contactpoints[i].indexB].setLinearVelocity(newVelocityOfB);
             
-            // for each contact point we are going to update the position
-            // of each of the asociated with the contact points.
-            if(!_particles[_contactpoints[i].indexA].getIsObstacle()) 
-            {
-                std::array<iREAL, 3> newVelocityOfA = {velocityOfA[0] + dt*forceVector[0]*(1/massA),
-                                                    velocityOfA[1] + dt*forceVector[1]*(1/massA),
-                                                    velocityOfA[2] + dt*forceVector[2]*(1/massA)};
-                _particles[_contactpoints[i].indexA].setLinearVelocity(newVelocityOfA);
-            }
-            if(!_particles[_contactpoints[i].indexB].getIsObstacle()) 
-            {
-                std::array<iREAL, 3> newVelocityOfB = {velocityOfB[0] - dt*forceVector[0]*(1/massB),
-                                                    velocityOfB[1] - dt*forceVector[1]*(1/massB),
-                                                    velocityOfB[2] - dt*forceVector[2]*(1/massB)};
-                _particles[_contactpoints[i].indexB].setLinearVelocity(newVelocityOfB);
-            } 
-            continue;
-        }
-        if(_particles[_contactpoints[i].indexA].getIsSphere() || _particles[_contactpoints[i].indexB].getIsSphere())
-        {
-           std::cout << "The Other Kind" << std::endl; 
-        }
-        // the only case left is that
+            
+            demolish::dynamics::updateAngular(_particles[_contactpoints[i].indexB].getAngularVelocity().data(),
+                                              _particles[_contactpoints[i].indexB].getOrientation().data(),
+                                              _particles[_contactpoints[i].indexB].getInertia().data(),
+                                              _particles[_contactpoints[i].indexB].getInverse().data(),
+                                              torque,
+                                              dt);
+        } 
+        continue;
 
-
-    }
-    iREAL gravity = 9.8;
-    // acceleration due to gravity
-    for(int i=0;i<_particles.size();i++)
-    {
-        if(_particles[i].getIsObstacle()) continue;
-        auto vel = _particles[i].getLinearVelocity();
-        std::array<iREAL, 3> newpos = {vel[0], 
-                                       vel[1] - gravity*dt,
-                                       vel[2]};
-
-        _particles[i].setLinearVelocity(newpos);
-    }
-    // integrate velocity
-    for(int i=0;i<_particles.size();i++)
-    {
-        auto vel = _particles[i].getLinearVelocity();
-        auto pos = _particles[i].getLocation();
-        std::array<iREAL, 3> newpos = {pos[0] + vel[0]*dt,
-                                       pos[1] + vel[1]*dt,
-                                       pos[2] + vel[2]*dt};
-
-        _particles[i].setLocation(newpos);
     }
     
+
+    // the contents of delta's Engine::updatePosition() method goes here... essentially
 }
                 
 std::vector<demolish::Object> demolish::World::getObjects()

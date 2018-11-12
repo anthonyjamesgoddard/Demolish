@@ -27,15 +27,13 @@ void demolish::resolution::spring(
     iREAL vij[3],
     iREAL positionASpatial[3],
     iREAL positionBSpatial[3],
-    iREAL positionAReferential[3],
-    iREAL positionBReferential[3],
     iREAL massA,
     iREAL massB,
     iREAL rotationA[9],
     iREAL rotationB[9],
     iREAL inverseA[9],
     iREAL inverseB[9],
-    iREAL f[3],
+    std::array<iREAL, 3>& f,
     iREAL &forc)
 {
   //RefConPoint = Rotation^T *(spatial contact point - spatial centre) + RefCentre;
@@ -45,67 +43,42 @@ void demolish::resolution::spring(
   conptSubPosition[1] = conpnt[1] - positionASpatial[1];
   conptSubPosition[2] = conpnt[2] - positionASpatial[2];
 
-  refconptA[0] = (conptSubPosition[0]*rotationA[0] + conptSubPosition[1]*rotationA[1] + conptSubPosition[2]*rotationA[2])+positionAReferential[0];
-  refconptA[1] = (conptSubPosition[0]*rotationA[3] + conptSubPosition[1]*rotationA[4] + conptSubPosition[2]*rotationA[5])+positionAReferential[1];
-  refconptA[2] = (conptSubPosition[0]*rotationA[6] + conptSubPosition[1]*rotationA[7] + conptSubPosition[2]*rotationA[8])+positionAReferential[2];
+  refconptA[0] = (conptSubPosition[0]*rotationA[0] + conptSubPosition[1]*rotationA[1] + conptSubPosition[2]*rotationA[2])+positionASpatial[0];
+  refconptA[1] = (conptSubPosition[0]*rotationA[3] + conptSubPosition[1]*rotationA[4] + conptSubPosition[2]*rotationA[5])+positionASpatial[1];
+  refconptA[2] = (conptSubPosition[0]*rotationA[6] + conptSubPosition[1]*rotationA[7] + conptSubPosition[2]*rotationA[8])+positionASpatial[2];
 
 
   conptSubPosition[0] = conpnt[0] - positionBSpatial[0];
   conptSubPosition[1] = conpnt[1] - positionBSpatial[1];
   conptSubPosition[2] = conpnt[2] - positionBSpatial[2];
 
-  /*std::cout << "conpnt:" << std::fixed << std::setprecision(10)
-                             << conpnt[0] << " " << std::fixed << std::setprecision(10)
-                             << conpnt[1] << " " << std::fixed << std::setprecision(10)
-                             << conpnt[2] << " " << std::fixed << std::setprecision(10) << std::endl;
-  std::cout << "positionBSpatial:" << std::fixed << std::setprecision(10)
-                             << positionBSpatial[0] << " " << std::fixed << std::setprecision(10)
-                             << positionBSpatial[1] << " " << std::fixed << std::setprecision(10)
-                             << positionBSpatial[2] << " " << std::fixed << std::setprecision(10) << std::endl;*/
-  /*
-	std::cout << "conptSubPosition:" << std::fixed << std::setprecision(10)
-	                           << conptSubPosition[0] << " " << std::fixed << std::setprecision(10)
-	                           << conptSubPosition[1] << " " << std::fixed << std::setprecision(10)
-	                           << conptSubPosition[2] << " " << std::fixed << std::setprecision(10) << std::endl;*/
 
   refconptB[0] = (conptSubPosition[0]*rotationB[0] + conptSubPosition[1]*rotationB[1] + conptSubPosition[2]*rotationB[2])+positionBReferential[0];
   refconptB[1] = (conptSubPosition[0]*rotationB[3] + conptSubPosition[1]*rotationB[4] + conptSubPosition[2]*rotationB[5])+positionBReferential[1];
   refconptB[2] = (conptSubPosition[0]*rotationB[6] + conptSubPosition[1]*rotationB[7] + conptSubPosition[2]*rotationB[8])+positionBReferential[2];
 
-  //H_N is a 1x6 matrix; n^T is a 1x3 "matrix" (normal vector transposed);
-  //[Rotation*(RefCentre-RefConPnt)   Identity] is a 3x6 matrix; 1x3 * 3x6 = 1x6;
   iREAL rPositionContactPnti[9];//3x3
   iREAL rPositionContactPntj[9];
 
-  rPositionContactPnti[0] = 0.0;										                rPositionContactPnti[3] = -positionAReferential[2]-refconptA[2];  rPositionContactPnti[6] = positionAReferential[1]-refconptA[1];
-  rPositionContactPnti[1] = positionAReferential[2]-refconptA[2];		rPositionContactPnti[4] = 0.0;									                  rPositionContactPnti[7] = -positionAReferential[0]-refconptA[0];
-  rPositionContactPnti[2] = -positionAReferential[1]-refconptA[1];	rPositionContactPnti[5] = positionAReferential[0]-refconptA[0];	  rPositionContactPnti[8] = 0.0;
+  rPositionContactPnti[0] = 0.0;
+  rPositionContactPnti[3] = -positionASpatial[2]-refconptA[2];
+  rPositionContactPnti[6] = positionASpatial[1]-refconptA[1];
+  rPositionContactPnti[1] = positionASpatial[2]-refconptA[2];
+  rPositionContactPnti[4] = 0.0;
+  rPositionContactPnti[7] = -positionASpatial[0]-refconptA[0];
+  rPositionContactPnti[2] = -positionASpatial[1]-refconptA[1];
+  rPositionContactPnti[5] = positionASpatial[0]-refconptA[0];
+  rPositionContactPnti[8] = 0.0;
+  rPositionContactPntj[0] = 0.0;
+  rPositionContactPntj[3] = -positionBReferential[2]-refconptB[2];
+  rPositionContactPntj[6] = positionBReferential[1]-refconptB[1];
+  rPositionContactPntj[1] = positionBReferential[2]-refconptB[2];
+  rPositionContactPntj[4] = 0.0;
+  rPositionContactPntj[7] = -positionBReferential[0]-refconptB[0];
+  rPositionContactPntj[2] = -positionBReferential[1]-refconptB[1];
+  rPositionContactPntj[5] = positionBReferential[0]-refconptB[0];	
+  rPositionContactPntj[8] = 0.0;
 
-  rPositionContactPntj[0] = 0.0;										                rPositionContactPntj[3] = -positionBReferential[2]-refconptB[2];  rPositionContactPntj[6] = positionBReferential[1]-refconptB[1];
-  rPositionContactPntj[1] = positionBReferential[2]-refconptB[2];		rPositionContactPntj[4] = 0.0;									                  rPositionContactPntj[7] = -positionBReferential[0]-refconptB[0];
-  rPositionContactPntj[2] = -positionBReferential[1]-refconptB[1];	rPositionContactPntj[5] = positionBReferential[0]-refconptB[0];	  rPositionContactPntj[8] = 0.0;
-
-  /*std::cout << "positionBReferential:" << std::fixed << std::setprecision(10)
-						 << positionBReferential[0] << " " << std::fixed << std::setprecision(10)
-						 << positionBReferential[1] << " " << std::fixed << std::setprecision(10)
-						 << positionBReferential[2] << " " << std::fixed << std::setprecision(10) << std::endl;
-
-  std::cout << "refconptB:" << std::fixed << std::setprecision(10)
-						   << refconptB[0] << " " << std::fixed << std::setprecision(10)
-						   << refconptB[1] << " " << std::fixed << std::setprecision(10)
-						   << refconptB[2] << " " << std::fixed << std::setprecision(10) << std::endl;*/
-
-  /*std::cout << "rPositionContactPntj:" << std::fixed << std::setprecision(10)
-					 << rPositionContactPntj[0] << " " << std::fixed << std::setprecision(10)
-					 << rPositionContactPntj[1] << " " << std::fixed << std::setprecision(10)
-					 << rPositionContactPntj[2] << " " << std::fixed << std::setprecision(10)
-					 << rPositionContactPntj[3] << " " << std::fixed << std::setprecision(10)
-					 << rPositionContactPntj[4] << " " << std::fixed << std::setprecision(10)
-					 << rPositionContactPntj[5] << " " << std::fixed << std::setprecision(10)
-					 << rPositionContactPntj[6] << " " << std::fixed << std::setprecision(10)
-					 << rPositionContactPntj[7] << " " << std::fixed << std::setprecision(10)
-					 << rPositionContactPntj[8] << " " << std::fixed << std::setprecision(10) << std::endl;
-*/
 
   iREAL RIi[18];//[Rotation*(RefCentre-RefConPnt)   Identity]
   iREAL RIj[18];
@@ -127,9 +100,6 @@ void demolish::resolution::spring(
   iREAL Hi_n[6];
   iREAL Hj_n[6];
 
-  //RIi[0];RIi[3];RIi[6];RIi[9];RIi[12];RIi[15];
-  //RIi[1];RIi[4];RIi[7];RIi[10];RIi[13];RIi[16];
-  //RIi[2];RIi[5];RIi[8];RIi[11];RIi[14];RIi[17];
 
   Hi_n[0] = normal[0]*RIi[0] + normal[1]*RIi[1] + normal[2]*RIi[2];
   Hi_n[1] = normal[0]*RIi[3] + normal[1]*RIi[4] + normal[2]*RIi[5];
@@ -171,23 +141,6 @@ void demolish::resolution::spring(
   Hi[4] = Hi_n[0]*ui[24] + Hi_n[1]*ui[25] + Hi_n[2]*ui[26] + Hi_n[3]*ui[27] + Hi_n[4]*ui[28] + Hi_n[5]*ui[29];
   Hi[5] = Hi_n[0]*ui[30] + Hi_n[1]*ui[31] + Hi_n[2]*ui[32] + Hi_n[3]*ui[33] + Hi_n[4]*ui[34] + Hi_n[5]*ui[35];
 
-  /*std::cout << "Hj_n:" << std::fixed << std::setprecision(10)
-					   << Hj_n[0] << " " << std::fixed << std::setprecision(10)
-					   << Hj_n[1] << " " << std::fixed << std::setprecision(10)
-					   << Hj_n[2] << " " << std::fixed << std::setprecision(10)
-					   << Hj_n[3] << " " << std::fixed << std::setprecision(10)
-					   << Hj_n[4] << " " << std::fixed << std::setprecision(10)
-					   << Hj_n[5] << " " << std::fixed << std::setprecision(10) << std::endl;
-
-  std::cout << "uj:" << std::fixed << std::setprecision(10)
-					 << uj[0] << " " << std::fixed << std::setprecision(10)
-					 << uj[1] << " " << std::fixed << std::setprecision(10)
-					 << uj[2] << " " << std::fixed << std::setprecision(10)
-					 << uj[3] << " " << std::fixed << std::setprecision(10)
-					 << uj[4] << " " << std::fixed << std::setprecision(10)
-					 << uj[5] << " " << std::fixed << std::setprecision(10) << std::endl;*/
-
-
   Hj[0] = Hj_n[0]*uj[0] + Hj_n[1]*uj[1] + Hj_n[2]*uj[2] + Hj_n[3]*uj[3] + Hj_n[4]*uj[4] + Hj_n[5]*uj[5];
   Hj[1] = Hj_n[0]*uj[6] + Hj_n[1]*uj[7] + Hj_n[2]*uj[8] + Hj_n[3]*uj[9] + Hj_n[4]*uj[10] + Hj_n[5]*uj[11];
   Hj[2] = Hj_n[0]*uj[12] + Hj_n[1]*uj[13] + Hj_n[2]*uj[14] + Hj_n[3]*uj[15] + Hj_n[4]*uj[16] + Hj_n[5]*uj[17];
@@ -195,15 +148,9 @@ void demolish::resolution::spring(
   Hj[4] = Hj_n[0]*uj[24] + Hj_n[1]*uj[25] + Hj_n[2]*uj[26] + Hj_n[3]*uj[27] + Hj_n[4]*uj[28] + Hj_n[5]*uj[29];
   Hj[5] = Hj_n[0]*uj[30] + Hj_n[1]*uj[31] + Hj_n[2]*uj[32] + Hj_n[3]*uj[33] + Hj_n[4]*uj[34] + Hj_n[5]*uj[35];
 
-  //std::cout << "Hi:" << std::fixed << std::setprecision(10) << Hi[0] << " " << std::fixed << std::setprecision(10) << Hi[1] << " " << std::fixed << std::setprecision(10) << Hi[2] << " " << std::fixed << std::setprecision(10) << Hi[3] << " " << std::fixed << std::setprecision(10) << Hi[4] << " " << std::fixed << std::setprecision(10) << Hi[5] << std::endl;
-//std::cout << "Hj:" << std::fixed << std::setprecision(10) << Hj[0] << " " << std::fixed << std::setprecision(10) << Hj[1] << " " << std::fixed << std::setprecision(10) << Hj[2] << " " << std::fixed << std::setprecision(10) << Hj[3] << " " << std::fixed << std::setprecision(10) << Hj[4] << " " << std::fixed << std::setprecision(10) << Hj[5] << std::endl;
-
   iREAL W_NN = (Hi[0]*Hi_n[0] + Hi[1]*Hi_n[1] + Hi[2]*Hi_n[2] + Hi[3]*Hi_n[3] + Hi[4]*Hi_n[4] + Hi[5]*Hi_n[5]) +
 				   (Hj[0]*Hj_n[0] + Hj[1]*Hj_n[1] + Hj[2]*Hj_n[2] + Hj[3]*Hj_n[3] + Hj[4]*Hj_n[4] + Hj[5]*Hj_n[5]);
 
-  //ma = 1.0/2000.0; //the lower ma (the higher the W_NN > 1000), the more energy is dampped
-
-  //ma = 1.0/W_NN;
 
   iREAL ma = 1.0/((1.0/massA) + (1.0/massB));
 
@@ -218,10 +165,6 @@ void demolish::resolution::spring(
   f[2] = force*normal[2];
 
   forc = force;
-
-  #ifdef CONTACTSTATS
-  std::cout << ", damp=" << std::fixed << std::setprecision(10) << damp << ", 1/W_NN=" << std::fixed << std::setprecision(10) << ma << std::endl;
-  #endif
 }
 
 
@@ -244,16 +187,6 @@ void demolish::resolution::friction(
     friction[0] =  -vt[0]*SFRICTIONGOLD*force;
     friction[1] =  -vt[1]*SFRICTIONGOLD*force;
     friction[2] =  -vt[2]*SFRICTIONGOLD*force;
-    /*if(materialA == int(demolish::geometry::material::MaterialType::GOLD) || materialB == int(demolish::geometry::material::MaterialType::GOLD))
-      {
-      friction[0] =  -vt[0]*SFRICTIONGOLD*force;
-      friction[1] =  -vt[1]*SFRICTIONGOLD*force;
-      friction[2] =  -vt[2]*SFRICTIONGOLD*force;
-    } else {
-      friction[0] =  -vt[0]*SFRICTIONWOOD*force;
-      friction[1] =  -vt[1]*SFRICTIONWOOD*force;
-      friction[2] =  -vt[2]*SFRICTIONWOOD*force;
-    }*/
   } else {
     friction[0] =  -vt[0]*FRICTION*force;
     friction[1] =  -vt[1]*FRICTION*force;
@@ -262,11 +195,9 @@ void demolish::resolution::friction(
 }
 
 void demolish::resolution::getContactsForces(
-  std::vector<demolish::ContactPoint> &conpnt,
+  demolish::ContactPoint &conpnt,
   iREAL positionASpatial[3],
-  iREAL positionAReferential[3],
   iREAL angularA[3],
-  iREAL refAngularA[3],
   iREAL linearA[3],
   iREAL massA,
   iREAL inverseA[9],
@@ -274,28 +205,24 @@ void demolish::resolution::getContactsForces(
   int   materialA,
 
   iREAL positionBSpatial[3],
-  iREAL positionBReferential[3],
   iREAL angularB[3],
-  iREAL refAngularB[3],
   iREAL linearB[3],
   iREAL massB,
   iREAL inverseB[9],
   iREAL rotationB[9],
   int   materialB,
 
-  iREAL force[3],
-  iREAL torque[3],
+  std::array<iREAL, 3>& force,
+  std::array<iREAL, 3>& torque,
   bool  isSphere)
 {
 
-  for(unsigned int k = 0; k<conpnt.size(); k++)
-  {
     iREAL z[3], vi[3], vj[3], vij[3];
 
     //contact point - position i
-    z[0] = conpnt[k].x[0]-positionASpatial[0];
-    z[1] = conpnt[k].x[1]-positionASpatial[1];
-    z[2] = conpnt[k].x[2]-positionASpatial[2];
+    z[0] = conpnt.x[0]-positionASpatial[0];
+    z[1] = conpnt.x[1]-positionASpatial[1];
+    z[2] = conpnt.x[2]-positionASpatial[2];
 
     //cross product - relative angular i to contact point plus linear i
     vi[0] = angularA[1]*z[2]-angularA[2]*z[1] + linearA[0];
@@ -303,9 +230,9 @@ void demolish::resolution::getContactsForces(
     vi[2] = angularA[0]*z[1]-angularA[1]*z[0] + linearA[2];
 
     //contact point - position j
-    z[0] = conpnt[k].x[0]-positionBSpatial[0];
-    z[1] = conpnt[k].x[1]-positionBSpatial[1];
-    z[2] = conpnt[k].x[2]-positionBSpatial[2];
+    z[0] = conpnt.x[0]-positionBSpatial[0];
+    z[1] = conpnt.x[1]-positionBSpatial[1];
+    z[2] = conpnt.x[2]-positionBSpatial[2];
 
     //cross product - relative angular j to contact point plus linear j
     vj[0] = angularB[1]*z[2]-angularB[2]*z[1] + linearB[0];
@@ -319,52 +246,43 @@ void demolish::resolution::getContactsForces(
 
     iREAL f[] = {0.0, 0.0, 0.0}, friction[] = {0.0, 0.0, 0.0}, forc;
 
+
     if(isSphere)
     {
-      demolish::resolution::springSphere(conpnt[k].normal, conpnt[k].depth, vij, massA, massB, f, forc);
+      demolish::resolution::springSphere(conpnt.normal, conpnt.depth, vij, massA, massB, f, forc);
     } else {
-      demolish::resolution::spring(conpnt[k].normal, conpnt[k].x, conpnt[k].depth, vij,
-                                  positionASpatial, positionBSpatial,
-                                  positionAReferential, positionBReferential, massA, massB,
-                                  rotationA, rotationB, inverseA, inverseB, f, forc);
+      demolish::resolution::spring(conpnt.normal, conpnt.x, conpnt.depth, vij,
+                                  positionASpatial,
+                                  massA,
+                                  massB,
+                                  rotationA,
+                                  rotationB,
+                                  inverseA,
+                                  inverseB,
+                                  f, forc);
     }
 
-    if(conpnt[k].friction)
-      demolish::resolution::friction(conpnt[k].normal, vi, forc, friction, materialA, materialB, isSphere);
 
-    //accumulate force
-    force[0] += f[0] + friction[0];
-    force[1] += f[1] + friction[1];
-    force[2] += f[2] + friction[2];
-
-    iREAL arm[3];
-    //contact-position = arm
-    arm[0] = conpnt[k].x[0]-positionASpatial[0];
-    arm[1] = conpnt[k].x[1]-positionASpatial[1];
-    arm[2] = conpnt[k].x[2]-positionASpatial[2];
-
-    //cross product accumulate torque
-    torque[0] += arm[1]*(f[2]) - arm[2]*(f[1]);
-    torque[1] += arm[2]*(f[0]) - arm[0]*(f[2]);
-    torque[2] += arm[0]*(f[1]) - arm[1]*(f[0]);
-
-    if(isSphere)
+    if(conpnt.friction)
     {
-      //relative angular velocities
-      /*vij[0] = angularA[0] - angularB[0];
-      vij[1] = angularA[1] - angularB[1];
-      vij[2] = angularA[2] - angularB[2];
-       */
-      iREAL w = std::abs(sqrt(vij[0]*vij[0]+vij[1]*vij[1]+vij[2]*vij[2]));
-      //printf("W:%f | wij: %f %f %f\n", w, vij[0], vij[1], vij[2]);
+        demolish::resolution::friction(conpnt.normal, vi, forc, friction, materialA, materialB, isSphere);
 
-      if(w>0.0)
-      {
-        /*torque[0] += -(vij[0]/w)*SFRICTIONROLLING*forc;
-        torque[1] += -(vij[1]/w)*SFRICTIONROLLING*forc;
-        torque[2] += -(vij[2]/w)*SFRICTIONROLLING*forc;*/
-      }
+        //accumulate force
+        force[0] += f[0] + friction[0];
+        force[1] += f[1] + friction[1];
+        force[2] += f[2] + friction[2];
+
+        iREAL arm[3];
+        //contact-position = arm
+        arm[0] = conpnt.x[0]-positionASpatial[0];
+        arm[1] = conpnt.x[1]-positionASpatial[1];
+        arm[2] = conpnt.x[2]-positionASpatial[2];
+
+        //cross product accumulate torque
+        torque[0] += arm[1]*(f[2]) - arm[2]*(f[1]);
+        torque[1] += arm[2]*(f[0]) - arm[0]*(f[2]);
+        torque[2] += arm[0]*(f[1]) - arm[1]*(f[0]);
     }
-  }
+  
 }
 

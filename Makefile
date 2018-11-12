@@ -21,7 +21,8 @@ OBJS = demolish/demolish.o \
 	   demolish/detection/sphere.o \
 	   demolish/detection/point.o \
 	   demolish/resolution/sphere.o\
-       
+	   demolish/resolution/dynamics.o\
+	   demolish/resolution/forces.o\
        
 CFLAGS = -fPIC -std=c++17
 LDFLAGS=-lm -lX11 -lGL -lGLU -lXext -lXrender

@@ -176,6 +176,16 @@ class demolish::Object
 	 *  @param none
 	 *  @returns inverse
 	 */
+
+
+    /*
+     * gets the orientation
+     *
+     *
+     *
+     */
+    std::array<iREAL, 9> getOrientation();
+
     std::array<iREAL, 9> getInverse();
 
 	/*
@@ -310,6 +320,7 @@ class demolish::Object
     bool                  	_isConvex;
     bool                    _isSphere;
 
+    std::array<iREAL, 9>    _orientation;
     std::array<iREAL, 9> 	_inertia;
     std::array<iREAL, 9> 	_inverse;
 

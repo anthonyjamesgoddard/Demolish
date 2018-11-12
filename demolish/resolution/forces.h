@@ -4,6 +4,7 @@
 #include <iostream>
 #include <iomanip>
 #include <limits>
+#include <array>
 
 #ifndef _DELTA_FORCES_H_
 #define _DELTA_FORCES_H_
@@ -54,8 +55,6 @@ namespace demolish {
 		  iREAL vij[3],
 		  iREAL positionASpatial[3],
 		  iREAL positionBSpatial[3],
-		  iREAL positionAReferential[3],
-		  iREAL positionBReferential[3],
 
 		  iREAL massA,
 		  iREAL massB,
@@ -63,7 +62,7 @@ namespace demolish {
 		  iREAL rotationB[9],
 		  iREAL inverseA[9],
 		  iREAL inverseB[9],
-		  iREAL f[3],
+		  std::array<iREAL, 3>& f,
 		  iREAL &forc);
 
 
@@ -120,9 +119,7 @@ namespace demolish {
 	  void getContactsForces(
 		std::vector<demolish::ContactPoint> &conpnt,
 		iREAL positionASpatial[3],
-		iREAL positionAReferential[3],
 		iREAL angularA[3],
-		iREAL refAngularA[3],
 		iREAL linearA[3],
 		iREAL massA,
 		iREAL inverseA[9],
@@ -130,9 +127,7 @@ namespace demolish {
 		int   materialA,
 
 		iREAL positionB[3],
-		iREAL positionBReferential[3],
 		iREAL angularB[3],
-		iREAL refAngularB[3],
 		iREAL linearB[3],
 		iREAL massB,
 		iREAL inverseB[9],

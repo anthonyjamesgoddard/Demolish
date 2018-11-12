@@ -22,6 +22,7 @@ public:
 
 private:
     void BuildDynamicSphereBuffer(float radius,std::array<iREAL,3> position,int counter);
+    void BuildDynamicMeshBuffer(demolish::Mesh* mesh);
     void BuildStaticSphereBuffer(float radius,std::array<iREAL,3> position,int counter);
     void BuildStaticMeshBuffer(demolish::Mesh* mesh);
 public:

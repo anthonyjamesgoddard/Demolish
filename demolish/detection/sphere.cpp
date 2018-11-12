@@ -122,6 +122,7 @@ std::vector<demolish::ContactPoint> demolish::detection::sphereWithMesh(
     newContactPoint.indexA = particleA;
     newContactPoint.indexB = particleB;
     result.push_back( newContactPoint );
+    break;
 	
   }
   return result;

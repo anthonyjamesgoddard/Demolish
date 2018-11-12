@@ -1,7 +1,7 @@
-We have fixed the bug. 
-We need to finish the implementation of the mesh-sphere interactions.
+We are working on mesh-mesh collisions.
 
-That is, we want to get to a stage where a sphere can
-properly interact with a meshed 3D object.
+We are currently getting the visualisation engine to deal with
+dynamic meshed objects and are implementing a basic mesh-mesh
+collision scheme.
 
-Changing its angular velocity etc.
+WE HAVE NOT COMPILED AND CHECKED FOR BUGS.
