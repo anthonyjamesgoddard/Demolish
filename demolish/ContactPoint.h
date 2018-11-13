@@ -109,10 +109,10 @@ struct demolish::ContactPoint {
     const iREAL&     epsilonA,
     const iREAL&     epsilonB,
 
-    const int        particleA,
-    const int        particleB,
+    const int&        particleA,
+    const int&        particleB,
 
-    bool             fric
+    bool            fric
     );
 
 };

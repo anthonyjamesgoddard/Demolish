@@ -14,14 +14,15 @@ int main() {
 
   iREAL lowY = -10.0;
   iREAL highY = 1.0;
-  demolish::Vertex A(-50.0,highY,50.0);
-  demolish::Vertex B(-50.0,highY,-50.0);
-  demolish::Vertex C(50.0,highY,-50.0);
-  demolish::Vertex D(50.0,highY,50.0);
-  demolish::Vertex E(-50.0,lowY,50.0);
-  demolish::Vertex F(-50.0,lowY,-50.0);
-  demolish::Vertex G(50.0,lowY,-50.0);
-  demolish::Vertex H(50.0,lowY,50.0);
+  iREAL size = 10;
+  demolish::Vertex A(-size,highY,size);
+  demolish::Vertex B(-size,highY,-size);
+  demolish::Vertex C(size,highY,-size);
+  demolish::Vertex D(size,highY,size);
+  demolish::Vertex E(-size,lowY,size);
+  demolish::Vertex F(-size,lowY,-size);
+  demolish::Vertex G(size,lowY,-size);
+  demolish::Vertex H(size,lowY,size);
   std::array<int,3> tri1 = {0,1,2};
   std::array<int,3> tri2 = {2,3,0};
   std::array<int,3> tri3 = {4,6,5};
@@ -68,7 +69,7 @@ int main() {
   demolish::Object cuboid1(
                         0,
                         &m1,
-                        centre,
+                        location,
                         demolish::material::MaterialType::WOOD,
                         false, 
                         true,  
@@ -78,13 +79,13 @@ int main() {
                         angular);
 
   demolish::Mesh m2(meshTriangles,meshVertices);
-  location = {0,-10,0};
-  linear   = {0,1,0};
+  location = {10,-50,0};
+  linear   = {0,10,0};
   angular  = {0,0,0};
   demolish::Object cuboid2(
-                        0,
+                        1,
                         &m2,
-                        centre,
+                        location,
                         demolish::material::MaterialType::WOOD,
                         false,
                         true, 
@@ -98,6 +99,7 @@ int main() {
   std::vector<demolish::Object> objz;
   objz.push_back(cuboid1);
   objz.push_back(cuboid2);
+    
 
   demolish::World aworld(objz);
   aworld.runSimulation();

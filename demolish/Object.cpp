@@ -308,6 +308,12 @@ iREAL demolish::Object::getDiameter()
   return _rad*2;
 }
 
+
+void demolish::Object::setOrientation(std::array<iREAL, 9>& orientation)
+{
+    _orientation = orientation;
+}
+
 std::array<iREAL, 3> demolish::Object::getLocation()
 {
   return _location;

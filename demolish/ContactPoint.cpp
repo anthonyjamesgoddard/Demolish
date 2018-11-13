@@ -80,7 +80,7 @@ demolish::ContactPoint::ContactPoint(
 
   const iREAL&      epsilonA,
   const iREAL&      epsilonB,
-  bool              fric
+   bool             fric
 ):
   indexA(-1),
   indexB(-1) {
@@ -118,10 +118,10 @@ demolish::ContactPoint::ContactPoint(
   const iREAL&      epsilonA,
   const iREAL&      epsilonB,
 
-  const int         particleA,
-  const int         particleB,
+  const int        &particleA,
+  const int        &particleB,
 
-  bool              fric
+  bool             fric
 ):
   indexA(particleA),
   indexB(particleB) {

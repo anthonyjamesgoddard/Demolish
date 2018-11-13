@@ -84,7 +84,7 @@ namespace demolish {
 		  iREAL normal[3],
 		  iREAL vi[3],
 		  iREAL force,
-		  iREAL friction[3],
+		  std::array<iREAL,3>& friction,
 		  int materialA,
 		  int materialB,
 		  bool isSphere);

@@ -185,6 +185,7 @@ class demolish::Object
      *
      */
     std::array<iREAL, 9> getOrientation();
+    void setOrientation(std::array<iREAL, 9>& orientation);
 
     std::array<iREAL, 9> getInverse();
 

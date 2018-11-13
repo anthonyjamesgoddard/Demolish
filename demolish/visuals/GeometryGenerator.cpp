@@ -261,17 +261,17 @@ void GeometryGenerator::CreateGrid(float width, float depth, UINT m, UINT n, Mes
 
 void GeometryGenerator::CreateMeshFromMesh(demolish::Mesh* mesh, MeshData& meshData)
 {
+    meshData.Vertices.clear();
+    meshData.Indices.clear();
+
     std::vector<demolish::Vertex> normals;
     auto verts = mesh->getVertices();
     auto triangles = mesh->getTriangles();
     std::vector<Vertex> mdvs(verts.size());
+    
 
     for(int i=0;i<triangles.size();i++)
     {
-
-        // change this to use the x,y,z coordinates directly...
-        // it will be faster!
-        
         auto normal = demolish::cross(verts[triangles[i][1]]-verts[triangles[i][0]],
                                           verts[triangles[i][2]]-verts[triangles[i][0]]);
 
@@ -303,8 +303,7 @@ void GeometryGenerator::CreateMeshFromMesh(demolish::Mesh* mesh, MeshData& meshD
         meshData.Indices.push_back(triangles[i][0]);
         meshData.Indices.push_back(triangles[i][2]);
         meshData.Indices.push_back(triangles[i][1]);
-        
-
+       
         
     }
    

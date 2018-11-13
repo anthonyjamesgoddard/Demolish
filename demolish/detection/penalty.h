@@ -4,7 +4,6 @@
 #include <float.h>
 #include "../algo.h"
 
-#define MaxNumberOfNewtonIterations 16
 
 namespace demolish {
     namespace detection {

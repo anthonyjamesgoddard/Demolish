@@ -29,6 +29,7 @@ int demolish::World::runSimulation()
         _visuals.setContactPoints(_contactpoints);
         _visuals.UpdateScene(_particles);
     }
+    
     return 1;
 }
 
@@ -45,6 +46,7 @@ void demolish::World::updateWorld(float dt)
    {
        for(int j=i+1;j<_particles.size();j++)
        {
+           std::cout << "No problems here" << std::endl;
            if(_particles[i].getIsSphere() && _particles[j].getIsSphere())
            {
                auto locationi = _particles[i].getLocation();
@@ -102,6 +104,10 @@ void demolish::World::updateWorld(float dt)
                continue;
            }
 
+
+            
+         
+            std::cout << "penalty run begin " << std::endl;
            auto cntpnts = demolish::detection::penalty(
                           _particles[i].getMesh()->getXCoordinates(),
                           _particles[i].getMesh()->getYCoordinates(),
@@ -117,11 +123,14 @@ void demolish::World::updateWorld(float dt)
                           _particles[j].getEpsilon(),
                           _particles[j].getIsFriction(),
                           _particles[j].getGlobalParticleId());
-
+           
+            std::cout << "penalty run succ. " << std::endl;
            if(cntpnts.size()>0)
            {
                _contactpoints.push_back(cntpnts[0]);
            }
+
+           
         }
     }
 
@@ -154,7 +163,7 @@ void demolish::World::updateWorld(float dt)
                                                torq,
                                                (_particles[_contactpoints[i].indexA].getIsSphere() && _particles[_contactpoints[i].indexB].getIsSphere()));
 
-        
+        iREAL gravity = 9.8;
                                                 
         if(!_particles[_contactpoints[i].indexA].getIsObstacle()) 
         {
@@ -162,18 +171,19 @@ void demolish::World::updateWorld(float dt)
             auto massA = _particles[_contactpoints[i].indexA].getMass();
 
             std::array<iREAL, 3> newVelocityOfA = {velocityOfA[0] + dt*force[0]*(1/massA),
-                                                velocityOfA[1] + dt*force[1]*(1/massA),
+                                                velocityOfA[1] + dt*force[1]*(1/massA) - gravity*dt,
                                                 velocityOfA[2] + dt*force[2]*(1/massA)};
             _particles[_contactpoints[i].indexA].setLinearVelocity(newVelocityOfA);
 
-
-            demolish::dynamics::updateAngular(_particles[_contactpoints[i].indexA].getAngularVelocity().data(),
+            auto ang =  _particles[_contactpoints[i].indexB].getAngularVelocity();
+            demolish::dynamics::updateAngular(ang.data(),
                                               _particles[_contactpoints[i].indexA].getOrientation().data(),
                                               _particles[_contactpoints[i].indexA].getInertia().data(),
                                               _particles[_contactpoints[i].indexA].getInverse().data(),
                                               torq.data(),
                                               dt);
 
+            _particles[_contactpoints[i].indexA].setAngularVelocity(ang);
         }
         if(!_particles[_contactpoints[i].indexB].getIsObstacle()) 
         {
@@ -181,24 +191,50 @@ void demolish::World::updateWorld(float dt)
             auto massB     = _particles[_contactpoints[i].indexB].getMass();
 
             std::array<iREAL, 3> newVelocityOfB = {velocityOfB[0] - dt*force[0]*(1/massB),
-                                                velocityOfB[1] - dt*force[1]*(1/massB),
+                                                velocityOfB[1] - dt*force[1]*(1/massB) - gravity*dt,
                                                 velocityOfB[2] - dt*force[2]*(1/massB)};
             _particles[_contactpoints[i].indexB].setLinearVelocity(newVelocityOfB);
-            
-            
-            demolish::dynamics::updateAngular(_particles[_contactpoints[i].indexB].getAngularVelocity().data(),
+        
+            auto ang = _particles[_contactpoints[i].indexB].getAngularVelocity();
+            demolish::dynamics::updateAngular(ang.data(),
                                               _particles[_contactpoints[i].indexB].getOrientation().data(),
                                               _particles[_contactpoints[i].indexB].getInertia().data(),
                                               _particles[_contactpoints[i].indexB].getInverse().data(),
                                               torq.data(),
                                               dt);
+            _particles[_contactpoints[i].indexB].setAngularVelocity(ang);
         } 
-        continue;
-
+        
     }
-    
-    // update the position of the particles
-    // the contents of delta's Engine::updatePosition() method goes here... essentially
+  
+    for(int i=0;i<_particles.size();i++)
+    {
+       if(_particles[i].getIsObstacle()) continue;
+       auto loc    = _particles[i].getLocation();
+       auto linVel = _particles[i].getLinearVelocity();
+       loc[0] += dt*linVel[0];
+       loc[1] += dt*linVel[1];
+       loc[2] += dt*linVel[2];
+       _particles[i].setLocation(loc);
+      
+
+      // update rotation matrix
+      auto ori = _particles[i].getOrientation();
+      demolish::dynamics::updateRotationMatrix(_particles[i].getAngularVelocity().data(),
+                                               ori.data(),
+                                               dt);
+      _particles[i].setOrientation(ori);
+      
+      // update verts
+      for(int j=0;j<(_particles[i].getMesh())->getTriangles().size()*3;j++)
+      {
+          demolish::dynamics::updateVertices(&_particles[i].getMesh()->getXCoordinates()[j],
+                                             &_particles[i].getMesh()->getYCoordinates()[j],
+                                             &_particles[i].getMesh()->getZCoordinates()[j],
+                                             _particles[i].getOrientation().data(),
+                                             _particles[i].getLocation().data());
+      }
+    }
 }
                 
 std::vector<demolish::Object> demolish::World::getObjects()

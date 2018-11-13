@@ -1,6 +1,9 @@
 #include"penalty.h"
 
 
+int  MaxNumberOfNewtonIterations =  16;
+
+
 std::vector<demolish::ContactPoint> demolish::detection::penalty(
   const iREAL*    xCoordinatesOfPointsOfGeometryA,
   const iREAL*    yCoordinatesOfPointsOfGeometryA,
@@ -31,7 +34,6 @@ std::vector<demolish::ContactPoint> demolish::detection::penalty(
         {
             bool failed = false;
             const iREAL MaxError = (epsilonA+epsilonB) / 16.0;
-
             penaltySolver(	xCoordinatesOfPointsOfGeometryA+(iA),
 					        yCoordinatesOfPointsOfGeometryA+(iA),
 					        zCoordinatesOfPointsOfGeometryA+(iA),
@@ -54,15 +56,17 @@ std::vector<demolish::ContactPoint> demolish::detection::penalty(
 
         for (int iB=0; iB<numberOfTrianglesB; iB+=3)
         {
+            bool outside = false;
             if (d[iB] < epsilonMargin)
             {
-    		    nearestContactPoint.push_back(demolish::ContactPoint(
+    		    result.push_back(demolish::ContactPoint(
                 xPA[iB],
                 yPA[iB],
                 zPA[iB],
                 xPB[iB],
                 yPB[iB],
                 zPB[iB],
+                outside,
                 epsilonA,
                 epsilonB,
                 particleA,
@@ -71,9 +75,8 @@ std::vector<demolish::ContactPoint> demolish::detection::penalty(
             }
         }
 
-	    for(int xx=0; xx < nearestContactPoint.size(); xx++)
-	        result.push_back(nearestContactPoint[xx]);
   }
+  return result;
 }
 
  
@@ -93,12 +96,12 @@ void demolish::detection::penaltySolver(
   iREAL					maxError,
   int&          			numberOfNewtonIterationsRequired)
  {
-  __attribute__ ((aligned(byteAlignment))) iREAL BA[3];
-  __attribute__ ((aligned(byteAlignment))) iREAL CA[3];
-  __attribute__ ((aligned(byteAlignment))) iREAL ED[3];
-  __attribute__ ((aligned(byteAlignment))) iREAL FD[3];
-  __attribute__ ((aligned(byteAlignment))) iREAL hessian[16];
-  __attribute__ ((aligned(byteAlignment))) iREAL x[4];
+  iREAL BA[3];
+  iREAL CA[3];
+  iREAL ED[3];
+  iREAL FD[3];
+  iREAL hessian[16];
+  iREAL x[4];
 
   BA[0] = xCoordinatesOfTriangleA[1] - xCoordinatesOfTriangleA[0];
   BA[1] = yCoordinatesOfTriangleA[1] - yCoordinatesOfTriangleA[0];
@@ -136,10 +139,10 @@ void demolish::detection::penaltySolver(
   hessian[14] = hessian[11];
   hessian[15] = 2.*DOT(FD,FD);
 
-  __attribute__ ((aligned(byteAlignment))) iREAL eps = 1E-2;
-  __attribute__ ((aligned(byteAlignment))) iREAL delta = (hessian[0]+hessian[5]+hessian[10]+hessian[15]) * eps;
-  __attribute__ ((aligned(byteAlignment))) iREAL lambda = sqrt(0.0125*(hessian[0]+hessian[5]+hessian[10]+hessian[15]));
-  __attribute__ ((aligned(byteAlignment))) iREAL r = lambda*1E5;
+  iREAL eps = 1E-2;
+  iREAL delta = (hessian[0]+hessian[5]+hessian[10]+hessian[15]) * eps;
+  iREAL lambda = sqrt(0.0125*(hessian[0]+hessian[5]+hessian[10]+hessian[15]));
+  iREAL r = lambda*1E5;
 
   //initial guess
   x[0] = 0.33;
@@ -151,11 +154,11 @@ void demolish::detection::penaltySolver(
   for(int i=0;i<MaxNumberOfNewtonIterations;i++)
   {
     //Declare loop variables;
-    __attribute__ ((aligned(byteAlignment))) iREAL dx[4];
-    __attribute__ ((aligned(byteAlignment))) iREAL a[16] ;
-    __attribute__ ((aligned(byteAlignment))) iREAL SUBXY[3] ;
-    __attribute__ ((aligned(byteAlignment))) iREAL b[4];
-    __attribute__ ((aligned(byteAlignment))) iREAL dh[8];
+    iREAL dx[4];
+    iREAL a[16] ;
+    iREAL SUBXY[3] ;
+    iREAL b[4];
+    iREAL dh[8];
     iREAL tmp1, tmp2,tmp3, tmp4, tmp5, tmp6, mx[6];
 
     dh[0] = (-x[0] <= 0) ? 0.0 : -1;

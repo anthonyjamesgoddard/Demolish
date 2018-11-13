@@ -172,7 +172,7 @@ void demolish::resolution::friction(
     iREAL normal[3],
     iREAL vi[3],
     iREAL force,
-    iREAL friction[3],
+    std::array<iREAL, 3>& friction,
     int materialA,
     int materialB,
     bool isSphere)
@@ -244,22 +244,33 @@ void demolish::resolution::getContactForces(
     vij[1] = vj[1] - vi[1];
     vij[2] = vj[2] - vi[2];
 
-    iREAL f[] = {0.0, 0.0, 0.0}, friction[] = {0.0, 0.0, 0.0}, forc;
-
+    std::array<iREAL, 3> f, friction;
+    iREAL forc;
 
     if(isSphere)
     {
-      demolish::resolution::springSphere(conpnt.normal, conpnt.depth, vij, massA, massB, f, forc);
+      demolish::resolution::springSphere(conpnt.normal,
+                                         conpnt.depth,
+                                         vij,
+                                         massA,
+                                         massB,
+                                         f,
+                                         forc);
     } else {
-      demolish::resolution::spring(conpnt.normal, conpnt.x, conpnt.depth, vij,
-                                  positionASpatial,
-                                  massA,
-                                  massB,
-                                  rotationA,
-                                  rotationB,
-                                  inverseA,
-                                  inverseB,
-                                  f, forc);
+      demolish::resolution::spring(conpnt.normal,
+                                   conpnt.x,
+                                   conpnt.depth,
+                                   vij,
+                                   positionASpatial,
+                                   positionBSpatial,
+                                   massA,
+                                   massB,
+                                   rotationA,
+                                   rotationB,
+                                   inverseA,
+                                   inverseB,
+                                   f,
+                                   forc);
     }
 
 
