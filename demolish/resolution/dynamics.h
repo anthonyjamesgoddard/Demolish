@@ -2,6 +2,9 @@
 #ifndef DELTA_DYNAMICS_DYNAMICS_H_
 #define DELTA_DYNAMICS_DYNAMICS_H_
 
+
+#include"../demolish.h"
+
 namespace demolish {
   namespace dynamics {
 

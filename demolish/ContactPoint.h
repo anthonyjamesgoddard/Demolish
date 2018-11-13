@@ -42,6 +42,16 @@ struct demolish::ContactPoint {
   int 	    indexA;
   int 	    indexB;
 
+
+  /**
+   * Tells us how far the objects have overlapped
+   */
+
+  iREAL depth;
+
+  
+  bool friction;
+
   ContactPoint();
   ContactPoint(const ContactPoint& copy);
 
@@ -68,8 +78,43 @@ struct demolish::ContactPoint {
 	const iREAL QB[3],
     const bool&     outside
   );
+    
+  ContactPoint(  
+    const iREAL&  	xPA,
+	const iREAL&  	yPA,
+	const iREAL&  	zPA,
 
-  std::string toString() const;
+	const iREAL&  	xQB,
+	const iREAL&  	yQB,
+	const iREAL&  	zQB,
+
+    const bool&     outside,
+
+    const iREAL&    epsilonA,
+    const iREAL&    epsilonB,
+    
+    bool            fric);
+
+  ContactPoint(  
+    const iREAL&  	xPA,
+	const iREAL&  	yPA,
+	const iREAL&  	zPA,
+
+	const iREAL&  	xQB,
+	const iREAL&  	yQB,
+	const iREAL&  	zQB,
+
+    const bool&     outside,
+
+    const iREAL&     epsilonA,
+    const iREAL&     epsilonB,
+
+    const int        particleA,
+    const int        particleB,
+
+    bool             fric
+    );
+
 };
 
 #endif

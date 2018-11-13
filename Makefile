@@ -20,6 +20,7 @@ OBJS = demolish/demolish.o \
        demolish/primitives/Cube.o \
 	   demolish/detection/sphere.o \
 	   demolish/detection/point.o \
+       demolish/detection/penalty.o \
 	   demolish/resolution/sphere.o\
 	   demolish/resolution/dynamics.o\
 	   demolish/resolution/forces.o\

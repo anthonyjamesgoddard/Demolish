@@ -60,27 +60,88 @@ demolish::ContactPoint::ContactPoint(
   normal[2] /= normalLength;
 
   distance = outside ? normalLength : -normalLength;
-/*
-  #if DELTA_DEBUG>=1
-  std::cout << demolish::getOutputPrefix() << "create contact point between point "
-            << std::setprecision(3)
-            << "(" << xPA << "," << yPA << "," << zPA << ")^T"
-			<< " and "
-            << "(" << xQB << "," << yQB << "," << zQB << ")^T"
-			<< ": " << toString()
-		    << std::endl;
-  #endif*/
+
+  // note that this version of the constructor is useless if we need depth information.
+  depth = 0;
+  friction = true;
 }
 
 
-std::string demolish::ContactPoint::toString() const {
-  std::ostringstream msg;
-  msg << "(" << std::setprecision(3)
-	  << "(" << x[0] << "," << x[1] << "," << x[2] << ")^T"
-	  << ",(" << normal[0] << "," << normal[1] << "," << normal[2] << ")^T"
-	  << ",d=" << distance
-	  << ",index_A=" << indexA
-	  << ",index_B=" << indexB
-	  << ")";
-  return msg.str();
+demolish::ContactPoint::ContactPoint(
+  const iREAL&  	xPA,
+  const iREAL&  	yPA,
+  const iREAL&  	zPA,
+
+  const iREAL&  	xQB,
+  const iREAL&  	yQB,
+  const iREAL&  	zQB,
+
+  const bool&       outside,
+
+  const iREAL&      epsilonA,
+  const iREAL&      epsilonB,
+  bool              fric
+):
+  indexA(-1),
+  indexB(-1) {
+  x[0] = (xPA+xQB)/2.0;
+  x[1] = (yPA+yQB)/2.0;
+  x[2] = (zPA+zQB)/2.0;
+    
+  friction = fric;
+  normal[0] = xPA-xQB;
+  normal[1] = yPA-yQB;
+  normal[2] = zPA-zQB;
+
+  const iREAL normalLength = std::sqrt( normal[0]*normal[0] + normal[1]*normal[1] + normal[2]*normal[2] );
+
+  normal[0] /= normalLength;
+  normal[1] /= normalLength;
+  normal[2] /= normalLength;
+
+  distance = outside ? normalLength : -normalLength;
+
+  depth = (epsilonA+epsilonB)-normalLength;
 }
+
+demolish::ContactPoint::ContactPoint(
+  const iREAL&  	xPA,
+  const iREAL&  	yPA,
+  const iREAL&  	zPA,
+
+  const iREAL&  	xQB,
+  const iREAL&  	yQB,
+  const iREAL&  	zQB,
+
+  const bool&       outside,
+
+  const iREAL&      epsilonA,
+  const iREAL&      epsilonB,
+
+  const int         particleA,
+  const int         particleB,
+
+  bool              fric
+):
+  indexA(particleA),
+  indexB(particleB) {
+  x[0] = (xPA+xQB)/2.0;
+  x[1] = (yPA+yQB)/2.0;
+  x[2] = (zPA+zQB)/2.0;
+
+  normal[0] = xPA-xQB;
+  normal[1] = yPA-yQB;
+  normal[2] = zPA-zQB;
+
+  const iREAL normalLength = std::sqrt( normal[0]*normal[0] + normal[1]*normal[1] + normal[2]*normal[2] );
+
+  friction = fric;
+  normal[0] /= normalLength;
+  normal[1] /= normalLength;
+  normal[2] /= normalLength;
+
+  distance = outside ? normalLength : -normalLength;
+
+  depth = (epsilonA+epsilonB)-normalLength;
+}
+

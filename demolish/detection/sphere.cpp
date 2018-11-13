@@ -45,7 +45,12 @@ std::vector<demolish::ContactPoint> demolish::detection::spherewithsphere(
 
   bool outside = true;
   if(distance<radA + radB) outside = false;
-  demolish::ContactPoint newContactPoint(xPA, yPA, zPA, xPB, yPB, zPB,outside);
+  demolish::ContactPoint newContactPoint(xPA,yPA,zPA,
+                                         xPB,yPB,zPB,
+                                         outside,
+                                         epsilonA,
+                                         epsilonB,
+                                         (frictionA && frictionB));
   newContactPoint.indexA = particleA;
   newContactPoint.indexB = particleB;
   result.push_back( newContactPoint );
@@ -116,7 +121,10 @@ std::vector<demolish::ContactPoint> demolish::detection::sphereWithMesh(
     if(distance <0) outside = false;
 	demolish::ContactPoint newContactPoint(xPA,yPA, zPA,
                                     xPB, yPB, zPB,
-                                    outside);
+                                    outside,
+                                    epsilonA,
+                                    epsilonB,
+                                    (frictionA && frictionB));
     
 
     newContactPoint.indexA = particleA;

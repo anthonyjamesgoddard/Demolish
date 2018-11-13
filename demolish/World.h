@@ -11,9 +11,12 @@
 #include "visuals/DEMDriver.h"
 #include "detection/sphere.h"
 #include "resolution/sphere.h"
+#include "resolution/forces.h"
 #include "ContactPoint.h"
 #include "Object.h"
-#include "dynamics.h"
+#include "resolution/dynamics.h"
+#include "detection/penalty.h"
+
 
 namespace demolish{
 	class World;
@@ -23,7 +26,8 @@ class demolish::World {
 
   public:
 	World(
-      std::vector<Object>&                objects);
+    std::vector<Object>&                objects);
+
 	virtual ~World();
 
     int                                   runSimulation();

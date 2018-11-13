@@ -102,8 +102,26 @@ void demolish::World::updateWorld(float dt)
                continue;
            }
 
-           // now we need to fill in the details for mesh-mesh interaction
-           
+           auto cntpnts = demolish::detection::penalty(
+                          _particles[i].getMesh()->getXCoordinates(),
+                          _particles[i].getMesh()->getYCoordinates(),
+                          _particles[i].getMesh()->getZCoordinates(),
+                          _particles[i].getMesh()->getTriangles().size(),
+                          _particles[i].getEpsilon(),
+                          _particles[i].getIsFriction(),
+                          _particles[i].getGlobalParticleId(),
+                          _particles[j].getMesh()->getXCoordinates(),
+                          _particles[j].getMesh()->getYCoordinates(),
+                          _particles[j].getMesh()->getZCoordinates(),
+                          _particles[j].getMesh()->getTriangles().size(),
+                          _particles[j].getEpsilon(),
+                          _particles[j].getIsFriction(),
+                          _particles[j].getGlobalParticleId());
+
+           if(cntpnts.size()>0)
+           {
+               _contactpoints.push_back(cntpnts[0]);
+           }
         }
     }
 
@@ -118,26 +136,31 @@ void demolish::World::updateWorld(float dt)
         std::array<iREAL, 3> force;
         std::array<iREAL, 3> torq;
         demolish::resolution::getContactForces(_contactpoints[i],
-                                               _particles[contactpoints[i].indexA].getLocation().data(),
-                                               _particles[contactpoints[i].indexA].getAngularVelocity().data(),
-                                               _particles[contactpoints[i].indexA].getLinearVelocity().data(),
-                                               _particles[contactpoints[i].indexA].getMass(),
-                                               _particles[contactpoints[i].indexA].getOrientation().data(),
-                                               _particles[contactpoints[i].indexA].getMaterial(),
-                                               _particles[contactpoints[i].indexB].getLocation().data(),
-                                               _particles[contactpoints[i].indexB].getAngularVelocity().data(),
-                                               _particles[contactpoints[i].indexB].getLinearVelocity().data(),
-                                               _particles[contactpoints[i].indexB].getMass(),
-                                               _particles[contactpoints[i].indexB].getOrientation().data(),
-                                               _particles[contactpoints[i].indexB].getMaterial(),
+                                               _particles[_contactpoints[i].indexA].getLocation().data(),
+                                               _particles[_contactpoints[i].indexA].getAngularVelocity().data(),
+                                               _particles[_contactpoints[i].indexA].getLinearVelocity().data(),
+                                               _particles[_contactpoints[i].indexA].getMass(),
+                                               _particles[_contactpoints[i].indexA].getInverse().data(),
+                                               _particles[_contactpoints[i].indexA].getOrientation().data(),
+                                               int(_particles[_contactpoints[i].indexA].getMaterial()),
+                                               _particles[_contactpoints[i].indexB].getLocation().data(),
+                                               _particles[_contactpoints[i].indexB].getAngularVelocity().data(),
+                                               _particles[_contactpoints[i].indexB].getLinearVelocity().data(),
+                                               _particles[_contactpoints[i].indexB].getMass(),
+                                               _particles[_contactpoints[i].indexB].getInertia().data(),
+                                               _particles[_contactpoints[i].indexB].getOrientation().data(),
+                                               int(_particles[_contactpoints[i].indexB].getMaterial()),
                                                force,
                                                torq,
-                                               (_particles[contactpoints[i].indexA].getIsSphere() && _particles[contactpoints[i].indexB].getIsSphere()));
+                                               (_particles[_contactpoints[i].indexA].getIsSphere() && _particles[_contactpoints[i].indexB].getIsSphere()));
 
         
                                                 
         if(!_particles[_contactpoints[i].indexA].getIsObstacle()) 
         {
+            auto velocityOfA = _particles[_contactpoints[i].indexA].getLinearVelocity();
+            auto massA = _particles[_contactpoints[i].indexA].getMass();
+
             std::array<iREAL, 3> newVelocityOfA = {velocityOfA[0] + dt*force[0]*(1/massA),
                                                 velocityOfA[1] + dt*force[1]*(1/massA),
                                                 velocityOfA[2] + dt*force[2]*(1/massA)};
@@ -148,12 +171,15 @@ void demolish::World::updateWorld(float dt)
                                               _particles[_contactpoints[i].indexA].getOrientation().data(),
                                               _particles[_contactpoints[i].indexA].getInertia().data(),
                                               _particles[_contactpoints[i].indexA].getInverse().data(),
-                                              torque,
+                                              torq.data(),
                                               dt);
 
         }
         if(!_particles[_contactpoints[i].indexB].getIsObstacle()) 
         {
+            auto velocityOfB = _particles[_contactpoints[i].indexB].getLinearVelocity();
+            auto massB     = _particles[_contactpoints[i].indexB].getMass();
+
             std::array<iREAL, 3> newVelocityOfB = {velocityOfB[0] - dt*force[0]*(1/massB),
                                                 velocityOfB[1] - dt*force[1]*(1/massB),
                                                 velocityOfB[2] - dt*force[2]*(1/massB)};
@@ -164,14 +190,14 @@ void demolish::World::updateWorld(float dt)
                                               _particles[_contactpoints[i].indexB].getOrientation().data(),
                                               _particles[_contactpoints[i].indexB].getInertia().data(),
                                               _particles[_contactpoints[i].indexB].getInverse().data(),
-                                              torque,
+                                              torq.data(),
                                               dt);
         } 
         continue;
 
     }
     
-
+    // update the position of the particles
     // the contents of delta's Engine::updatePosition() method goes here... essentially
 }
                 

@@ -1,4 +1,5 @@
 #include"../ContactPoint.h"
+#include"sphere.h"
 #include <vector>
 #include <cmath>
 #include <iostream>
@@ -116,8 +117,8 @@ namespace demolish {
 	   * @return void
 	   *
 	   */
-	  void getContactsForces(
-		std::vector<demolish::ContactPoint> &conpnt,
+	  void getContactForces(
+		demolish::ContactPoint &conpnt,
 		iREAL positionASpatial[3],
 		iREAL angularA[3],
 		iREAL linearA[3],

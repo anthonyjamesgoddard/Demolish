@@ -70,13 +70,9 @@ void DEMDriver::UpdateScene(std::vector<demolish::Object>& objects)
 
     for(int i=0;i<VAODynamic.size();i++)
     {
-        geoGen.CreateSphere(objects[i].getRad(),
-                            30,
-                            30,
-                            geoGenObjectsDynamic[i],
-                            objects[i].getLocation());
+        geoGen.CreateMeshFromMesh(objects[i].getMesh(),
+                            geoGenObjectsDynamic[i]);
 
-        // this is not necc. I think...
         VAOIndexCountsDynamic[i] = geoGenObjectsDynamic[i].Indices.size();
 
         GLnix_glBindBuffer(GL_ARRAY_BUFFER, VBODynamic[i].first);
@@ -212,7 +208,7 @@ void DEMDriver::BuildBuffers(std::vector<demolish::Object>& objects)
             }
             else
             {
-                BuildDynamicSphereBuffer(o.getMesh());
+                BuildDynamicMeshBuffer(o.getMesh());
                 dynamicCount++;
             }
         }

@@ -53,9 +53,9 @@ void demolish::resolution::spring(
   conptSubPosition[2] = conpnt[2] - positionBSpatial[2];
 
 
-  refconptB[0] = (conptSubPosition[0]*rotationB[0] + conptSubPosition[1]*rotationB[1] + conptSubPosition[2]*rotationB[2])+positionBReferential[0];
-  refconptB[1] = (conptSubPosition[0]*rotationB[3] + conptSubPosition[1]*rotationB[4] + conptSubPosition[2]*rotationB[5])+positionBReferential[1];
-  refconptB[2] = (conptSubPosition[0]*rotationB[6] + conptSubPosition[1]*rotationB[7] + conptSubPosition[2]*rotationB[8])+positionBReferential[2];
+  refconptB[0] = (conptSubPosition[0]*rotationB[0] + conptSubPosition[1]*rotationB[1] + conptSubPosition[2]*rotationB[2])+positionBSpatial[0];
+  refconptB[1] = (conptSubPosition[0]*rotationB[3] + conptSubPosition[1]*rotationB[4] + conptSubPosition[2]*rotationB[5])+positionBSpatial[1];
+  refconptB[2] = (conptSubPosition[0]*rotationB[6] + conptSubPosition[1]*rotationB[7] + conptSubPosition[2]*rotationB[8])+positionBSpatial[2];
 
   iREAL rPositionContactPnti[9];//3x3
   iREAL rPositionContactPntj[9];
@@ -70,13 +70,13 @@ void demolish::resolution::spring(
   rPositionContactPnti[5] = positionASpatial[0]-refconptA[0];
   rPositionContactPnti[8] = 0.0;
   rPositionContactPntj[0] = 0.0;
-  rPositionContactPntj[3] = -positionBReferential[2]-refconptB[2];
-  rPositionContactPntj[6] = positionBReferential[1]-refconptB[1];
-  rPositionContactPntj[1] = positionBReferential[2]-refconptB[2];
+  rPositionContactPntj[3] = -positionBSpatial[2]-refconptB[2];
+  rPositionContactPntj[6] = positionBSpatial[1]-refconptB[1];
+  rPositionContactPntj[1] = positionBSpatial[2]-refconptB[2];
   rPositionContactPntj[4] = 0.0;
-  rPositionContactPntj[7] = -positionBReferential[0]-refconptB[0];
-  rPositionContactPntj[2] = -positionBReferential[1]-refconptB[1];
-  rPositionContactPntj[5] = positionBReferential[0]-refconptB[0];	
+  rPositionContactPntj[7] = -positionBSpatial[0]-refconptB[0];
+  rPositionContactPntj[2] = -positionBSpatial[1]-refconptB[1];
+  rPositionContactPntj[5] = positionBSpatial[0]-refconptB[0];	
   rPositionContactPntj[8] = 0.0;
 
 
@@ -194,7 +194,7 @@ void demolish::resolution::friction(
   }
 }
 
-void demolish::resolution::getContactsForces(
+void demolish::resolution::getContactForces(
   demolish::ContactPoint &conpnt,
   iREAL positionASpatial[3],
   iREAL angularA[3],
