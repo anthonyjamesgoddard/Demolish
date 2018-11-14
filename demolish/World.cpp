@@ -46,7 +46,6 @@ void demolish::World::updateWorld(float dt)
    {
        for(int j=i+1;j<_particles.size();j++)
        {
-           std::cout << "No problems here" << std::endl;
            if(_particles[i].getIsSphere() && _particles[j].getIsSphere())
            {
                auto locationi = _particles[i].getLocation();
@@ -107,7 +106,6 @@ void demolish::World::updateWorld(float dt)
 
             
          
-            std::cout << "penalty run begin " << std::endl;
            auto cntpnts = demolish::detection::penalty(
                           _particles[i].getMesh()->getXCoordinates(),
                           _particles[i].getMesh()->getYCoordinates(),
@@ -124,7 +122,6 @@ void demolish::World::updateWorld(float dt)
                           _particles[j].getIsFriction(),
                           _particles[j].getGlobalParticleId());
            
-            std::cout << "penalty run succ. " << std::endl;
            if(cntpnts.size()>0)
            {
                _contactpoints.push_back(cntpnts[0]);
@@ -135,9 +132,6 @@ void demolish::World::updateWorld(float dt)
     }
 
 
-   // this if statement is for debugging...
-   if(_contactpoints.size()==0)
-   {
 //**********************************************************************
 //
 // RESOLUTION
@@ -148,6 +142,7 @@ void demolish::World::updateWorld(float dt)
     {
         std::array<iREAL, 3> force;
         std::array<iREAL, 3> torq;
+        std::cout << _particles[_contactpoints[i].indexA].getMass() << " " << _particles[_contactpoints[i].indexB].getMass() << std::endl;
         demolish::resolution::getContactForces(_contactpoints[i],
                                                _particles[_contactpoints[i].indexA].getLocation().data(),
                                                _particles[_contactpoints[i].indexA].getAngularVelocity().data(),
@@ -167,7 +162,9 @@ void demolish::World::updateWorld(float dt)
                                                torq,
                                                (_particles[_contactpoints[i].indexA].getIsSphere() && _particles[_contactpoints[i].indexB].getIsSphere()));
 
-                                                
+
+        std::cout << force[0] << " " << force[1] << " " << force[2] << std::endl; 
+
         if(!_particles[_contactpoints[i].indexA].getIsObstacle()) 
         {
             auto velocityOfA = _particles[_contactpoints[i].indexA].getLinearVelocity();
@@ -242,7 +239,6 @@ void demolish::World::updateWorld(float dt)
       }
       _particles[i].setLocation(loc);
     }
-   }
 }
                 
 std::vector<demolish::Object> demolish::World::getObjects()

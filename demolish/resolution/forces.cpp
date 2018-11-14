@@ -154,6 +154,10 @@ void demolish::resolution::spring(
 
   iREAL ma = 1.0/((1.0/massA) + (1.0/massB));
 
+  std::cout << "massA" << " " << massA << std::endl;
+  std::cout << "massB" << " " << massB << std::endl;
+
+    std::cout << "ma " << ma << std::endl;
   iREAL velocity = (vij[0]*normal[0]) + (vij[1]*normal[1]) + (vij[2]*normal[2]);
 
   iREAL damp = DAMPER * 2.0 * sqrt(ma*SPRING)*velocity;
@@ -272,7 +276,7 @@ void demolish::resolution::getContactForces(
                                    f,
                                    forc);
     }
-
+    
 
     if(conpnt.friction)
     {

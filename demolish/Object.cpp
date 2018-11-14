@@ -107,6 +107,7 @@ std::array<iREAL, 3> 					angular)
   mesh->computeInertia(_material, mass, centerOfMass, inertia);
   mesh->computeInverseInertia(inertia, inverse, _isObstacle);
 
+  std::cout << "the objects mass is " << mass << std::endl;
   _inertia[0] = inertia[0];
   _inertia[1] = inertia[1];
   _inertia[2] = inertia[2];

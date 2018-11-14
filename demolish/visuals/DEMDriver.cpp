@@ -68,7 +68,6 @@ void DEMDriver::UpdateScene(std::vector<demolish::Object>& objects)
 
 	viewModelMatrix = formViewModelMatrix(position,target,up);
 
-    std::cout << "..updating objects" << std::endl;
     for(int i=0;i<VAODynamic.size();i++)
     {
         geoGen.CreateMeshFromMesh(objects[i].getMesh(),
@@ -82,7 +81,6 @@ void DEMDriver::UpdateScene(std::vector<demolish::Object>& objects)
                                geoGenObjectsDynamic[i].Vertices.size()*sizeof(GLfloat)*11,
                                &geoGenObjectsDynamic[i].Vertices.front());
     }
-    std::cout << "updated objects" << std::endl;
     RedrawTheWindow();
     
 }
@@ -142,7 +140,6 @@ void DEMDriver::RedrawTheWindow()
     glVertex3f(30,30,33);
     glEnd();
 
-    std::cout << "drawing contact points" << std::endl;
     for(int i=0;i<contactpoints.size();i++)
     {
         glColor4f(1,0,1,1);
@@ -164,13 +161,11 @@ void DEMDriver::RedrawTheWindow()
     glLoadMatrixf(viewModelMatrix.m);
     glColor4f(1,1,1, 1);
 
-    std::cout << "drawing dynamics" << std::endl;
     for(int j=0; j<VAODynamic.size();j++)
     {
         GLnix_glBindVertexArray(VAODynamic[j]);
         glDrawElements(GL_TRIANGLES, VAOIndexCountsDynamic[j], GL_UNSIGNED_INT, 0);
     }
-    std::cout << "drawing statics" << std::endl;
     for(int j=0; j<VAOStatic.size();j++)
     {
         GLnix_glBindVertexArray(VAOStatic[j]);
