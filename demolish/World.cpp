@@ -134,6 +134,10 @@ void demolish::World::updateWorld(float dt)
         }
     }
 
+
+   // this if statement is for debugging...
+   if(_contactpoints.size()==0)
+   {
 //**********************************************************************
 //
 // RESOLUTION
@@ -238,6 +242,7 @@ void demolish::World::updateWorld(float dt)
       }
       _particles[i].setLocation(loc);
     }
+   }
 }
                 
 std::vector<demolish::Object> demolish::World::getObjects()

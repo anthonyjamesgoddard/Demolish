@@ -159,7 +159,7 @@ void DEMDriver::RedrawTheWindow()
   
     // then we need to draw all the polygons
 
-    glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+    glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
 
     glLoadMatrixf(viewModelMatrix.m);
     glColor4f(1,1,1, 1);
