@@ -192,12 +192,15 @@ void demolish::dynamics::updateAngular(
 	/////////////////////
 }
 
+#include<iostream>
+
 void demolish::dynamics::updateVertices(
     iREAL *x,
     iREAL *y,
     iREAL *z,
     iREAL *rotation,
-    iREAL *location)
+    iREAL *location,
+    iREAL *newloc)
 {
 	iREAL C[3], c[3];
 
@@ -207,9 +210,9 @@ void demolish::dynamics::updateVertices(
 	C[2] = *z - location[2];
 
 	//SCC (location, C);
-	c[0] = location[0] + (rotation[0]*(C)[0]+rotation[3]*C[1]+rotation[6]*C[2]);
-	c[1] = location[1] + (rotation[1]*(C)[0]+rotation[4]*C[1]+rotation[7]*C[2]);
-	c[2] = location[2] + (rotation[2]*(C)[0]+rotation[5]*C[1]+rotation[8]*C[2]);
+	c[0] = newloc[0] + (rotation[0]*(C)[0]+rotation[3]*C[1]+rotation[6]*C[2]);
+	c[1] = newloc[1] + (rotation[1]*(C)[0]+rotation[4]*C[1]+rotation[7]*C[2]);
+	c[2] = newloc[2] + (rotation[2]*(C)[0]+rotation[5]*C[1]+rotation[8]*C[2]);
 
 	//point A SPATIAL
 	*x = c[0];

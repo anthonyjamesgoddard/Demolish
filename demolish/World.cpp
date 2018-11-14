@@ -163,7 +163,6 @@ void demolish::World::updateWorld(float dt)
                                                torq,
                                                (_particles[_contactpoints[i].indexA].getIsSphere() && _particles[_contactpoints[i].indexB].getIsSphere()));
 
-        iREAL gravity = 9.8;
                                                 
         if(!_particles[_contactpoints[i].indexA].getIsObstacle()) 
         {
@@ -171,7 +170,7 @@ void demolish::World::updateWorld(float dt)
             auto massA = _particles[_contactpoints[i].indexA].getMass();
 
             std::array<iREAL, 3> newVelocityOfA = {velocityOfA[0] + dt*force[0]*(1/massA),
-                                                velocityOfA[1] + dt*force[1]*(1/massA) - gravity*dt,
+                                                velocityOfA[1] + dt*force[1]*(1/massA),
                                                 velocityOfA[2] + dt*force[2]*(1/massA)};
             _particles[_contactpoints[i].indexA].setLinearVelocity(newVelocityOfA);
 
@@ -191,7 +190,7 @@ void demolish::World::updateWorld(float dt)
             auto massB     = _particles[_contactpoints[i].indexB].getMass();
 
             std::array<iREAL, 3> newVelocityOfB = {velocityOfB[0] - dt*force[0]*(1/massB),
-                                                velocityOfB[1] - dt*force[1]*(1/massB) - gravity*dt,
+                                                velocityOfB[1] - dt*force[1]*(1/massB),
                                                 velocityOfB[2] - dt*force[2]*(1/massB)};
             _particles[_contactpoints[i].indexB].setLinearVelocity(newVelocityOfB);
         
@@ -207,17 +206,19 @@ void demolish::World::updateWorld(float dt)
         
     }
   
+    iREAL gravity = -9.8;
+
     for(int i=0;i<_particles.size();i++)
     {
        if(_particles[i].getIsObstacle()) continue;
        auto loc    = _particles[i].getLocation();
+       auto loc2   = loc;
        auto linVel = _particles[i].getLinearVelocity();
+       linVel[1] += dt*gravity;
        loc[0] += dt*linVel[0];
        loc[1] += dt*linVel[1];
        loc[2] += dt*linVel[2];
-       _particles[i].setLocation(loc);
       
-
       // update rotation matrix
       auto ori = _particles[i].getOrientation();
       demolish::dynamics::updateRotationMatrix(_particles[i].getAngularVelocity().data(),
@@ -232,8 +233,10 @@ void demolish::World::updateWorld(float dt)
                                              &_particles[i].getMesh()->getYCoordinates()[j],
                                              &_particles[i].getMesh()->getZCoordinates()[j],
                                              _particles[i].getOrientation().data(),
-                                             _particles[i].getLocation().data());
+                                             loc2.data(),loc.data());
+
       }
+      _particles[i].setLocation(loc);
     }
 }
                 

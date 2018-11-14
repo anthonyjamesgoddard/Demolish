@@ -265,28 +265,31 @@ void GeometryGenerator::CreateMeshFromMesh(demolish::Mesh* mesh, MeshData& meshD
     meshData.Indices.clear();
 
     std::vector<demolish::Vertex> normals;
+
+    auto XX = mesh->getXCoordinates();
+    auto YY = mesh->getYCoordinates();
+    auto ZZ = mesh->getZCoordinates();
+
     auto verts = mesh->getVertices();
+
     auto triangles = mesh->getTriangles();
     std::vector<Vertex> mdvs(verts.size());
     
-
+    int j =0;
     for(int i=0;i<triangles.size();i++)
     {
-        auto normal = demolish::cross(verts[triangles[i][1]]-verts[triangles[i][0]],
-                                          verts[triangles[i][2]]-verts[triangles[i][0]]);
+        demolish::Vertex normal(0,0,0);
+        mdvs[triangles[i][0]].Position.x = XX[j];    
+        mdvs[triangles[i][0]].Position.y = YY[j];    
+        mdvs[triangles[i][0]].Position.z = ZZ[j];  
 
-        normal.normalise();
-        mdvs[triangles[i][0]].Position.x = verts[triangles[i][0]].getX();    
-        mdvs[triangles[i][0]].Position.y = verts[triangles[i][0]].getY();    
-        mdvs[triangles[i][0]].Position.z = verts[triangles[i][0]].getZ();  
-
-        mdvs[triangles[i][1]].Position.x = verts[triangles[i][1]].getX();    
-        mdvs[triangles[i][1]].Position.y = verts[triangles[i][1]].getY();    
-        mdvs[triangles[i][1]].Position.z = verts[triangles[i][1]].getZ();    
+        mdvs[triangles[i][1]].Position.x = XX[j+1];    
+        mdvs[triangles[i][1]].Position.y = YY[j+1];    
+        mdvs[triangles[i][1]].Position.z = ZZ[j+1];    
         
-        mdvs[triangles[i][2]].Position.x = verts[triangles[i][2]].getX();    
-        mdvs[triangles[i][2]].Position.y = verts[triangles[i][2]].getY();    
-        mdvs[triangles[i][2]].Position.z = verts[triangles[i][2]].getZ();    
+        mdvs[triangles[i][2]].Position.x = XX[j+2];    
+        mdvs[triangles[i][2]].Position.y = YY[j+2];    
+        mdvs[triangles[i][2]].Position.z = ZZ[j+2];    
 
         mdvs[triangles[i][0]].Normal.x = normal.getX();    
         mdvs[triangles[i][0]].Normal.y = normal.getY();    
@@ -303,7 +306,7 @@ void GeometryGenerator::CreateMeshFromMesh(demolish::Mesh* mesh, MeshData& meshD
         meshData.Indices.push_back(triangles[i][0]);
         meshData.Indices.push_back(triangles[i][2]);
         meshData.Indices.push_back(triangles[i][1]);
-       
+        j = j+3;  
         
     }
    

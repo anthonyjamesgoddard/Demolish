@@ -67,7 +67,8 @@ namespace demolish {
         iREAL* y,
         iREAL* z,
         iREAL* rotation,
-        iREAL* location);
+        iREAL* location,
+        iREAL* newloc);
   }
 }
 #endif
