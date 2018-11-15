@@ -46,8 +46,8 @@ class demolish::Object
 	  bool                          				isFriction,
 	  bool                          				isConvex,
 	  iREAL 										epsilon,
-	  std::array<iREAL, 3> 						    linear,
-	  std::array<iREAL, 3> 						    angular
+	  std::array<iREAL, 3>& 						    linear,
+	  std::array<iREAL, 3>& 						    angular
 	);
 
 	/*

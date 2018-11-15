@@ -175,14 +175,15 @@ void demolish::World::updateWorld(float dt)
                                                 velocityOfA[2] + dt*force[2]*(1/massA)};
             _particles[_contactpoints[i].indexA].setLinearVelocity(newVelocityOfA);
 
-            auto ang =  _particles[_contactpoints[i].indexB].getAngularVelocity();
+            auto ang =  _particles[_contactpoints[i].indexA].getAngularVelocity();
+            std::cout << "object with index " << _contactpoints[i].indexA << std::endl;
+            std::cout << "has angular vel " << ang[0] << std::endl;
             demolish::dynamics::updateAngular(ang.data(),
                                               _particles[_contactpoints[i].indexA].getOrientation().data(),
                                               _particles[_contactpoints[i].indexA].getInertia().data(),
                                               _particles[_contactpoints[i].indexA].getInverse().data(),
                                               torq.data(),
                                               dt);
-
             _particles[_contactpoints[i].indexA].setAngularVelocity(ang);
         }
         if(!_particles[_contactpoints[i].indexB].getIsObstacle()) 
@@ -207,7 +208,7 @@ void demolish::World::updateWorld(float dt)
         
     }
   
-    iREAL gravity = -9.8;
+    iREAL gravity = -90.8;
 
     for(int i=0;i<_particles.size();i++)
     {
@@ -222,12 +223,27 @@ void demolish::World::updateWorld(float dt)
       
       // update rotation matrix
       auto ori = _particles[i].getOrientation();
+      /*
+      std::cout << "orientation before         : " << std::endl;
+      std::cout << ori[0] << " " << ori[1] << " " << ori[2] << std::endl;
+      std::cout << ori[3] << " " << ori[4] << " " << ori[5] << std::endl;
+      std::cout << ori[6] << " " << ori[7] << " " << ori[8] << std::endl;
+*/
+
+      std::cout << _particles[i].getAngularVelocity()[0] << " " << _particles[i].getAngularVelocity()[1] << " " << _particles[i].getAngularVelocity()[2] << std::endl;
       demolish::dynamics::updateRotationMatrix(_particles[i].getAngularVelocity().data(),
                                                ori.data(),
                                                dt);
+      /*
+      std::cout << "orientation after         : " << std::endl;
+      std::cout << ori[0] << " " << ori[1] << " " << ori[2] << std::endl;
+      std::cout << ori[3] << " " << ori[4] << " " << ori[5] << std::endl;
+      std::cout << ori[6] << " " << ori[7] << " " << ori[8] << std::endl;
+      */
       _particles[i].setOrientation(ori);
       
       // update verts
+      
       for(int j=0;j<(_particles[i].getMesh())->getTriangles().size()*3;j++)
       {
           demolish::dynamics::updateVertices(&_particles[i].getMesh()->getXCoordinates()[j],
@@ -238,6 +254,7 @@ void demolish::World::updateWorld(float dt)
 
       }
       _particles[i].setLocation(loc);
+      
     }
 }
                 
