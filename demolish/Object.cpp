@@ -103,7 +103,7 @@ std::array<iREAL, 3> 					angular)
   this->_orientation[8] = 1.0;
 
   iREAL mass, centerOfMass[3], inertia[9], inverse[9];
-
+  
   mesh->computeInertia(_material, mass, centerOfMass, inertia);
   mesh->computeInverseInertia(inertia, inverse, _isObstacle);
 

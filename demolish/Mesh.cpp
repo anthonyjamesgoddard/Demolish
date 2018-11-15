@@ -28,8 +28,6 @@ demolish::Mesh::Mesh(
   _uniqueVertices = uniqueVertices;
 
   demolish::Mesh::flatten();
-  for(int i=0;i<_yCoordinates.size();i++)
-      std::cout << _yCoordinates[i] << std::endl;
 }
 
 demolish::Mesh::Mesh(

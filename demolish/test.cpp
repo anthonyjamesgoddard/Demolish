@@ -4,6 +4,16 @@
 #include <iostream>
 
 
+void reverseTris(std::vector<std::array<int,3>> &tris)
+{
+    for(int i = 0;i< tris.size();i++)
+    {
+        auto temp = tris[i][2];
+        tris[i][2] = tris[i][1];
+        tris[i][1] = temp;
+    }
+}
+
 int main() {
 
     
@@ -61,7 +71,7 @@ int main() {
   meshTriangles.push_back(tri11);
   meshTriangles.push_back(tri12);
 
-
+    reverseTris(meshTriangles);
   demolish::Mesh m1(meshTriangles,meshVertices);
   std::array<iREAL, 3> location = {1,1,1};
   std::array<iREAL, 3> linear   = {0,0,0};

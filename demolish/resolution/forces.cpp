@@ -8,7 +8,7 @@
 //#define SPRING 50
 //#define DAMPER 0.2
 //mine
-#define SPRING 1E4
+#define SPRING 2E5
 #define DAMPER 0.5
 
 #define FRICTION 0.5
@@ -51,7 +51,7 @@ void demolish::resolution::spring(
   conptSubPosition[0] = conpnt[0] - positionBSpatial[0];
   conptSubPosition[1] = conpnt[1] - positionBSpatial[1];
   conptSubPosition[2] = conpnt[2] - positionBSpatial[2];
-
+  
 
   refconptB[0] = (conptSubPosition[0]*rotationB[0] + conptSubPosition[1]*rotationB[1] + conptSubPosition[2]*rotationB[2])+positionBSpatial[0];
   refconptB[1] = (conptSubPosition[0]*rotationB[3] + conptSubPosition[1]*rotationB[4] + conptSubPosition[2]*rotationB[5])+positionBSpatial[1];
@@ -154,13 +154,9 @@ void demolish::resolution::spring(
 
   iREAL ma = 1.0/((1.0/massA) + (1.0/massB));
 
-  std::cout << "massA" << " " << massA << std::endl;
-  std::cout << "massB" << " " << massB << std::endl;
-
-    std::cout << "ma " << ma << std::endl;
   iREAL velocity = (vij[0]*normal[0]) + (vij[1]*normal[1]) + (vij[2]*normal[2]);
 
-  iREAL damp = DAMPER * 2.0 * sqrt(ma*SPRING)*velocity;
+  iREAL damp = DAMPER * 2.0 * sqrt(ma)*velocity;
 
   iREAL force = SPRING*depth+damp;
 
@@ -261,6 +257,33 @@ void demolish::resolution::getContactForces(
                                          f,
                                          forc);
     } else {
+      std::cout << "Contact Point stats\n" << std::endl;
+      std::cout << "normal            : " << conpnt.normal[0] << " " << conpnt.normal[1] << " " << conpnt.normal[2] << std::endl;
+      std::cout << "x                 : " << conpnt.x[0]      << " " << conpnt.x[1]      << " " << conpnt.x[2]      << std::endl;
+      std::cout << "depth             : " << conpnt.depth   << std::endl;
+      std::cout << "relative velocity : " << vij[0]    << " " << vij[1]    << " " << vij[2]    << std::endl;
+      std::cout << "positionASpatial  : " << positionASpatial[0] << " " << positionASpatial[1] << " " << positionASpatial[2] << std::endl;
+      std::cout << "positionBSpatial  : " << positionBSpatial[0] << " " << positionBSpatial[1] << " " << positionBSpatial[2] << std::endl;
+      std::cout << "massA             : " << massA << std::endl;
+      std::cout << "massB             : " << massB << std::endl;
+      std::cout << "\n"                   << std::endl;
+      std::cout << "rotationA         : " << std::endl;
+      std::cout << rotationA[0] << " " << rotationA[1] << " " << rotationA[2] << std::endl;
+      std::cout << rotationA[3] << " " << rotationA[4] << " " << rotationA[5] << std::endl;
+      std::cout << rotationA[6] << " " << rotationA[7] << " " << rotationA[8] << std::endl;
+      std::cout << "rotationB         : " << std::endl;
+      std::cout << rotationB[0] << " " << rotationB[1] << " " << rotationB[2] << std::endl;
+      std::cout << rotationB[3] << " " << rotationB[4] << " " << rotationB[5] << std::endl;
+      std::cout << rotationB[6] << " " << rotationB[7] << " " << rotationB[8] << std::endl;
+      std::cout << "inverseA         : " << std::endl;
+      std::cout << inverseA[0] << " " << inverseA[1] << " " << inverseA[2] << std::endl;
+      std::cout << inverseA[3] << " " << inverseA[4] << " " << inverseA[5] << std::endl;
+      std::cout << inverseA[6] << " " << inverseA[7] << " " << inverseA[8] << std::endl;
+      std::cout << "inverseB         : " << std::endl;
+      std::cout << inverseB[0] << " " << inverseB[1] << " " << inverseB[2] << std::endl;
+      std::cout << inverseB[3] << " " << inverseB[4] << " " << inverseB[5] << std::endl;
+      std::cout << inverseB[6] << " " << inverseB[7] << " " << inverseB[8] << std::endl;
+      std::cout << "\n"                   << std::endl;
       demolish::resolution::spring(conpnt.normal,
                                    conpnt.x,
                                    conpnt.depth,
