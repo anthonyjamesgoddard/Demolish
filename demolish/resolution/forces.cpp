@@ -9,9 +9,9 @@
 //#define DAMPER 0.2
 //mine
 #define SPRING 2E5
-#define DAMPER 0.5
+#define DAMPER 0.1
 
-#define FRICTION 0.5
+#define FRICTION 0.1
 
 //sphere parameters for piling simulation
 #define SSPRING 2E5
@@ -156,7 +156,7 @@ void demolish::resolution::spring(
 
   iREAL velocity = (vij[0]*normal[0]) + (vij[1]*normal[1]) + (vij[2]*normal[2]);
 
-  iREAL damp = DAMPER * 2.0 * sqrt(ma)*velocity;
+  iREAL damp = DAMPER * 2.0 * sqrt(ma*SPRING)*velocity;
 
   iREAL force = SPRING*depth+damp;
 

@@ -304,8 +304,8 @@ void GeometryGenerator::CreateMeshFromMesh(demolish::Mesh* mesh, MeshData& meshD
         mdvs[triangles[i][2]].Normal.z = normal.getZ();    
 
         meshData.Indices.push_back(triangles[i][0]);
-        meshData.Indices.push_back(triangles[i][2]);
         meshData.Indices.push_back(triangles[i][1]);
+        meshData.Indices.push_back(triangles[i][2]);
         j = j+3;  
         
     }

@@ -89,6 +89,8 @@ std::array<iREAL, 3> 				&	angular)
   this->_angularVelocity[1] = angular[1];
   this->_angularVelocity[2] = angular[2];
 
+
+
   this-> _mesh			= 	mesh;
 
 
