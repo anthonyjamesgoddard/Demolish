@@ -22,9 +22,9 @@ int main() {
   // CUBOID COLLIDE
   // ***********************************
 
-  iREAL lowY = -10.0;
-  iREAL highY = 1.0;
-  iREAL size = 10;
+  iREAL lowY = -5.0;
+  iREAL highY = 5.0;
+  iREAL size = 5;
   demolish::Vertex A(-size,highY,size);
   demolish::Vertex B(-size,highY,-size);
   demolish::Vertex C(size,highY,-size);

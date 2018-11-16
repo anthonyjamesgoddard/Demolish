@@ -180,10 +180,8 @@ void demolish::World::updateWorld(float dt)
             _particles[_contactpoints[i].indexA].setLinearVelocity(newVelocityOfA);
 
 
-            torq[0] = 1;
-            torq[1] = 1;
-            torq[2] = 1;
             auto ang = _particles[_contactpoints[i].indexA].getReferenceAngularVelocity();
+            
             demolish::dynamics::updateAngular(ang.data(),
                                               _particles[_contactpoints[i].indexA].getOrientation().data(),
                                               _particles[_contactpoints[i].indexA].getInertia().data(),
@@ -191,6 +189,7 @@ void demolish::World::updateWorld(float dt)
                                               torq.data(),
                                               dt);          
             _particles[_contactpoints[i].indexA].setReferenceAngularVelocity(ang);
+            
             std::cout << ang[0] << " " << ang[1] << " " << ang[2] << std::endl; 
             
             
