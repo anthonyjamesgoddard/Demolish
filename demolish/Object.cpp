@@ -124,15 +124,15 @@ std::array<iREAL, 3> 				&	angular)
   _inertia[7] = inertia[7];
   _inertia[8] = inertia[8];
 
-  _inverse[0] = inertia[0];
-  _inverse[1] = inertia[1];
-  _inverse[2] = inertia[2];
-  _inverse[3] = inertia[3];
-  _inverse[4] = inertia[4];
-  _inverse[5] = inertia[5];
-  _inverse[6] = inertia[6];
-  _inverse[7] = inertia[7];
-  _inverse[8] = inertia[8];
+  _inverse[0] = inverse[0];
+  _inverse[1] = inverse[1];
+  _inverse[2] = inverse[2];
+  _inverse[3] = inverse[3];
+  _inverse[4] = inverse[4];
+  _inverse[5] = inverse[5];
+  _inverse[6] = inverse[6];
+  _inverse[7] = inverse[7];
+  _inverse[8] = inverse[8];
 
   _centreOfMass[0] = centerOfMass[0];
   _centreOfMass[1] = centerOfMass[1];
