@@ -190,7 +190,6 @@ void demolish::World::updateWorld(float dt)
                                               dt);          
             _particles[_contactpoints[i].indexA].setReferenceAngularVelocity(ang);
             
-            std::cout << ang[0] << " " << ang[1] << " " << ang[2] << std::endl; 
             
             
         }
@@ -205,6 +204,18 @@ void demolish::World::updateWorld(float dt)
 
             _particles[_contactpoints[i].indexB].setLinearVelocity(newVelocityOfB);
     
+            auto ang = _particles[_contactpoints[i].indexB].getReferenceAngularVelocity();
+           
+            // we may have to change this!
+            //
+            // is this physical?!
+            demolish::dynamics::updateAngular(ang.data(),
+                                              _particles[_contactpoints[i].indexB].getOrientation().data(),
+                                              _particles[_contactpoints[i].indexB].getInertia().data(),
+                                              _particles[_contactpoints[i].indexB].getInverse().data(),
+                                              torq.data(),
+                                              dt);          
+            _particles[_contactpoints[i].indexB].setReferenceAngularVelocity(ang);
         } 
         
     }
