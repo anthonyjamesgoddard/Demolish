@@ -1,7 +1,1 @@
-We are working on mesh-mesh collisions.
-
-We are currently getting the visualisation engine to deal with
-dynamic meshed objects and are implementing a basic mesh-mesh
-collision scheme.
-
-WE HAVE NOT COMPILED AND CHECKED FOR BUGS.
+alter world to make the angular velocity update more physical
