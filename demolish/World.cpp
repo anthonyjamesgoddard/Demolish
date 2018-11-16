@@ -209,6 +209,8 @@ void demolish::World::updateWorld(float dt)
             // we may have to change this!
             //
             // is this physical?!
+            //
+            // fix the weekend
             demolish::dynamics::updateAngular(ang.data(),
                                               _particles[_contactpoints[i].indexB].getOrientation().data(),
                                               _particles[_contactpoints[i].indexB].getInertia().data(),
