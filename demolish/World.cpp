@@ -179,29 +179,21 @@ void demolish::World::updateWorld(float dt)
                                                 velocityOfA[2] + dt*force[2]*(1/massA)};
             _particles[_contactpoints[i].indexA].setLinearVelocity(newVelocityOfA);
 
-/*
-            std::cout << "DURING UPDATE \n\n\n\n\n" << std::endl;
-            auto ang =  _particles[_contactpoints[i].indexA].getAngularVelocity();
-            std::cout << "object with index " << _contactpoints[i].indexA << std::endl;
-            std::cout << "has angular vel " << ang[0] << std::endl;
-            std::cout << "we are dealing with torq" << std::endl;
-            std::cout << torq[0] << " " << torq[1] << " " << torq[2] << std::endl;
-            std::cout << "\n\n" << std::endl;
 
+            torq[0] = 1;
+            torq[1] = 1;
+            torq[2] = 1;
+            auto ang = _particles[_contactpoints[i].indexA].getReferenceAngularVelocity();
             demolish::dynamics::updateAngular(ang.data(),
                                               _particles[_contactpoints[i].indexA].getOrientation().data(),
                                               _particles[_contactpoints[i].indexA].getInertia().data(),
                                               _particles[_contactpoints[i].indexA].getInverse().data(),
                                               torq.data(),
-                                              dt);
+                                              dt);          
+            _particles[_contactpoints[i].indexA].setReferenceAngularVelocity(ang);
+            std::cout << ang[0] << " " << ang[1] << " " << ang[2] << std::endl; 
             
-            _particles[_contactpoints[i].indexA].setAngularVelocity(ang);
-            std::cout << "AFTER UPDATE \n\n\n\n\n" << std::endl;
-             ang =  _particles[_contactpoints[i].indexA].getAngularVelocity();
-            std::cout << "object with index " << _contactpoints[i].indexA << std::endl;
-            std::cout << "has angular vel " << ang[0] << std::endl;
-            std::cout << "\n\n" << std::endl;
-            */
+            
         }
         if(!_particles[_contactpoints[i].indexB].getIsObstacle()) 
         {
@@ -211,35 +203,9 @@ void demolish::World::updateWorld(float dt)
             std::array<iREAL, 3> newVelocityOfB = {velocityOfB[0] - dt*force[0]*(1/massB),
                                                 velocityOfB[1] - dt*force[1]*(1/massB),
                                                 velocityOfB[2] - dt*force[2]*(1/massB)};
+
             _particles[_contactpoints[i].indexB].setLinearVelocity(newVelocityOfB);
-        
-        /*
-            std::cout << "DURING UPDATE \n" << std::endl;
-            auto ang =  _particles[_contactpoints[i].indexB].getAngularVelocity();
-            std::cout << "object with index " << _contactpoints[i].indexB << std::endl;
-            std::cout << "has angular vel " << ang[0] << std::endl;
-            std::cout << "\n with torque " << std::endl;
-            std::cout << torq[0] << " " << torq[1] << " " << torq[2] << std::endl;
-            std::cout << "obtained from corresponding force " << std::endl;
-            std::cout << force[0] << " " << force[1] << " " << force[2] << std::endl;
-
-            std::array<iREAL, 3> zero = {0,0,0};
-
-            demolish::dynamics::updateAngular(ang.data(),
-                                              _particles[_contactpoints[i].indexB].getOrientation().data(),
-                                              _particles[_contactpoints[i].indexB].getInertia().data(),
-                                              _particles[_contactpoints[i].indexB].getInverse().data(),
-                                              zero.data(),
-                                              dt);
-            
-            _particles[_contactpoints[i].indexB].setAngularVelocity(ang);
-            std::cout << "AFTER UPDATE \n\n\n\n\n" << std::endl;
-             ang =  _particles[_contactpoints[i].indexB].getAngularVelocity();
-            std::cout << "object with index " << _contactpoints[i].indexA << std::endl;
-            std::cout << "has angular vel " << ang[0] << std::endl;
-            std::cout << "\n\n" << std::endl;
-            */
-            
+    
         } 
         
     }

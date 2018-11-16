@@ -219,7 +219,7 @@ class demolish::Object
 	 */
     std::array<iREAL, 3> getAngularVelocity();
     std::array<iREAL, 3> getReferenceAngularVelocity();
-
+    void                 setReferenceAngularVelocity(std::array<iREAL,3> & ang);
 	/*
 	 *  Get Material
 	 *

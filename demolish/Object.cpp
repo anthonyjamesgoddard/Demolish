@@ -73,9 +73,6 @@ std::array<iREAL, 3> 				&	angular)
   this->_location[1] = centre[1];
   this->_location[2] = centre[2];
 
-  this->_referenceLocation[0] = centre[0];
-  this->_referenceLocation[1] = centre[1];
-  this->_referenceLocation[2] = centre[2];
   
   
   this->_material 	    = material;
@@ -142,6 +139,9 @@ std::array<iREAL, 3> 				&	angular)
   _centreOfMass[2] = centerOfMass[2];
  
 
+  this->_referenceLocation[0] = centerOfMass[0];
+  this->_referenceLocation[1] = centerOfMass[1];
+  this->_referenceLocation[2] = centerOfMass[2];
 
   this->_diameter		=	mesh->computeDiameter();
   this->_rad				= 	_diameter/2;
@@ -475,6 +475,11 @@ std::array<iREAL, 3> demolish::Object::getAngularVelocity()
 std::array<iREAL, 3> demolish::Object::getReferenceAngularVelocity()
 {
     return _refAngularVelocity;
+}
+
+void demolish::Object::setReferenceAngularVelocity(std::array<iREAL, 3>& ang)
+{
+    _refAngularVelocity = ang;
 }
 
 iREAL demolish::Object::computeVolume()
