@@ -83,11 +83,12 @@ void expmap (iREAL Omega1, iREAL Omega2, iREAL Omega3,
 
  void demolish::dynamics::updateRotationMatrix(
      iREAL *angular,
+     iREAL *refAngular,
      iREAL *rotation,
      iREAL step)
 {
   iREAL DL[9], rot0[9];
-  expmap (step*angular[0], step*angular[1], step*angular[2], DL[0], DL[1], DL[2], DL[3], DL[4], DL[5], DL[6], DL[7], DL[8]);
+  expmap (step*refAngular[0], step*refAngular[1], step*refAngular[2], DL[0], DL[1], DL[2], DL[3], DL[4], DL[5], DL[6], DL[7], DL[8]);
 
   rot0[0] = rotation[0];
   rot0[1] = rotation[1];
@@ -111,7 +112,6 @@ void expmap (iREAL Omega1, iREAL Omega2, iREAL Omega3,
   rotation[8] = rot0[2]*DL[6]+rot0[5]*DL[7]+rot0[8]*DL[8];
 
   //NVMUL (rotation, refAngular, angular);
-  iREAL refAngular[3] = {angular[0],angular[1],angular[2]}; 
   angular[0] = rotation[0]*refAngular[0]+rotation[3]*refAngular[1]+rotation[6]*refAngular[2];
   angular[1] = rotation[1]*refAngular[0]+rotation[4]*refAngular[1]+rotation[7]*refAngular[2];
   angular[2] = rotation[2]*refAngular[0]+rotation[5]*refAngular[1]+rotation[8]*refAngular[2];
@@ -198,21 +198,24 @@ void demolish::dynamics::updateVertices(
     iREAL *x,
     iREAL *y,
     iREAL *z,
+    iREAL *refx,
+    iREAL *refy,
+    iREAL *refz,
     iREAL *rotation,
-    iREAL *location,
-    iREAL *newloc)
+    iREAL *position,
+    iREAL *refposition)
 {
 	iREAL C[3], c[3];
 
 	//point A REFERENCIAL
-	C[0] = *x - location[0];
-	C[1] = *y - location[1];
-	C[2] = *z - location[2];
+	C[0] = *refx - refposition[0];
+	C[1] = *refy - refposition[1];
+	C[2] = *refz - refposition[2];
 
 	//SCC (location, C);
-	c[0] = newloc[0] + (rotation[0]*(C)[0]+rotation[3]*C[1]+rotation[6]*C[2]);
-	c[1] = newloc[1] + (rotation[1]*(C)[0]+rotation[4]*C[1]+rotation[7]*C[2]);
-	c[2] = newloc[2] + (rotation[2]*(C)[0]+rotation[5]*C[1]+rotation[8]*C[2]);
+	c[0] = position[0] + (rotation[0]*(C)[0]+rotation[3]*C[1]+rotation[6]*C[2]);
+	c[1] = position[1] + (rotation[1]*(C)[0]+rotation[4]*C[1]+rotation[7]*C[2]);
+	c[2] = position[2] + (rotation[2]*(C)[0]+rotation[5]*C[1]+rotation[8]*C[2]);
 
 	//point A SPATIAL
 	*x = c[0];

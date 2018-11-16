@@ -73,6 +73,11 @@ std::array<iREAL, 3> 				&	angular)
   this->_location[1] = centre[1];
   this->_location[2] = centre[2];
 
+  this->_referenceLocation[0] = centre[0];
+  this->_referenceLocation[1] = centre[1];
+  this->_referenceLocation[2] = centre[2];
+  
+  
   this->_material 	    = material;
   this->_isObstacle 	= isObstacle;
   this->_isFriction 	= isFriction;
@@ -89,6 +94,9 @@ std::array<iREAL, 3> 				&	angular)
   this->_angularVelocity[1] = angular[1];
   this->_angularVelocity[2] = angular[2];
 
+  this->_refAngularVelocity[0] = angular[0];
+  this->_refAngularVelocity[1] = angular[1];
+  this->_refAngularVelocity[2] = angular[2];
 
 
   this-> _mesh			= 	mesh;
@@ -296,6 +304,7 @@ int demolish::Object::getLocalParticleId()
   return _localParticleID;
 }
 
+
 void demolish::Object::setLocation(std::array<iREAL,3> newlocation)
 {
     _location = newlocation;
@@ -315,6 +324,11 @@ void demolish::Object::setOrientation(std::array<iREAL, 9>& orientation)
 std::array<iREAL, 3> demolish::Object::getLocation()
 {
   return _location;
+}
+
+std::array<iREAL, 3> demolish::Object::getReferenceLocation()
+{
+    return _referenceLocation;
 }
 
 void demolish::Object::setCentre(iREAL centre[3])
@@ -456,6 +470,11 @@ std::array<iREAL, 3> demolish::Object::getLinearVelocity()
 std::array<iREAL, 3> demolish::Object::getAngularVelocity()
 {
   return _angularVelocity;
+}
+
+std::array<iREAL, 3> demolish::Object::getReferenceAngularVelocity()
+{
+    return _refAngularVelocity;
 }
 
 iREAL demolish::Object::computeVolume()

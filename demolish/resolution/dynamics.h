@@ -43,6 +43,7 @@ namespace demolish {
 	*/
     void updateRotationMatrix(
         iREAL *angular,
+        iREAL *refAngular,
         iREAL *rotation,
         iREAL step);
 
@@ -66,9 +67,12 @@ namespace demolish {
         iREAL* x,
         iREAL* y,
         iREAL* z,
+        iREAL* refx,
+        iREAL* refy,
+        iREAL* refz,
         iREAL* rotation,
-        iREAL* location,
-        iREAL* newloc);
+        iREAL* position,
+        iREAL* refposition);
   }
 }
 #endif

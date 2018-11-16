@@ -167,6 +167,39 @@ class demolish::Mesh {
 	 *  @param none
 	 *  @returns iREAL value
 	 */
+	iREAL* getRefXCoordinates();
+
+	/*
+	 *  Get Y Coordinates
+	 *
+	 *  Returns Y coordinates as SoA data structure.
+	 *
+	 *
+	 *  @param none
+	 *  @returns vector of iREAL values
+	 */
+	iREAL* getRefYCoordinates();
+
+	/*
+	 *  Get Z Coordinates
+	 *
+	 *  Returns Z coordinates as SoA data structure.
+	 *
+	 *
+	 *  @param none
+	 *  @returns vector of iREAL values
+	 */
+	iREAL* getRefZCoordinates();
+
+	/*
+	 *  Get Width of the X Coordinates
+	 *
+	 *  Returns width of x coordinates
+	 *
+	 *
+	 *  @param none
+	 *  @returns iREAL value
+	 */
 	iREAL computeXw();
 
 	/*
@@ -531,6 +564,10 @@ class demolish::Mesh {
     std::vector<iREAL>   						_xCoordinates;
     std::vector<iREAL>   						_yCoordinates;
     std::vector<iREAL>   						_zCoordinates;
+
+    std::vector<iREAL>                          _refxCoordinates;                          
+    std::vector<iREAL>                          _refyCoordinates;                          
+    std::vector<iREAL>                          _refzCoordinates;                          
 
     demolish::Vertex						    _minBoundary;
     demolish::Vertex						    _maxBoundary;

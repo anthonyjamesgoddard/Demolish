@@ -157,7 +157,7 @@ class demolish::Object
 	 *  @returns vertex
 	 */
     std::array<iREAL, 3> getLocation();
-
+    std::array<iREAL, 3> getReferenceLocation();
 	/*
 	 *  Get Inertia
 	 *
@@ -218,6 +218,7 @@ class demolish::Object
 	 *  @returns velocity
 	 */
     std::array<iREAL, 3> getAngularVelocity();
+    std::array<iREAL, 3> getReferenceAngularVelocity();
 
 	/*
 	 *  Get Material
@@ -293,8 +294,11 @@ class demolish::Object
 
     std::array<iREAL, 3> 	_linearVelocity;
     std::array<iREAL, 3> 	_angularVelocity;
+    std::array<iREAL, 3>    _refAngularVelocity;
 
     std::array<iREAL, 3> 	_location;
+    std::array<iREAL, 3>    _referenceLocation;
+
     std::array<iREAL, 3> 	_centreOfMass;          //centre of mass 
 
   private:

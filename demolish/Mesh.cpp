@@ -273,7 +273,19 @@ void demolish::Mesh::flatten()
 	_yCoordinates.push_back(C[1]);
 	_zCoordinates.push_back(C[2]);
 
-	iREAL AB = sqrt((A[0]-B[0])*(A[0]-B[0])+(A[1]-B[1])*(A[1]-B[1])+(A[2]-B[2])*(A[2]-B[2]));
+	_refxCoordinates.push_back(A[0]);
+	_refyCoordinates.push_back(A[1]);
+	_refzCoordinates.push_back(A[2]);
+
+	_refxCoordinates.push_back(B[0]);
+	_refyCoordinates.push_back(B[1]);
+	_refzCoordinates.push_back(B[2]);
+
+	_refxCoordinates.push_back(C[0]);
+	_refyCoordinates.push_back(C[1]);
+	_refzCoordinates.push_back(C[2]);
+	
+    iREAL AB = sqrt((A[0]-B[0])*(A[0]-B[0])+(A[1]-B[1])*(A[1]-B[1])+(A[2]-B[2])*(A[2]-B[2]));
 	iREAL BC = sqrt((B[0]-C[0])*(B[0]-C[0])+(B[1]-C[1])*(B[1]-C[1])+(B[2]-C[2])*(B[2]-C[2]));
 	iREAL CA = sqrt((C[0]-A[0])*(C[0]-A[0])+(C[1]-A[1])*(C[1]-A[1])+(C[2]-A[2])*(C[2]-A[2]));
 
@@ -415,6 +427,20 @@ iREAL*  demolish::Mesh::getZCoordinates()
   return _zCoordinates.data();
 }
 
+iREAL*  demolish::Mesh::getRefXCoordinates()
+{
+  return _refxCoordinates.data();
+}
+
+iREAL*  demolish::Mesh::getRefYCoordinates()
+{
+  return _refyCoordinates.data();
+}
+
+iREAL*  demolish::Mesh::getRefZCoordinates()
+{
+  return _refzCoordinates.data();
+}
 
 void demolish::Mesh::shiftMesh(iREAL centre[3])
 {

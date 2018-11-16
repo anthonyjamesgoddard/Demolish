@@ -244,23 +244,27 @@ void demolish::World::updateWorld(float dt)
         
     }
  
-    iREAL gravity = -90.8;
+    iREAL gravity = -0;
 
     for(int i=0;i<_particles.size();i++)
     {
        if(_particles[i].getIsObstacle()) continue;
        auto loc    = _particles[i].getLocation();
-       auto loc2   = loc;
+       auto refLoc = _particles[i].getReferenceLocation();
        auto linVel = _particles[i].getLinearVelocity();
        linVel[1] += dt*gravity;
+       _particles[i].setLinearVelocity(linVel);
        loc[0] += dt*linVel[0];
        loc[1] += dt*linVel[1];
        loc[2] += dt*linVel[2];
+       _particles[i].setLocation(loc);
       
       // update rotation matrix
       auto ori = _particles[i].getOrientation();
 
-      demolish::dynamics::updateRotationMatrix(_particles[i].getAngularVelocity().data(),
+      demolish::dynamics::updateRotationMatrix(
+                                               _particles[i].getAngularVelocity().data(),
+                                               _particles[i].getReferenceAngularVelocity().data(),
                                                ori.data(),
                                                dt);
       _particles[i].setOrientation(ori);
@@ -272,11 +276,13 @@ void demolish::World::updateWorld(float dt)
           demolish::dynamics::updateVertices(&_particles[i].getMesh()->getXCoordinates()[j],
                                              &_particles[i].getMesh()->getYCoordinates()[j],
                                              &_particles[i].getMesh()->getZCoordinates()[j],
+                                             &_particles[i].getMesh()->getRefXCoordinates()[j],
+                                             &_particles[i].getMesh()->getRefYCoordinates()[j],
+                                             &_particles[i].getMesh()->getRefZCoordinates()[j],
                                              _particles[i].getOrientation().data(),
-                                             loc2.data(),loc.data());
+                                             loc.data(),refLoc.data());
 
       }
-      _particles[i].setLocation(loc);
       
     }
     }
