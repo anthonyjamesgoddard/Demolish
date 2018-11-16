@@ -3,7 +3,7 @@
 #define _DEMOLISH_CONTACTPOINT
 
 #include"demolish.h"
-
+#include <iostream> 
 #include <string>
 #include <cmath>
 #include <limits>
@@ -19,6 +19,8 @@ namespace demolish {
  * Simple struct representing a contact point
  */
 struct demolish::ContactPoint {
+  
+  
   /**
    * Position in space
    */
@@ -114,6 +116,8 @@ struct demolish::ContactPoint {
 
     bool            fric
     );
+
+    void printInformation();
 
 };
 

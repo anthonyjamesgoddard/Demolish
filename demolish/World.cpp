@@ -130,27 +130,26 @@ void demolish::World::updateWorld(float dt)
            
         }
     }
+    
+
+    // we look at the details of the contact point
+    for(int i=0;i< _contactpoints.size();i++)
+    {
+        //_contactpoints[i].printInformation();
+    }
 
 
+    if(true){
 //**********************************************************************
 //
 // RESOLUTION
 //
 //**********************************************************************
-/*
+
     for(int i=0;i<_contactpoints.size();i++)
     {
         std::array<iREAL, 3> force;
         std::array<iREAL, 3> torq;
-
-            std::cout << "BEFORE GET CONTACT FORCES\n\n\n\n\n" << std::endl;
-            auto ang =  _particles[_contactpoints[i].indexA].getAngularVelocity();
-            std::cout << "object with index " << _contactpoints[i].indexA << std::endl;
-            std::cout << "has angular vel " << ang[0] << std::endl;
-            std::cout << "\n\n" << std::endl;
-
-
-        std::cout << _particles[_contactpoints[i].indexA].getMass() << " " << _particles[_contactpoints[i].indexB].getMass() << std::endl;
         demolish::resolution::getContactForces(_contactpoints[i],
                                                _particles[_contactpoints[i].indexA].getLocation().data(),
                                                _particles[_contactpoints[i].indexA].getAngularVelocity().data(),
@@ -170,16 +169,6 @@ void demolish::World::updateWorld(float dt)
                                                torq,
                                                (_particles[_contactpoints[i].indexA].getIsSphere() && _particles[_contactpoints[i].indexB].getIsSphere()));
 
-            std::cout << "AFTER GET CONTACT FORCES\n\n\n\n\n" << std::endl;
-             ang =  _particles[_contactpoints[i].indexA].getAngularVelocity();
-            std::cout << "object with index " << _contactpoints[i].indexA << std::endl;
-            std::cout << "has angular vel " << ang[0] << std::endl;
-            std::cout << "\n\n" << std::endl;
-
-
-        std::cout << "the forces we are dealing with\n\n\n\n" << std::endl;
-        std::cout << force[0] << " " << force[1] << " " << force[2] << std::endl;
-
         if(!_particles[_contactpoints[i].indexA].getIsObstacle()) 
         {
             auto velocityOfA = _particles[_contactpoints[i].indexA].getLinearVelocity();
@@ -190,7 +179,7 @@ void demolish::World::updateWorld(float dt)
                                                 velocityOfA[2] + dt*force[2]*(1/massA)};
             _particles[_contactpoints[i].indexA].setLinearVelocity(newVelocityOfA);
 
-
+/*
             std::cout << "DURING UPDATE \n\n\n\n\n" << std::endl;
             auto ang =  _particles[_contactpoints[i].indexA].getAngularVelocity();
             std::cout << "object with index " << _contactpoints[i].indexA << std::endl;
@@ -212,6 +201,7 @@ void demolish::World::updateWorld(float dt)
             std::cout << "object with index " << _contactpoints[i].indexA << std::endl;
             std::cout << "has angular vel " << ang[0] << std::endl;
             std::cout << "\n\n" << std::endl;
+            */
         }
         if(!_particles[_contactpoints[i].indexB].getIsObstacle()) 
         {
@@ -223,17 +213,23 @@ void demolish::World::updateWorld(float dt)
                                                 velocityOfB[2] - dt*force[2]*(1/massB)};
             _particles[_contactpoints[i].indexB].setLinearVelocity(newVelocityOfB);
         
-            std::cout << "DURING UPDATE \n\n\n\n\n" << std::endl;
+        /*
+            std::cout << "DURING UPDATE \n" << std::endl;
             auto ang =  _particles[_contactpoints[i].indexB].getAngularVelocity();
             std::cout << "object with index " << _contactpoints[i].indexB << std::endl;
             std::cout << "has angular vel " << ang[0] << std::endl;
-            std::cout << "\n\n" << std::endl;
+            std::cout << "\n with torque " << std::endl;
+            std::cout << torq[0] << " " << torq[1] << " " << torq[2] << std::endl;
+            std::cout << "obtained from corresponding force " << std::endl;
+            std::cout << force[0] << " " << force[1] << " " << force[2] << std::endl;
+
+            std::array<iREAL, 3> zero = {0,0,0};
 
             demolish::dynamics::updateAngular(ang.data(),
                                               _particles[_contactpoints[i].indexB].getOrientation().data(),
                                               _particles[_contactpoints[i].indexB].getInertia().data(),
                                               _particles[_contactpoints[i].indexB].getInverse().data(),
-                                              torq.data(),
+                                              zero.data(),
                                               dt);
             
             _particles[_contactpoints[i].indexB].setAngularVelocity(ang);
@@ -242,10 +238,12 @@ void demolish::World::updateWorld(float dt)
             std::cout << "object with index " << _contactpoints[i].indexA << std::endl;
             std::cout << "has angular vel " << ang[0] << std::endl;
             std::cout << "\n\n" << std::endl;
+            */
+            
         } 
         
     }
-*/  
+ 
     iREAL gravity = -90.8;
 
     for(int i=0;i<_particles.size();i++)
@@ -261,23 +259,10 @@ void demolish::World::updateWorld(float dt)
       
       // update rotation matrix
       auto ori = _particles[i].getOrientation();
-      /*
-      std::cout << "orientation before         : " << std::endl;
-      std::cout << ori[0] << " " << ori[1] << " " << ori[2] << std::endl;
-      std::cout << ori[3] << " " << ori[4] << " " << ori[5] << std::endl;
-      std::cout << ori[6] << " " << ori[7] << " " << ori[8] << std::endl;
-*/
 
-      std::cout << _particles[i].getAngularVelocity()[0] << " " << _particles[i].getAngularVelocity()[1] << " " << _particles[i].getAngularVelocity()[2] << std::endl;
       demolish::dynamics::updateRotationMatrix(_particles[i].getAngularVelocity().data(),
                                                ori.data(),
                                                dt);
-      /*
-      std::cout << "orientation after         : " << std::endl;
-      std::cout << ori[0] << " " << ori[1] << " " << ori[2] << std::endl;
-      std::cout << ori[3] << " " << ori[4] << " " << ori[5] << std::endl;
-      std::cout << ori[6] << " " << ori[7] << " " << ori[8] << std::endl;
-      */
       _particles[i].setOrientation(ori);
       
       // update verts
@@ -293,6 +278,7 @@ void demolish::World::updateWorld(float dt)
       }
       _particles[i].setLocation(loc);
       
+    }
     }
 }
                 

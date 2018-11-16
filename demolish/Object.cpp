@@ -109,7 +109,6 @@ std::array<iREAL, 3> 				&	angular)
   mesh->computeInertia(_material, mass, centerOfMass, inertia);
   mesh->computeInverseInertia(inertia, inverse, _isObstacle);
 
-  std::cout << "the objects mass is " << mass << std::endl;
   _inertia[0] = inertia[0];
   _inertia[1] = inertia[1];
   _inertia[2] = inertia[2];
@@ -135,10 +134,6 @@ std::array<iREAL, 3> 				&	angular)
   _centreOfMass[2] = centerOfMass[2];
  
 
-  std::cout << "The objects centre of mass is located at (before translation):\n" 
-            <<        _centreOfMass[0] 
-            << " " << _centreOfMass[1] 
-            << " " << _centreOfMass[2] << std::endl;
 
   this->_diameter		=	mesh->computeDiameter();
   this->_rad				= 	_diameter/2;

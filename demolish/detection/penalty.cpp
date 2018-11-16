@@ -51,7 +51,6 @@ std::vector<demolish::ContactPoint> demolish::detection::penalty(
 
         }
 
-        std::vector<demolish::ContactPoint> nearestContactPoint;
         iREAL epsilonMargin = (epsilonA+epsilonB);
 
         for (int iB=0; iB<numberOfTrianglesB; iB+=3)
@@ -59,6 +58,7 @@ std::vector<demolish::ContactPoint> demolish::detection::penalty(
             bool outside = false;
             if (d[iB] < epsilonMargin)
             {
+                bool fric =  bool(frictionA == true && frictionB == true);
     		    result.push_back(demolish::ContactPoint(
                 xPA[iB],
                 yPA[iB],
@@ -71,7 +71,7 @@ std::vector<demolish::ContactPoint> demolish::detection::penalty(
                 epsilonB,
                 particleA,
                 particleB,
-                frictionA && frictionB));
+                fric));
             }
         }
 

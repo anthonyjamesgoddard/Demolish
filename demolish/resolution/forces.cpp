@@ -8,10 +8,10 @@
 //#define SPRING 50
 //#define DAMPER 0.2
 //mine
-#define SPRING 2E5
-#define DAMPER 0.1
+#define SPRING 1E4
+#define DAMPER 1
 
-#define FRICTION 0.1
+#define FRICTION 0.5
 
 //sphere parameters for piling simulation
 #define SSPRING 2E5
@@ -156,7 +156,7 @@ void demolish::resolution::spring(
 
   iREAL velocity = (vij[0]*normal[0]) + (vij[1]*normal[1]) + (vij[2]*normal[2]);
 
-  iREAL damp = DAMPER * 2.0 * sqrt(ma*SPRING)*velocity;
+  iREAL damp = DAMPER * 2.0 * SPRING*sqrt(ma)*velocity;
 
   iREAL force = SPRING*depth+damp;
 
@@ -257,6 +257,7 @@ void demolish::resolution::getContactForces(
                                          f,
                                          forc);
     } else {
+        /*
       std::cout << "Contact Point stats\n" << std::endl;
       std::cout << "normal            : " << conpnt.normal[0] << " " << conpnt.normal[1] << " " << conpnt.normal[2] << std::endl;
       std::cout << "x                 : " << conpnt.x[0]      << " " << conpnt.x[1]      << " " << conpnt.x[2]      << std::endl;
@@ -283,7 +284,7 @@ void demolish::resolution::getContactForces(
       std::cout << inverseB[0] << " " << inverseB[1] << " " << inverseB[2] << std::endl;
       std::cout << inverseB[3] << " " << inverseB[4] << " " << inverseB[5] << std::endl;
       std::cout << inverseB[6] << " " << inverseB[7] << " " << inverseB[8] << std::endl;
-      std::cout << "\n"                   << std::endl;
+      std::cout << "\n"                   << std::endl;*/
       demolish::resolution::spring(conpnt.normal,
                                    conpnt.x,
                                    conpnt.depth,

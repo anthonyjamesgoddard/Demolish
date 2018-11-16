@@ -1,5 +1,4 @@
 #include "ContactPoint.h"
-#include <iostream>
 #include <iomanip>
 
 demolish::ContactPoint::ContactPoint() {}
@@ -7,7 +6,10 @@ demolish::ContactPoint::ContactPoint() {}
 demolish::ContactPoint::ContactPoint(const ContactPoint& copy):
   distance(copy.distance),
   indexA(copy.indexA),
-  indexB(copy.indexB) {
+  indexB(copy.indexB),
+  friction(copy.friction),
+  depth(copy.depth)
+  {
 
   x[0] = copy.x[0];
   x[1] = copy.x[1];
@@ -124,16 +126,18 @@ demolish::ContactPoint::ContactPoint(
   bool             fric
 ):
   indexA(particleA),
-  indexB(particleB) {
+  indexB(particleB),
+  friction(fric){
   x[0] = (xPA+xQB)/2.0;
   x[1] = (yPA+yQB)/2.0;
   x[2] = (zPA+zQB)/2.0;
+
 
   normal[0] = xPA-xQB;
   normal[1] = yPA-yQB;
   normal[2] = zPA-zQB;
 
-  const iREAL normalLength = std::sqrt( normal[0]*normal[0] + normal[1]*normal[1] + normal[2]*normal[2] );
+  iREAL normalLength = std::sqrt( normal[0]*normal[0] + normal[1]*normal[1] + normal[2]*normal[2] );
 
   friction = fric;
   normal[0] /= normalLength;
@@ -144,4 +148,17 @@ demolish::ContactPoint::ContactPoint(
 
   depth = (epsilonA+epsilonB)-normalLength;
 }
+
+void demolish::ContactPoint::printInformation()
+{
+    std::cout << "\n Contact Point information \n " << std::endl;
+    std::cout << "location of the contact point        : " << x[0] << " "  << x[1] << " " << x[2] << std::endl; 
+    std::cout << "normal from i to j                   : " << normal[0] << " " << normal[1] << " " << normal[2] << std::endl;
+    std::cout << "distance between particles           : " << distance << std::endl;
+    std::cout << "the particles involved               : " << indexA <<  " " << indexB << std::endl;
+    std::cout << "the depth                            : " << depth << std::endl;
+    std::cout << "are these parts subject to friction? : " << friction << std::endl;
+    std::cout << "\n"                                       << std::endl;
+}
+
 

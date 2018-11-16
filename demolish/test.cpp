@@ -73,7 +73,7 @@ int main() {
 
     reverseTris(meshTriangles);
   demolish::Mesh m1(meshTriangles,meshVertices);
-  std::array<iREAL, 3> location = {0,10,0};
+  std::array<iREAL, 3> location = {0,20,0};
   std::array<iREAL, 3> linear   = {0,0,0};
   std::array<iREAL, 3> angular  = {0.01,0,0};
   demolish::Object cuboid1(
@@ -91,7 +91,7 @@ int main() {
   demolish::Mesh m2(meshTriangles,meshVertices);
   location = {1,-10,0};
   linear   = {0,10,0};
-  angular  = {-0.001,0,0};
+  angular  = {-0.01,0.03,0};
   demolish::Object cuboid2(
                         1,
                         &m2,
