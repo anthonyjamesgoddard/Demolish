@@ -206,16 +206,17 @@ void demolish::World::updateWorld(float dt)
     
             auto ang = _particles[_contactpoints[i].indexB].getReferenceAngularVelocity();
            
-            // we may have to change this!
-            //
-            // is this physical?!
-            //
-            // fix the weekend
+
+            auto negtorq = torq;
+            negtorq[0] *=-1;
+            negtorq[1] *=-1;
+            negtorq[2] *=-1;
+
             demolish::dynamics::updateAngular(ang.data(),
                                               _particles[_contactpoints[i].indexB].getOrientation().data(),
                                               _particles[_contactpoints[i].indexB].getInertia().data(),
                                               _particles[_contactpoints[i].indexB].getInverse().data(),
-                                              torq.data(),
+                                              negtorq.data(),
                                               dt);          
             _particles[_contactpoints[i].indexB].setReferenceAngularVelocity(ang);
         } 

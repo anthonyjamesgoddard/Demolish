@@ -24,7 +24,8 @@ OBJS = demolish/demolish.o \
 	   demolish/resolution/sphere.o\
 	   demolish/resolution/dynamics.o\
 	   demolish/resolution/forces.o\
-       
+	   demolish/builder/GeometryBuilder.o \
+
 CFLAGS = -fPIC -std=c++17
 LDFLAGS=-lm -lX11 -lGL -lGLU -lXext -lXrender
 
