@@ -9,9 +9,13 @@ int main() {
 
     
 
+
   // ***********************************
   // CUBOID COLLIDE
   // ***********************************
+
+  int numberOfBodies = 10;
+
 
   std::vector<demolish::Vertex> meshVertices;
   std::vector<std::array<int, 3>> meshTriangles;
@@ -25,27 +29,27 @@ int main() {
   std::array<iREAL, 3> linear   = {0,0,0};
   std::array<iREAL, 3> angular  = {0,0,0};
 
-  // now we define the locations of the cubes
-    
-
-  demolish::Mesh m1(meshTriangles,meshVertices);
-  std::array<iREAL, 3> location = {0,20,0};
-  demolish::Object cuboid1(
-                        0,
-                        &m1,
-                        location,
-                        demolish::material::MaterialType::WOOD,
-                        false, 
-                        true,  
-                        true,  
-                        0.01,
-                        linear,
-                        angular);
-
-
-
-
-    
+  // now we define the locations and meshs the cubes
+  std::vector<std::array<iREAL, 3>> locations;
+  std::vector<demolish::Mesh> meshs;
+  for(int i=0;i<numberOfBodies;i++)
+  {
+      std::array<iREAL, 3> loc = {0,10+20*i,0};
+      locations.push_back(loc);
+      meshs.push_back(demolish::Mesh(meshTriangles,meshVertices));
+      objz.push_back(demolish::Object(i,
+                                      &meshs[i],
+                                      locations[i],
+                                      demolish::material::MaterialType::WOOD,
+                                      false,
+                                      true,
+                                      true,
+                                      0.01,
+                                      linear,
+                                      angular));
+      
+  }
+  
 
   demolish::World aworld(objz);
   aworld.runSimulation();

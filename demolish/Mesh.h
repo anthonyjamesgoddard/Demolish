@@ -18,6 +18,12 @@ class demolish::Mesh {
   public:
 	Mesh();
 
+    Mesh(const Mesh& copy)
+    {
+        this->_triangleFaces = copy._triangleFaces;
+        this->_uniqueVertices = copy._uniqueVertices;
+        this->flatten();
+    }
 	Mesh(
 		std::vector<std::array<int, 3>> 		&triangleFaces,
 		std::vector<Vertex>              	    &uniqueVertices);

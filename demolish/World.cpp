@@ -10,7 +10,7 @@ demolish::World::World(
     _particles = objects;
     _visuals.Init();
     _visuals.BuildBuffers(objects);
-    _worldPaused = false;
+   // _worldPaused = false;
 }
  
 
