@@ -46,8 +46,8 @@ class demolish::Object
 	  bool                          				isFriction,
 	  bool                          				isConvex,
 	  iREAL 										epsilon,
-	  std::array<iREAL, 3>& 						    linear,
-	  std::array<iREAL, 3>& 						    angular
+	  std::array<iREAL, 3> 						    linear,
+	  std::array<iREAL, 3> 						    angular
 	);
 
 	/*
@@ -284,30 +284,6 @@ class demolish::Object
 	iREAL computeMass(
 			demolish::material::MaterialType material);
 
-    
-    Object(const Object& copy)
-    {
-        std::cout << "we are being copied" << std::endl;
-        this->_linearVelocity = copy._linearVelocity;
-        this->_angularVelocity = copy._angularVelocity;
-        this->_refAngularVelocity = copy._refAngularVelocity;
-        this->_location = copy._location;
-        this->_referenceLocation = copy._referenceLocation;
-        this->_centreOfMass = copy._centreOfMass;
-        this->_globalParticleID = copy._globalParticleID;
-        this->_epsilon = copy._epsilon;
-        this->_mass = copy._mass;
-        this->_mesh = copy._mesh;
-        this->_material = copy._material;
-        this->_isObstacle = copy._isObstacle;
-        this->_isFriction = copy._isFriction;
-        this->_isConvex = copy._isConvex;
-        this->_isSphere = copy._isSphere;
-        this->_inertia = copy._inertia;
-        this->_inverse = copy._inverse;
-    }
-
-
 	demolish::Vertex        getMinBoundaryVertex();
 	demolish::Vertex        getMaxBoundaryVertex();
 
@@ -315,6 +291,8 @@ class demolish::Object
     bool getIsSphere();
 
     virtual ~Object();
+
+
 
     std::array<iREAL, 3> 	_linearVelocity;
     std::array<iREAL, 3> 	_angularVelocity;

@@ -10,7 +10,7 @@ demolish::World::World(
     _particles = objects;
     _visuals.Init();
     _visuals.BuildBuffers(objects);
-   // _worldPaused = false;
+    _worldPaused = false;
 }
  
 
@@ -223,7 +223,7 @@ void demolish::World::updateWorld(float dt)
         
     }
  
-    iREAL gravity = -0;
+    iREAL gravity = -0.9;
 
     for(int i=0;i<_particles.size();i++)
     {

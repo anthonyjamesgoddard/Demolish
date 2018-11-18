@@ -61,8 +61,8 @@ bool                          			isObstacle,
 bool                          			isFriction,
 bool                          			isConvex,
 iREAL 									epsilon,
-std::array<iREAL, 3> 				&	linear,
-std::array<iREAL, 3> 				&	angular)
+std::array<iREAL, 3> 					linear,
+std::array<iREAL, 3> 					angular)
 {
   this->_globalParticleID = particleID;
   this->_localParticleID = 0;
