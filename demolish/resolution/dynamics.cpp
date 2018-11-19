@@ -192,8 +192,6 @@ void demolish::dynamics::updateAngular(
 	/////////////////////
 }
 
-#include<iostream>
-
 void demolish::dynamics::updateVertices(
     iREAL *x,
     iREAL *y,

@@ -139,7 +139,7 @@ void demolish::World::updateWorld(float dt)
     }
 
 
-    if(true){
+    if(_contactpoints.size() <1){
 //**********************************************************************
 //
 // RESOLUTION
@@ -169,8 +169,10 @@ void demolish::World::updateWorld(float dt)
                                                torq,
                                                (_particles[_contactpoints[i].indexA].getIsSphere() && _particles[_contactpoints[i].indexB].getIsSphere()));
 
+
         if(!_particles[_contactpoints[i].indexA].getIsObstacle()) 
         {
+            std::cout << "runing" << std::endl;
             auto velocityOfA = _particles[_contactpoints[i].indexA].getLinearVelocity();
             auto massA = _particles[_contactpoints[i].indexA].getMass();
 
@@ -223,7 +225,7 @@ void demolish::World::updateWorld(float dt)
         
     }
  
-    iREAL gravity = -0.9;
+    iREAL gravity = -5;
 
     for(int i=0;i<_particles.size();i++)
     {
@@ -237,7 +239,10 @@ void demolish::World::updateWorld(float dt)
        loc[1] += dt*linVel[1];
        loc[2] += dt*linVel[2];
        _particles[i].setLocation(loc);
-      
+     
+      std::cout << "the location of object" << i << std::endl;
+      std::cout << loc[0] << " " << loc[1] << " " << loc[2] << std::endl;
+
       // update rotation matrix
       auto ori = _particles[i].getOrientation();
 

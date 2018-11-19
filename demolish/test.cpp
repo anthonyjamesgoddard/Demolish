@@ -2,7 +2,7 @@
 
 
 
-/*#include "demolish.h"
+#include "demolish.h"
 #include "World.h"
 #include "builder/GeometryBuilder.h"
 #include <iostream>
@@ -18,31 +18,33 @@ int main() {
   // CUBOID COLLIDE
   // ***********************************
 
-  int numberOfBodies = 1;
+  int numberOfBodies = 10;
 
 
   std::vector<demolish::Vertex> meshVertices;
   std::vector<std::array<int, 3>> meshTriangles;
   std::vector<demolish::Object> objz;
 
+
+
+  // ***************************************************
+  // First we create the dynamic objects.
+  // ***************************************************
+
   // create the box shape that will be shared by all 
   // dynamic objects in the scene
-  demolish::CreateBox(10.0,10.0,10.0,meshVertices,meshTriangles);
+  demolish::CreateBox(2.9,4.0,3.9,meshVertices,meshTriangles);
 
   // all objects will have zero initial linear and angular velocity
-  std::array<iREAL, 3> linear   = {0,-1,0};
-
+  std::array<iREAL, 3> linear = {0,0,0};
+  std::array<iREAL, 3> angular = {0.1,0.1,0.1};
   // now we define the locations and meshs the cubes
   std::vector<std::array<iREAL, 3>> locations;
-  std::vector<std::array<iREAL, 3>> angulars;
   std::vector<demolish::Mesh> meshs;
   for(int i=0;i<numberOfBodies;i++)
   {
-
-      std::array<iREAL, 3> angular  = {1+i*0.1,0,1+i*0.1};
-      std::array<iREAL, 3> loc = {0,10+20*i,0};
+      std::array<iREAL, 3> loc = {0,10+10*i,0};
       locations.push_back(loc);
-      angulars.push_back(angular);
       meshs.push_back(demolish::Mesh(meshTriangles,meshVertices));
   }
   for(int i =0;i<numberOfBodies;i++)
@@ -56,14 +58,20 @@ int main() {
                                       true,
                                       0.01,
                                       linear,
-                                      angulars[i]));
+                                      angular));
    }   
 
 
+  // ********************************************
+  // Now we create the (static) floor
+  // ********************************************
+
+  angular = {0,0,0};
   meshTriangles.clear();meshVertices.clear();
-  demolish::CreateBox(100.0,3.0,100.0,meshVertices,meshTriangles);
+  demolish::CreateBox(20.0,0.50,20.0,meshVertices,meshTriangles);
   demolish::Mesh m(meshTriangles,meshVertices);
   std::array<iREAL, 3> locationOfFloor = {0,-10,0};
+  linear = {0,3,0};
   objz.push_back(demolish::Object(numberOfBodies,
                                       &m,
                                       locationOfFloor,
@@ -71,14 +79,15 @@ int main() {
                                       true,
                                       true,
                                       true,
-                                      0.01,
+                                      0.5,
                                       linear,
-                                      angulars[0]));
+                                      angular));
   demolish::World aworld(objz);
   aworld.runSimulation();
   return 0;
 }
-*/
+
+/*
 #include "demolish.h"
 #include "World.h"
 #include "builder/GeometryBuilder.h"
@@ -136,3 +145,4 @@ int main() {
   aworld.runSimulation();
   return 0;
 }
+*/

@@ -61,7 +61,6 @@ void demolish::operators::computeInertia(
   euler[6] = euler[7] = euler[8] = 0.0;
 
   iREAL rho = iREAL(demolish::material::materialToDensitymap.find(material)->second);	
-  std::cout << rho << std::endl;
 
   for (unsigned i=0;i<xCoordinates.size(); i+=3)
   {
