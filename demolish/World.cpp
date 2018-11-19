@@ -139,7 +139,7 @@ void demolish::World::updateWorld(float dt)
     }
 
 
-    if(_contactpoints.size() <1){
+    if(/*_contactpoints.size() <1*/true){
 //**********************************************************************
 //
 // RESOLUTION

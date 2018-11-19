@@ -18,7 +18,7 @@ int main() {
   // CUBOID COLLIDE
   // ***********************************
 
-  int numberOfBodies = 10;
+  int numberOfBodies = 1;
 
 
   std::vector<demolish::Vertex> meshVertices;
