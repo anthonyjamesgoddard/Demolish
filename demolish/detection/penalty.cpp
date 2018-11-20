@@ -1,7 +1,7 @@
 #include"penalty.h"
 
 
-int  MaxNumberOfNewtonIterations =  100;
+int  MaxNumberOfNewtonIterations =  120;
 /**
  * Since we are interested in single point contacts we can
  * improve the performace of this routine!

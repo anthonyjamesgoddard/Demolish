@@ -25,7 +25,7 @@ int demolish::World::runSimulation()
         // updates the physics
         auto dt = _timer.DeltaTime();
         if(dt>0.5)continue;
-        updateWorld(0.01);
+        updateWorld(0.005);
         _visuals.setContactPoints(_contactpoints);
         _visuals.UpdateScene(_particles);
     }

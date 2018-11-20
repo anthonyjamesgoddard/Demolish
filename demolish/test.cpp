@@ -57,7 +57,7 @@ int main() {
                                       false,
                                       true,
                                       true,
-                                      0.05,
+                                      0.1,
                                       linear,
                                       angular));
    }   
@@ -80,7 +80,7 @@ int main() {
                                       true,
                                       true,
                                       true,
-                                      0.05,
+                                      0.1,
                                       linear,
                                       angular));
   angular = {0,0,0};
@@ -98,7 +98,7 @@ int main() {
                                       demolish::material::MaterialType::WOOD,
                                       true,
                                       true,
-                                      false,
+                                      true,
                                       0.1,
                                       linear,
                                       angular));
