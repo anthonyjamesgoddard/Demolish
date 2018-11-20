@@ -378,7 +378,7 @@ void DEMDriver::OnMouseMove(int x, int y)
         radius += dx - dy;
 
         // Restrict the radius.
-        radius = MathHelper::Clamp(radius, 1.0f, 200.0f);
+        radius = MathHelper::Clamp(radius, 1.0f, 1000.0f);
     }
 
     else if(but ==2)

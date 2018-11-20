@@ -2,7 +2,13 @@
 
 
 int  MaxNumberOfNewtonIterations =  16;
-
+/**
+ * Since we are interested in single point contacts we can
+ * improve the performace of this routine!
+ *
+ * Before we do so, we should be 100% sure that single point
+ * contact is what we want...
+ * */
 
 std::vector<demolish::ContactPoint> demolish::detection::penalty(
   const iREAL*    xCoordinatesOfPointsOfGeometryA,
@@ -48,7 +54,7 @@ std::vector<demolish::ContactPoint> demolish::detection::penalty(
             d[iB] = std::sqrt(((xPB[iB]-xPA[iB])*(xPB[iB]-xPA[iB]))
                              +((yPB[iB]-yPA[iB])*(yPB[iB]-yPA[iB]))
                              +((zPB[iB]-zPA[iB])*(zPB[iB]-zPA[iB])));
-
+            
         }
 
         iREAL epsilonMargin = (epsilonA+epsilonB);
@@ -210,7 +216,6 @@ void demolish::detection::penaltySolver(
     iREAL error = DOT4(dx,dx)/DOT4(x,x);
 
     if (error < maxError*maxError) {
-      numberOfNewtonIterationsRequired = i;
       break;
     }
 

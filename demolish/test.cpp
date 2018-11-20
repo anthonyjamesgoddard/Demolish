@@ -18,7 +18,7 @@ int main() {
   // CUBOID COLLIDE
   // ***********************************
 
-  int numberOfBodies = 1;
+  int numberOfBodies = 20;
 
 
   std::vector<demolish::Vertex> meshVertices;
@@ -33,7 +33,7 @@ int main() {
 
   // create the box shape that will be shared by all 
   // dynamic objects in the scene
-  demolish::CreateBox(2.9,4.0,3.9,meshVertices,meshTriangles);
+  demolish::CreateBox(8.9,10.0,10.0,meshVertices,meshTriangles);
 
   // all objects will have zero initial linear and angular velocity
   std::array<iREAL, 3> linear = {0,0,0};
@@ -41,9 +41,10 @@ int main() {
   // now we define the locations and meshs the cubes
   std::vector<std::array<iREAL, 3>> locations;
   std::vector<demolish::Mesh> meshs;
+
   for(int i=0;i<numberOfBodies;i++)
   {
-      std::array<iREAL, 3> loc = {0,10+10*i,0};
+      std::array<iREAL, 3> loc = {i,20+20*i,i};
       locations.push_back(loc);
       meshs.push_back(demolish::Mesh(meshTriangles,meshVertices));
   }
@@ -56,7 +57,7 @@ int main() {
                                       false,
                                       true,
                                       true,
-                                      0.01,
+                                      0.05,
                                       linear,
                                       angular));
    }   
@@ -68,18 +69,18 @@ int main() {
 
   angular = {0,0,0};
   meshTriangles.clear();meshVertices.clear();
-  demolish::CreateBox(20.0,0.50,20.0,meshVertices,meshTriangles);
+  demolish::CreateBox(100.0,2.0,100.0,meshVertices,meshTriangles);
   demolish::Mesh m(meshTriangles,meshVertices);
   std::array<iREAL, 3> locationOfFloor = {0,-10,0};
-  linear = {0,3,0};
+  linear = {0,0,0};
   objz.push_back(demolish::Object(numberOfBodies,
                                       &m,
                                       locationOfFloor,
                                       demolish::material::MaterialType::WOOD,
                                       true,
                                       true,
-                                      true,
-                                      0.5,
+                                      false,
+                                      0.1,
                                       linear,
                                       angular));
   demolish::World aworld(objz);
@@ -87,6 +88,13 @@ int main() {
   return 0;
 }
 
+
+
+// add a third object here!!!!
+//
+// it must fail here also!!!!
+//
+//
 /*
 #include "demolish.h"
 #include "World.h"
@@ -103,9 +111,9 @@ int main() {
   std::vector<demolish::Vertex> meshVertices;
   demolish::CreateBox(10,10,10,meshVertices,meshTriangles);
   demolish::Mesh m1(meshTriangles,meshVertices);
-  std::array<iREAL, 3> location = {0,20,0};
+  std::array<iREAL, 3> location = {4,20,0};
   std::array<iREAL, 3> linear   = {0,0,0};
-  std::array<iREAL, 3> angular  = {0,0,1};
+  std::array<iREAL, 3> angular  = {0.5,0,1};
   demolish::Object cuboid1(
                         0,
                         &m1,
@@ -121,7 +129,7 @@ int main() {
   demolish::Mesh m2(meshTriangles,meshVertices);
   location = {5,-10,0};
   linear   = {0,6,0};
-  angular  = {1,0,0};
+  angular  = {1,2,0};
   demolish::Object cuboid2(
                         1,
                         &m2,
@@ -135,11 +143,27 @@ int main() {
                         angular);
 
 
+  demolish::Mesh m3(meshTriangles,meshVertices);
+  location = {5,-40,0};
+  linear   = {0,0,0};
+  angular  = {0,0,0};
+  demolish::Object cuboid3(
+                        2,
+                        &m3,
+                        location,
+                        demolish::material::MaterialType::WOOD,
+                        true,
+                        true,
+                        true,
+                        0.01,
+                        linear,
+                        angular);
+
 
   std::vector<demolish::Object> objz;
   objz.push_back(cuboid1);
   objz.push_back(cuboid2);
-
+  objz.push_back(cuboid3);
 
   demolish::World aworld(objz);
   aworld.runSimulation();
