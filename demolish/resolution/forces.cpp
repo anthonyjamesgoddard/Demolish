@@ -1,17 +1,9 @@
 #include "forces.h"
 
-//particle parameters
-//mine
-//#define SPRING 1E3
-//#define DAMPER 0.5
+#define SPRING 1E6
+#define DAMPER 5
 
-//#define SPRING 50
-//#define DAMPER 0.2
-//mine
-#define SPRING 2E4
-#define DAMPER 1
-
-#define FRICTION 0.1
+#define FRICTION 0.5
 
 //sphere parameters for piling simulation
 #define SFRICTIONGOLD 1
@@ -25,6 +17,8 @@ void demolish::resolution::spring(
     iREAL vij[3],
     iREAL positionASpatial[3],
     iREAL positionBSpatial[3],
+    iREAL positionAReferential[3],
+    iREAL positionBReferential[3],
     iREAL massA,
     iREAL massB,
     iREAL rotationA[9],
@@ -41,9 +35,9 @@ void demolish::resolution::spring(
   conptSubPosition[1] = conpnt[1] - positionASpatial[1];
   conptSubPosition[2] = conpnt[2] - positionASpatial[2];
 
-  refconptA[0] = (conptSubPosition[0]*rotationA[0] + conptSubPosition[1]*rotationA[1] + conptSubPosition[2]*rotationA[2])+positionASpatial[0];
-  refconptA[1] = (conptSubPosition[0]*rotationA[3] + conptSubPosition[1]*rotationA[4] + conptSubPosition[2]*rotationA[5])+positionASpatial[1];
-  refconptA[2] = (conptSubPosition[0]*rotationA[6] + conptSubPosition[1]*rotationA[7] + conptSubPosition[2]*rotationA[8])+positionASpatial[2];
+  refconptA[0] = (conptSubPosition[0]*rotationA[0] + conptSubPosition[1]*rotationA[1] + conptSubPosition[2]*rotationA[2])+positionAReferential[0];
+  refconptA[1] = (conptSubPosition[0]*rotationA[3] + conptSubPosition[1]*rotationA[4] + conptSubPosition[2]*rotationA[5])+positionAReferential[1];
+  refconptA[2] = (conptSubPosition[0]*rotationA[6] + conptSubPosition[1]*rotationA[7] + conptSubPosition[2]*rotationA[8])+positionAReferential[2];
 
 
   conptSubPosition[0] = conpnt[0] - positionBSpatial[0];
@@ -51,30 +45,30 @@ void demolish::resolution::spring(
   conptSubPosition[2] = conpnt[2] - positionBSpatial[2];
   
 
-  refconptB[0] = (conptSubPosition[0]*rotationB[0] + conptSubPosition[1]*rotationB[1] + conptSubPosition[2]*rotationB[2])+positionBSpatial[0];
-  refconptB[1] = (conptSubPosition[0]*rotationB[3] + conptSubPosition[1]*rotationB[4] + conptSubPosition[2]*rotationB[5])+positionBSpatial[1];
-  refconptB[2] = (conptSubPosition[0]*rotationB[6] + conptSubPosition[1]*rotationB[7] + conptSubPosition[2]*rotationB[8])+positionBSpatial[2];
+  refconptB[0] = (conptSubPosition[0]*rotationB[0] + conptSubPosition[1]*rotationB[1] + conptSubPosition[2]*rotationB[2])+positionBReferential[0];
+  refconptB[1] = (conptSubPosition[0]*rotationB[3] + conptSubPosition[1]*rotationB[4] + conptSubPosition[2]*rotationB[5])+positionBReferential[1];
+  refconptB[2] = (conptSubPosition[0]*rotationB[6] + conptSubPosition[1]*rotationB[7] + conptSubPosition[2]*rotationB[8])+positionBReferential[2];
 
   iREAL rPositionContactPnti[9];//3x3
   iREAL rPositionContactPntj[9];
 
   rPositionContactPnti[0] = 0.0;
-  rPositionContactPnti[3] = -positionASpatial[2]-refconptA[2];
-  rPositionContactPnti[6] = positionASpatial[1]-refconptA[1];
-  rPositionContactPnti[1] = positionASpatial[2]-refconptA[2];
+  rPositionContactPnti[3] = -positionAReferential[2]-refconptA[2];
+  rPositionContactPnti[6] = positionAReferential[1]-refconptA[1];
+  rPositionContactPnti[1] = positionAReferential[2]-refconptA[2];
   rPositionContactPnti[4] = 0.0;
-  rPositionContactPnti[7] = -positionASpatial[0]-refconptA[0];
-  rPositionContactPnti[2] = -positionASpatial[1]-refconptA[1];
-  rPositionContactPnti[5] = positionASpatial[0]-refconptA[0];
+  rPositionContactPnti[7] = -positionAReferential[0]-refconptA[0];
+  rPositionContactPnti[2] = -positionAReferential[1]-refconptA[1];
+  rPositionContactPnti[5] = positionAReferential[0]-refconptA[0];
   rPositionContactPnti[8] = 0.0;
   rPositionContactPntj[0] = 0.0;
-  rPositionContactPntj[3] = -positionBSpatial[2]-refconptB[2];
-  rPositionContactPntj[6] = positionBSpatial[1]-refconptB[1];
-  rPositionContactPntj[1] = positionBSpatial[2]-refconptB[2];
+  rPositionContactPntj[3] = -positionBReferential[2]-refconptB[2];
+  rPositionContactPntj[6] = positionBReferential[1]-refconptB[1];
+  rPositionContactPntj[1] = positionBReferential[2]-refconptB[2];
   rPositionContactPntj[4] = 0.0;
-  rPositionContactPntj[7] = -positionBSpatial[0]-refconptB[0];
-  rPositionContactPntj[2] = -positionBSpatial[1]-refconptB[1];
-  rPositionContactPntj[5] = positionBSpatial[0]-refconptB[0];	
+  rPositionContactPntj[7] = -positionBReferential[0]-refconptB[0];
+  rPositionContactPntj[2] = -positionBReferential[1]-refconptB[1];
+  rPositionContactPntj[5] = positionBReferential[0]-refconptB[0];	
   rPositionContactPntj[8] = 0.0;
 
 
@@ -154,13 +148,14 @@ void demolish::resolution::spring(
 
   iREAL velocity = (vij[0]*normal[0]) + (vij[1]*normal[1]) + (vij[2]*normal[2]);
 
-  iREAL damp = DAMPER * 2.0 * SPRING*sqrt(ma)*velocity;
+  iREAL damp = DAMPER * 2.0 * sqrt(SPRING*ma)*velocity;
 
   iREAL force = SPRING*depth+damp;
 
   f[0] = force*normal[0];
   f[1] = force*normal[1];
   f[2] = force*normal[2];
+    
 
   forc = force;
 }
@@ -195,6 +190,7 @@ void demolish::resolution::friction(
 void demolish::resolution::getContactForces(
   demolish::ContactPoint &conpnt,
   iREAL positionASpatial[3],
+  iREAL positionAReferential[3],
   iREAL angularA[3],
   iREAL linearA[3],
   iREAL massA,
@@ -203,6 +199,7 @@ void demolish::resolution::getContactForces(
   int   materialA,
 
   iREAL positionBSpatial[3],
+  iREAL positionBReferential[3],
   iREAL angularB[3],
   iREAL linearB[3],
   iREAL massB,
@@ -255,40 +252,14 @@ void demolish::resolution::getContactForces(
                                          f,
                                          forc);
     } else {
-        /*
-      std::cout << "Contact Point stats\n" << std::endl;
-      std::cout << "normal            : " << conpnt.normal[0] << " " << conpnt.normal[1] << " " << conpnt.normal[2] << std::endl;
-      std::cout << "x                 : " << conpnt.x[0]      << " " << conpnt.x[1]      << " " << conpnt.x[2]      << std::endl;
-      std::cout << "depth             : " << conpnt.depth   << std::endl;
-      std::cout << "relative velocity : " << vij[0]    << " " << vij[1]    << " " << vij[2]    << std::endl;
-      std::cout << "positionASpatial  : " << positionASpatial[0] << " " << positionASpatial[1] << " " << positionASpatial[2] << std::endl;
-      std::cout << "positionBSpatial  : " << positionBSpatial[0] << " " << positionBSpatial[1] << " " << positionBSpatial[2] << std::endl;
-      std::cout << "massA             : " << massA << std::endl;
-      std::cout << "massB             : " << massB << std::endl;
-      std::cout << "\n"                   << std::endl;
-      std::cout << "rotationA         : " << std::endl;
-      std::cout << rotationA[0] << " " << rotationA[1] << " " << rotationA[2] << std::endl;
-      std::cout << rotationA[3] << " " << rotationA[4] << " " << rotationA[5] << std::endl;
-      std::cout << rotationA[6] << " " << rotationA[7] << " " << rotationA[8] << std::endl;
-      std::cout << "rotationB         : " << std::endl;
-      std::cout << rotationB[0] << " " << rotationB[1] << " " << rotationB[2] << std::endl;
-      std::cout << rotationB[3] << " " << rotationB[4] << " " << rotationB[5] << std::endl;
-      std::cout << rotationB[6] << " " << rotationB[7] << " " << rotationB[8] << std::endl;
-      std::cout << "inverseA         : " << std::endl;
-      std::cout << inverseA[0] << " " << inverseA[1] << " " << inverseA[2] << std::endl;
-      std::cout << inverseA[3] << " " << inverseA[4] << " " << inverseA[5] << std::endl;
-      std::cout << inverseA[6] << " " << inverseA[7] << " " << inverseA[8] << std::endl;
-      std::cout << "inverseB         : " << std::endl;
-      std::cout << inverseB[0] << " " << inverseB[1] << " " << inverseB[2] << std::endl;
-      std::cout << inverseB[3] << " " << inverseB[4] << " " << inverseB[5] << std::endl;
-      std::cout << inverseB[6] << " " << inverseB[7] << " " << inverseB[8] << std::endl;
-      std::cout << "\n"                   << std::endl;*/
       demolish::resolution::spring(conpnt.normal,
                                    conpnt.x,
                                    conpnt.depth,
                                    vij,
                                    positionASpatial,
                                    positionBSpatial,
+                                   positionAReferential,
+                                   positionBReferential,
                                    massA,
                                    massB,
                                    rotationA,

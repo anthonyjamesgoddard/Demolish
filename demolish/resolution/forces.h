@@ -25,30 +25,6 @@
 
 namespace demolish {
 	namespace resolution {
-
-		/*
-		* Spring Force
-		*
-		* Returns the single force vector at the contact point between two interacting particles.
-		*
-		* @param normal is the contact normal
-		* @param conpnt is the contact point
-		* @param depth is the penetration depth
-		* @param vij relative linear and angular velocities between the two particles
-		* @param positionASpatial is the spatial position of particle A
-		* @param positionBSpatial is the spatial position of particle B
-		* @param positionAReferential is the referential position of particle A
-		* @param positionBReferential is the referential position of particle B
-		* @param massA is the mass of particle A
-		* @param massB is the mass of particle B
-		* @param rotationA is the rotational matrix of particle A
-		* @param rotationB is the rotational matrix of particle A
-		* @param inverseA is the inverse inertia of particle A
-		* @param inverseB is the inverse inertia of particle B
-		* @param f is the force vector at the normal
-		* @param forc is the force magnitude
-		* @return void
-		*/
 	  void spring(
 		  iREAL normal[3],
 		  iREAL conpnt[3],
@@ -56,6 +32,8 @@ namespace demolish {
 		  iREAL vij[3],
 		  iREAL positionASpatial[3],
 		  iREAL positionBSpatial[3],
+		  iREAL positionAReferential[3],
+		  iREAL positionBReferential[3],
 
 		  iREAL massA,
 		  iREAL massB,
@@ -66,20 +44,6 @@ namespace demolish {
 		  std::array<iREAL, 3>& f,
 		  iREAL &forc);
 
-
-	  /*
-	   * Friction
-	   *
-	   * Returns the friction vector at the contact point.
-	   *
-	   * @param normal is the contact normal
-	   * @param vi is the relative linear velocity between the two spheres
-	   * @param force is the applied force between particle A and B
-	   * @param materialA is the material type of particle A
-	   * @param materialB is the material type of particle B
-	   * @param isSphere indicate whether the particles are spheres
-	   * @return void
-	   */
 	  void friction(
 		  iREAL normal[3],
 		  iREAL vi[3],
@@ -89,37 +53,10 @@ namespace demolish {
 		  int materialB,
 		  bool isSphere);
 
-
-	  /**
-	   * Get Contact Forces
-	   *
-	   * Returns the contact forces of all contacts between two interacting bodies
-	   *
-	   * @param angularA is a vector that indicates linear velocity from center of mass
- 	   * @param refAngularA is a vector that indicates linear velocity from center of mass
-	   * @param linearA is a vector that indicates angular velocity from center of mass
-	   * @param massA is a floating number that indicates the mass
-	   * @param inverseA is the inverse of the inertia
-	   * @param rotationA is the orientation matrix
-	   * @param materialA is the material type
-	   *
-	   * @param angularB is a vector that indicates linear velocity from center of mass
- 	   * @param refAngularB is a vector that indicates linear velocity from center of mass
-	   * @param linearB is a vector that indicates angular velocity from center of mass
-	   * @param massB is a floating number that indicates the mass
-	   * @param inverseB is the inverse of the inertia
-	   * @param rotationB is the orientation matrix
-	   * @param materialB is the material type
-	   *
-	   * @param-returned force is the total force returned as vector to indicate magnitude and direction
-	   * @param torque is the total torque returned as vector to indicate torque
-	   * @param isSphere indicate whether the objects are spheres
-	   * @return void
-	   *
-	   */
 	  void getContactForces(
 		demolish::ContactPoint &conpnt,
 		iREAL positionASpatial[3],
+		iREAL positionAReferential[3],
 		iREAL angularA[3],
 		iREAL linearA[3],
 		iREAL massA,
@@ -128,6 +65,7 @@ namespace demolish {
 		int   materialA,
 
 		iREAL positionB[3],
+		iREAL positionBReferential[3],
 		iREAL angularB[3],
 		iREAL linearB[3],
 		iREAL massB,

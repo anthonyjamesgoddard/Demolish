@@ -6,6 +6,10 @@ namespace demolish{
     void CreateBox(iREAL dim1, iREAL dim2, iREAL dim3,
                     std::vector<demolish::Vertex>&  meshVertices,
                     std::vector<std::array<int, 3>>& meshTriangles);
+
+    void CreateTrunCone(iREAL topRadius, iREAL bottomRadius, iREAL height, int resolution,
+                        std::vector<demolish::Vertex> &meshVertices,
+                        std::vector<std::array<int, 3>>& meshTriangles);
 }
 
 

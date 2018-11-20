@@ -151,7 +151,6 @@ void DEMDriver::RedrawTheWindow()
         glEnd();
     }
 
-	glCullFace(GL_BACK);
     glMatrixMode(GL_MODELVIEW);
   
     // then we need to draw all the polygons
@@ -161,11 +160,19 @@ void DEMDriver::RedrawTheWindow()
     glLoadMatrixf(viewModelMatrix.m);
     glColor4f(1,1,1, 1);
 
+    glCullFace(GL_BACK);
     for(int j=0; j<VAODynamic.size();j++)
     {
         GLnix_glBindVertexArray(VAODynamic[j]);
         glDrawElements(GL_TRIANGLES, VAOIndexCountsDynamic[j], GL_UNSIGNED_INT, 0);
     }
+
+    for(int j=0; j<VAOStatic.size();j++)
+    {
+        GLnix_glBindVertexArray(VAOStatic[j]);
+        glDrawElements(GL_TRIANGLES, VAOIndexCountsStatic[j], GL_UNSIGNED_INT, 0);
+    }
+    glCullFace(GL_FRONT);
     for(int j=0; j<VAOStatic.size();j++)
     {
         GLnix_glBindVertexArray(VAOStatic[j]);

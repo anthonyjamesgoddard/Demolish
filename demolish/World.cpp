@@ -25,7 +25,7 @@ int demolish::World::runSimulation()
         // updates the physics
         auto dt = _timer.DeltaTime();
         if(dt>0.5)continue;
-        updateWorld(_timer.DeltaTime());
+        updateWorld(0.01);
         _visuals.setContactPoints(_contactpoints);
         _visuals.UpdateScene(_particles);
     }
@@ -149,6 +149,7 @@ void demolish::World::updateWorld(float dt)
         std::array<iREAL, 3> torq;
         demolish::resolution::getContactForces(_contactpoints[i],
                                                _particles[_contactpoints[i].indexA].getLocation().data(),
+                                               _particles[_contactpoints[i].indexA].getReferenceLocation().data(),
                                                _particles[_contactpoints[i].indexA].getAngularVelocity().data(),
                                                _particles[_contactpoints[i].indexA].getLinearVelocity().data(),
                                                _particles[_contactpoints[i].indexA].getMass(),
@@ -156,6 +157,7 @@ void demolish::World::updateWorld(float dt)
                                                _particles[_contactpoints[i].indexA].getOrientation().data(),
                                                int(_particles[_contactpoints[i].indexA].getMaterial()),
                                                _particles[_contactpoints[i].indexB].getLocation().data(),
+                                               _particles[_contactpoints[i].indexB].getReferenceLocation().data(),
                                                _particles[_contactpoints[i].indexB].getAngularVelocity().data(),
                                                _particles[_contactpoints[i].indexB].getLinearVelocity().data(),
                                                _particles[_contactpoints[i].indexB].getMass(),
