@@ -11,21 +11,16 @@ demolish::World::World(
     _visuals.Init();
     _visuals.BuildBuffers(objects);
     _worldPaused = false;
+    _timestep = 0.01;
+    _penetrationThreshold = 0.1;
 }
  
 
 int demolish::World::runSimulation()
 {
-
-    _timer.Reset();
-    _timer.Start();
     while(_visuals.UpdateTheMessageQueue())
     {
-        _timer.Tick();
-        // updates the physics
-        auto dt = _timer.DeltaTime();
-        if(dt>0.5)continue;
-        updateWorld(0.005);
+        updateWorld();
         _visuals.setContactPoints(_contactpoints);
         _visuals.UpdateScene(_particles);
     }
@@ -34,9 +29,10 @@ int demolish::World::runSimulation()
 }
 
 
-void demolish::World::updateWorld(float dt)
+void demolish::World::updateWorld()
 {
    _contactpoints.clear();
+   _timeStepAltered = false;
 //**********************************************************************
 //
 // DETECTION
@@ -132,11 +128,17 @@ void demolish::World::updateWorld(float dt)
     // we look at the details of the contact point
     for(int i=0;i< _contactpoints.size();i++)
     {
-        //_contactpoints[i].printInformation();
+        if(_contactpoints[i].depth > _penetrationThreshold)
+        {
+            _timestep*=0.5;
+            std::cout << "half the timestep " << _timestep << std::endl;
+            _timeStepAltered = true;
+            break;
+        }
     }
 
 
-    if(true){
+    if(!_timeStepAltered){
 //**********************************************************************
 //
 // RESOLUTION
@@ -174,9 +176,9 @@ void demolish::World::updateWorld(float dt)
             auto velocityOfA = _particles[_contactpoints[i].indexA].getLinearVelocity();
             auto massA = _particles[_contactpoints[i].indexA].getMass();
 
-            std::array<iREAL, 3> newVelocityOfA = {velocityOfA[0] + dt*force[0]*(1/massA),
-                                                velocityOfA[1] + dt*force[1]*(1/massA),
-                                                velocityOfA[2] + dt*force[2]*(1/massA)};
+            std::array<iREAL, 3> newVelocityOfA = {velocityOfA[0] + _timestep*force[0]*(1/massA),
+                                                velocityOfA[1] + _timestep*force[1]*(1/massA),
+                                                velocityOfA[2] + _timestep*force[2]*(1/massA)};
             _particles[_contactpoints[i].indexA].setLinearVelocity(newVelocityOfA);
 
 
@@ -187,7 +189,7 @@ void demolish::World::updateWorld(float dt)
                                               _particles[_contactpoints[i].indexA].getInertia().data(),
                                               _particles[_contactpoints[i].indexA].getInverse().data(),
                                               torq.data(),
-                                              dt);          
+                                              _timestep);          
             _particles[_contactpoints[i].indexA].setReferenceAngularVelocity(ang);
             
             
@@ -198,9 +200,9 @@ void demolish::World::updateWorld(float dt)
             auto velocityOfB = _particles[_contactpoints[i].indexB].getLinearVelocity();
             auto massB     = _particles[_contactpoints[i].indexB].getMass();
 
-            std::array<iREAL, 3> newVelocityOfB = {velocityOfB[0] - dt*force[0]*(1/massB),
-                                                velocityOfB[1] - dt*force[1]*(1/massB),
-                                                velocityOfB[2] - dt*force[2]*(1/massB)};
+            std::array<iREAL, 3> newVelocityOfB = {velocityOfB[0] - _timestep*force[0]*(1/massB),
+                                                velocityOfB[1] - _timestep*force[1]*(1/massB),
+                                                velocityOfB[2] - _timestep*force[2]*(1/massB)};
 
             _particles[_contactpoints[i].indexB].setLinearVelocity(newVelocityOfB);
     
@@ -217,7 +219,7 @@ void demolish::World::updateWorld(float dt)
                                               _particles[_contactpoints[i].indexB].getInertia().data(),
                                               _particles[_contactpoints[i].indexB].getInverse().data(),
                                               negtorq.data(),
-                                              dt);          
+                                              _timestep);          
             _particles[_contactpoints[i].indexB].setReferenceAngularVelocity(ang);
         } 
         
@@ -231,11 +233,11 @@ void demolish::World::updateWorld(float dt)
        auto loc    = _particles[i].getLocation();
        auto refLoc = _particles[i].getReferenceLocation();
        auto linVel = _particles[i].getLinearVelocity();
-       linVel[1] += dt*gravity;
+       linVel[1] += _timestep*gravity;
        _particles[i].setLinearVelocity(linVel);
-       loc[0] += dt*linVel[0];
-       loc[1] += dt*linVel[1];
-       loc[2] += dt*linVel[2];
+       loc[0] += _timestep*linVel[0];
+       loc[1] += _timestep*linVel[1];
+       loc[2] += _timestep*linVel[2];
        _particles[i].setLocation(loc);
      
       // update rotation matrix
@@ -245,7 +247,7 @@ void demolish::World::updateWorld(float dt)
                                                _particles[i].getAngularVelocity().data(),
                                                _particles[i].getReferenceAngularVelocity().data(),
                                                ori.data(),
-                                               dt);
+                                               _timestep);
       _particles[i].setOrientation(ori);
       
       // update verts

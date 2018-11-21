@@ -6,7 +6,6 @@ OBJS = demolish/demolish.o \
 	   demolish/Vertex.o \
        demolish/Object.o \
        demolish/World.o \
-	   demolish/Timer.o \
 	   demolish/visuals/antmath.o \
 	   demolish/visuals/DEMDriver.o \
 	   demolish/visuals/GeometryGenerator.o \

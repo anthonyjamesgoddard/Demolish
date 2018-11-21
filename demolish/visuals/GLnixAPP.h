@@ -15,7 +15,6 @@
 #include<GL/gl.h>
 #include<GL/glx.h>
 #include<GL/glu.h>
-#include "../Timer.h"
 
 #define USE_CHOOSE_FBCONFIG
 

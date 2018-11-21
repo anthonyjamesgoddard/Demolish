@@ -7,7 +7,6 @@
 #include <array>
 #include <memory>
 #include "Object.h"
-#include "Timer.h"
 #include "visuals/DEMDriver.h"
 #include "detection/sphere.h"
 #include "resolution/sphere.h"
@@ -34,14 +33,17 @@ class demolish::World {
 
 	std::vector<Object>                   getObjects();
     std::vector<ContactPoint>             getContactPoints();
-    void                                  updateWorld(float dt);
+    void                                  updateWorld();
   private:
     bool                                  _worldPaused;
+    bool                                  _timeStepAltered;
 
-    GameTimer                             _timer;
 	std::vector<Object> 	              _particles;
     std::vector<ContactPoint>             _contactpoints;
     iREAL                                 _gravity;
+    iREAL                                 _timestep;
+    iREAL                                 _penetrationThreshold;
+
     DEMDriver                             _visuals;
 };
 
