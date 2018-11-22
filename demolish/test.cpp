@@ -18,7 +18,7 @@ int main() {
   // CUBOID COLLIDE
   // ***********************************
 
-  int numberOfBodies = 3;
+  int numberOfBodies = 4;
 
 
   std::vector<demolish::Vertex> meshVertices;
@@ -44,7 +44,7 @@ int main() {
 
   for(int i=0;i<numberOfBodies;i++)
   {
-      std::array<iREAL, 3> loc = {10*i,50,10*i};
+      std::array<iREAL, 3> loc = {10,50+10*i,10};
       locations.push_back(loc);
       meshs.push_back(demolish::Mesh(meshTriangles,meshVertices));
   }
@@ -57,7 +57,7 @@ int main() {
                                       false,
                                       true,
                                       true,
-                                      0.1,
+                                      1.0,
                                       linear,
                                       angular));
    }   
@@ -80,7 +80,7 @@ int main() {
                                       true,
                                       true,
                                       true,
-                                      0.1,
+                                      1.0,
                                       linear,
                                       angular));
   angular = {0,0,0};
@@ -88,7 +88,7 @@ int main() {
   demolish::CreateTrunCone(40.0,
                            10.0,
                            30.0,
-                           30,meshVertices,meshTriangles);
+                           4,meshVertices,meshTriangles);
   demolish::Mesh mc(meshTriangles,meshVertices);
   std::array<iREAL, 3> locationOfCone = {0,30,0};
   linear = {0,0,0};
@@ -99,10 +99,9 @@ int main() {
                                       true,
                                       true,
                                       true,
-                                      0.1,
+                                      1.0,
                                       linear,
                                       angular));
-  std::cout << objz[numberOfBodies+1].getMass() << std::endl;
   demolish::World aworld(objz);
   aworld.runSimulation();
   return 0;

@@ -1,15 +1,7 @@
 #include"penalty.h"
-
+#include<algorithm>
 
 int  MaxNumberOfNewtonIterations =  120;
-/**
- * Since we are interested in single point contacts we can
- * improve the performace of this routine!
- *
- * Before we do so, we should be 100% sure that single point
- * contact is what we want...
- * */
-
 std::vector<demolish::ContactPoint> demolish::detection::penalty(
   const iREAL*    xCoordinatesOfPointsOfGeometryA,
   const iREAL*    yCoordinatesOfPointsOfGeometryA,
@@ -29,6 +21,8 @@ std::vector<demolish::ContactPoint> demolish::detection::penalty(
 )
 {
   std::vector<demolish::ContactPoint>  result;
+  std::vector<iREAL> distanceVector;
+  std::vector<demolish::ContactPoint> cnps;
 
   int numberOfTrianglesA = numberOfTrianglesOfGeometryA * 3;
   int numberOfTrianglesB = numberOfTrianglesOfGeometryB * 3;
@@ -57,11 +51,12 @@ std::vector<demolish::ContactPoint> demolish::detection::penalty(
             
         }
 
-        iREAL epsilonMargin = (epsilonA+epsilonB);
+        iREAL epsilonMargin = 1*(epsilonA+epsilonB);
+
 
         for (int iB=0; iB<numberOfTrianglesB; iB+=3)
         {
-            bool outside = false;
+            bool outside = true;
             if (d[iB] < epsilonMargin)
             {
                 bool fric =  bool(frictionA == true && frictionB == true);
@@ -78,10 +73,17 @@ std::vector<demolish::ContactPoint> demolish::detection::penalty(
                 particleA,
                 particleB,
                 fric));
+
+                distanceVector.push_back(d[iB]);
             }
         }
+    }
+    if(cnps.size()>0)
+    {
+        //int minElementIndex = std::min_element(distanceVector.begin(),distanceVector.end()) - distanceVector.begin();
+        //result.push_back(cnps[minElementIndex]);
+    }
 
-  }
   return result;
 }
 

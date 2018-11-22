@@ -125,38 +125,17 @@ class demolish::Mesh {
 	 */
 	iREAL computeDiagonal();
 
-	/*
-	 *  Get X Coordinates
-	 *
-	 *  Returns X coordinates as SoA data structure.
-	 *
-	 *
-	 *  @param none
-	 *  @returns vector of iREAL values
-	 */
 	iREAL* getXCoordinates();
 
-	/*
-	 *  Get Y Coordinates
-	 *
-	 *  Returns Y coordinates as SoA data structure.
-	 *
-	 *
-	 *  @param none
-	 *  @returns vector of iREAL values
-	 */
 	iREAL* getYCoordinates();
 
-	/*
-	 *  Get Z Coordinates
-	 *
-	 *  Returns Z coordinates as SoA data structure.
-	 *
-	 *
-	 *  @param none
-	 *  @returns vector of iREAL values
-	 */
 	iREAL* getZCoordinates();
+
+	iREAL* getPrevXCoordinates();
+
+	iREAL* getPrevYCoordinates();
+
+	iREAL* getPrevZCoordinates();
 
 	/*
 	 *  Get Width of the X Coordinates
@@ -514,8 +493,12 @@ class demolish::Mesh {
 	iREAL getMinMeshSize();
 	iREAL getAvgMeshSize();
 
+    void setCurrentCoordinatesEqualToPrevCoordinates();
+    void setPreviousCoordinatesEqualToCurrCoordinates();
+
 	demolish::Vertex getBoundaryMinVertex();
 	demolish::Vertex getBoundaryMaxVertex();
+
 
 	virtual ~Mesh();
 
@@ -560,6 +543,10 @@ class demolish::Mesh {
 
 	std::vector<std::array<int, 3>> 			_triangleFaces;
 	std::vector<demolish::Vertex>             	_uniqueVertices;
+
+    std::vector<iREAL>   						_prevxCoordinates;
+    std::vector<iREAL>   						_prevyCoordinates;
+    std::vector<iREAL>   						_prevzCoordinates;
 
     std::vector<iREAL>   						_xCoordinates;
     std::vector<iREAL>   						_yCoordinates;

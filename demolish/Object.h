@@ -96,11 +96,19 @@ class demolish::Object
     void setAngularVelocity(
     		  std::array<iREAL, 3>  angularVelocity);
 
+    void setPrevLinearVelocity(
+    		  std::array<iREAL, 3>  linearVelocity);
+
+    void setPrevAngularVelocity(
+    		  std::array<iREAL, 3>  angularVelocity);
+
     void setMesh(
     		  demolish::Mesh& mesh);
 
-
     void setLocation(
+          std::array<iREAL,3> newlocation);
+
+    void setPrevLocation(
           std::array<iREAL,3> newlocation);
 
     void setMesh(
@@ -120,167 +128,57 @@ class demolish::Object
 
 	iREAL getHaloDiameter();
 
-	int 	getNumberOfTriangles();
+	int getNumberOfTriangles();
 
-	int 	getGlobalParticleId();
+	int getGlobalParticleId();
 
-	int 	getLocalParticleId();
+	int getLocalParticleId();
 
     bool getIsObstacle();
 
-	/*
-	 *  Get Is Friction
-	 *
-	 *  Gets bool on whether body applies friction.
-	 *
-	 *  @param none
-	 *  @returns bool
-	 */
     bool getIsFriction();
 
-	/*
-	 *  Get Volume
-	 *
-	 *  Gets volume of object
-	 *
-	 *  @param none
-	 *  @returns iREAL
-	 */
     iREAL computeVolume();
 
-	/*
-	 *  Get Center
-	 *
-	 *  Gets center of geometry of object
-	 *
-	 *  @param none
-	 *  @returns vertex
-	 */
     std::array<iREAL, 3> getLocation();
+    std::array<iREAL, 3> getPrevLocation();
     std::array<iREAL, 3> getReferenceLocation();
-	/*
-	 *  Get Inertia
-	 *
-	 *  Gets inertia of object
-	 *
-	 *  @param none
-	 *  @returns inertia
-	 */
+
     std::array<iREAL, 9> getInertia();
 
-	/*
-	 *  Get Inverse Inertia
-	 *
-	 *  Gets inverse inertia of object
-	 *
-	 *  @param none
-	 *  @returns inverse
-	 */
-
-
-    /*
-     * gets the orientation
-     *
-     *
-     *
-     */
     std::array<iREAL, 9> getOrientation();
-    void setOrientation(std::array<iREAL, 9>& orientation);
+    std::array<iREAL, 9> getPrevOrientation();
+
+    void setOrientation(std::array<iREAL, 9> orientation);
+    void setPrevOrientation(std::array<iREAL, 9> orientation);
 
     std::array<iREAL, 9> getInverse();
 
-	/*
-	 *  Get Center of Mass
-	 *
-	 *  Gets center of mass of object
-	 *
-	 *  @param none
-	 *  @returns vertex
-	 */
     std::array<iREAL, 3> getCentreOfMass();
 
-	/*
-	 *  Get Linear Velocity
-	 *
-	 *  Gets linear velocity of object
-	 *
-	 *  @param none
-	 *  @returns velocity
-	 */
     std::array<iREAL, 3> getLinearVelocity();
-
-	/*
-	 *  Get Angular Velocity
-	 *
-	 *  Gets angular velocity of object
-	 *
-	 *  @param none
-	 *  @returns velocity
-	 */
+    std::array<iREAL, 3> getPrevLinearVelocity();
     std::array<iREAL, 3> getAngularVelocity();
+    std::array<iREAL, 3> getPrevAngularVelocity();
     std::array<iREAL, 3> getReferenceAngularVelocity();
+
     void                 setReferenceAngularVelocity(std::array<iREAL,3> & ang);
-	/*
-	 *  Get Material
-	 *
-	 *  Gets material of object
-	 *
-	 *  @param none
-	 *  @returns material
-	 */
+
     demolish::material::MaterialType getMaterial();
 
-	/*
-	 *  Get Mesh
-	 *
-	 *  Gets mesh of object
-	 *
-	 *  @param none
-	 *  @returns mesh
-	 */
     demolish::Mesh* 	getMesh();
 
-	/*
-	 *  Compute Inertia
-	 *
-	 *  Computes inertia of object
-	 *	This modifies local data.
-	 *
-	 *
-	 *  @param none
-	 *  @returns inertia
-	 */
 	void computeInertia(
 			demolish::material::MaterialType material,
 			iREAL& mass,
 			iREAL center[3],
 			iREAL inertia[9]);
 
-	/*
-	 *  Compute Inverse Inertia
-	 *
-	 *  Computes inverse inertia of object
-	 *	This modifies local data.
-	 *
-	 *
-	 *  @param none
-	 *  @returns inverse
-	 */
 	void computeInverseInertia(
 			iREAL inertia[9],
 			iREAL inverse[9],
 			bool isObject);
 
-	/*
-	 *  Compute Mass
-	 *
-	 *  Computes mass of object
-	 *	This modifies local data.
-	 *
-	 *
-	 *  @param none
-	 *  @returns mass
-	 */
 	iREAL computeMass(
 			demolish::material::MaterialType material);
 
@@ -293,15 +191,18 @@ class demolish::Object
     virtual ~Object();
 
 
+    std::array<iREAL, 3> 	_prevLinearVelocity;
+    std::array<iREAL, 3> 	_prevAngularVelocity;
+    std::array<iREAL, 3>    _prevLocation;
 
     std::array<iREAL, 3> 	_linearVelocity;
     std::array<iREAL, 3> 	_angularVelocity;
-    std::array<iREAL, 3>    _refAngularVelocity;
-
     std::array<iREAL, 3> 	_location;
+
+    std::array<iREAL, 3>    _refAngularVelocity;
     std::array<iREAL, 3>    _referenceLocation;
 
-    std::array<iREAL, 3> 	_centreOfMass;          //centre of mass 
+    std::array<iREAL, 3> 	_centreOfMass;
 
   private:
     std::string           	_component;
@@ -328,6 +229,8 @@ class demolish::Object
     bool                    _isSphere;
 
     std::array<iREAL, 9>    _orientation;
+    std::array<iREAL, 9>    _prevOrientation;
+
     std::array<iREAL, 9> 	_inertia;
     std::array<iREAL, 9> 	_inverse;
 

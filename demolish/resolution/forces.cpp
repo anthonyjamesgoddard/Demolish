@@ -1,9 +1,9 @@
 #include "forces.h"
 
-#define SPRING 2E8
-#define DAMPER 1
+#define SPRING 2E5
+#define DAMPER 3
 
-#define FRICTION 1
+#define FRICTION 0.1
 
 //sphere parameters for piling simulation
 #define SFRICTIONGOLD 1

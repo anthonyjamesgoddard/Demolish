@@ -427,6 +427,24 @@ iREAL*  demolish::Mesh::getZCoordinates()
   return _zCoordinates.data();
 }
 
+
+
+iREAL*  demolish::Mesh::getPrevXCoordinates()
+{
+  return _prevxCoordinates.data();
+}
+
+iREAL*  demolish::Mesh::getPrevYCoordinates()
+{
+  return _prevyCoordinates.data();
+}
+
+iREAL*  demolish::Mesh::getPrevZCoordinates()
+{
+  return _prevzCoordinates.data();
+}
+
+
 iREAL*  demolish::Mesh::getRefXCoordinates()
 {
   return _refxCoordinates.data();
@@ -471,6 +489,19 @@ void demolish::Mesh::rotateZ(iREAL alphaZ)
 
 
 
+void demolish::Mesh::setCurrentCoordinatesEqualToPrevCoordinates()
+{
+    _xCoordinates = _prevxCoordinates;
+    _yCoordinates = _prevyCoordinates;
+    _zCoordinates = _prevzCoordinates;
+}
+
+void demolish::Mesh::setPreviousCoordinatesEqualToCurrCoordinates()
+{
+    _prevxCoordinates = _xCoordinates;
+    _prevyCoordinates = _yCoordinates;
+    _prevzCoordinates = _zCoordinates;
+}
 
 iREAL demolish::Mesh::computeDiameter()
 {

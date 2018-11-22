@@ -310,20 +310,35 @@ void demolish::Object::setLocation(std::array<iREAL,3> newlocation)
     _location = newlocation;
 }
 
+void demolish::Object::setPrevLocation(std::array<iREAL,3> newlocation)
+{
+    _prevLocation = newlocation;
+}
+
 iREAL demolish::Object::getDiameter()
 {
   return _rad*2;
 }
 
 
-void demolish::Object::setOrientation(std::array<iREAL, 9>& orientation)
+void demolish::Object::setOrientation(std::array<iREAL, 9> orientation)
 {
     _orientation = orientation;
+}
+
+void demolish::Object::setPrevOrientation(std::array<iREAL, 9> orientation)
+{
+    _prevOrientation = orientation;
 }
 
 std::array<iREAL, 3> demolish::Object::getLocation()
 {
   return _location;
+}
+
+std::array<iREAL, 3> demolish::Object::getPrevLocation()
+{
+  return _prevLocation;
 }
 
 std::array<iREAL, 3> demolish::Object::getReferenceLocation()
@@ -405,6 +420,11 @@ std::array<iREAL, 9> demolish::Object::getOrientation()
     return _orientation;
 }
 
+std::array<iREAL, 9> demolish::Object::getPrevOrientation()
+{
+    return _prevOrientation;
+}
+
 void demolish::Object::setInertia(iREAL inertia[9])
 {
   _inertia[0] = inertia[0];
@@ -462,6 +482,16 @@ void demolish::Object::setAngularVelocity(std::array<iREAL, 3>  angularVelocity)
   this->_angularVelocity[2] = angularVelocity[2];
 }
 
+void demolish::Object::setPrevLinearVelocity(std::array<iREAL, 3>  linearVelocity)
+{
+  this->_prevLinearVelocity = linearVelocity;
+}
+
+void demolish::Object::setPrevAngularVelocity(std::array<iREAL, 3>  angularVelocity)
+{
+  this->_prevAngularVelocity = angularVelocity;
+}
+
 std::array<iREAL, 3> demolish::Object::getLinearVelocity()
 {
   return _linearVelocity;
@@ -470,6 +500,16 @@ std::array<iREAL, 3> demolish::Object::getLinearVelocity()
 std::array<iREAL, 3> demolish::Object::getAngularVelocity()
 {
   return _angularVelocity;
+}
+
+std::array<iREAL, 3> demolish::Object::getPrevLinearVelocity()
+{
+  return _prevLinearVelocity;
+}
+
+std::array<iREAL, 3> demolish::Object::getPrevAngularVelocity()
+{
+  return _prevAngularVelocity;
 }
 
 std::array<iREAL, 3> demolish::Object::getReferenceAngularVelocity()
