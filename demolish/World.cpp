@@ -12,7 +12,7 @@ demolish::World::World(
     _visuals.BuildBuffers(objects);
     _worldPaused = false;
     _timestep = 0.01;
-    _penetrationThreshold = 0.8;
+    _penetrationThreshold = 0.9;
 }
  
 
@@ -130,7 +130,8 @@ void demolish::World::updateWorld()
     {
         if(_contactpoints[i].depth > _penetrationThreshold)
         {
-            _timestep*=0.9;
+            std::cout << _timestep << " " << _contactpoints[i].depth <<  std::endl;
+            _timestep*=0.5;
             _timeStepAltered = true;
             break;
         }
@@ -149,7 +150,7 @@ void demolish::World::updateWorld()
         {
             _particles[i].setLocation(_particles[i].getPrevLocation());
             _particles[i].setLinearVelocity(_particles[i].getPrevLinearVelocity());
-            _particles[i].setAngularVelocity(_particles[i].getPrevAngularVelocity());
+            _particles[i].setReferenceAngularVelocity(_particles[i].getPrevRefAngularVelocity());
             _particles[i].setOrientation(_particles[i].getPrevOrientation());
             _particles[i].getMesh()->setCurrentCoordinatesEqualToPrevCoordinates();
         }
@@ -162,14 +163,14 @@ void demolish::World::updateWorld()
         {
             _particles[i].setPrevLocation(_particles[i].getLocation());
             _particles[i].setPrevLinearVelocity(_particles[i].getLinearVelocity());
-            _particles[i].setPrevAngularVelocity(_particles[i].getAngularVelocity());
+            _particles[i].setPrevRefAngularVelocity(_particles[i].getReferenceAngularVelocity());
             _particles[i].setPrevOrientation(_particles[i].getOrientation());
             _particles[i].getMesh()->setPreviousCoordinatesEqualToCurrCoordinates();
         }
         
         
         _timestep*=1.01;
-
+        std::cout << "dynamics" << std::endl;
 
 
         for(int i=0;i<_contactpoints.size();i++)
@@ -252,7 +253,7 @@ void demolish::World::updateWorld()
             
         }
      
-        iREAL gravity = -5;
+        iREAL gravity = -9.8;
 
         for(int i=0;i<_particles.size();i++)
         {
@@ -266,7 +267,7 @@ void demolish::World::updateWorld()
            loc[1] += _timestep*linVel[1];
            loc[2] += _timestep*linVel[2];
            _particles[i].setLocation(loc);
-         
+        
           // update rotation matrix
           auto ori = _particles[i].getOrientation();
 

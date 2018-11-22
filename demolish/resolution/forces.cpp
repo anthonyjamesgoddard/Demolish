@@ -3,7 +3,7 @@
 #define SPRING 2E5
 #define DAMPER 3
 
-#define FRICTION 0.1
+#define FRICTION 0.5
 
 //sphere parameters for piling simulation
 #define SFRICTIONGOLD 1

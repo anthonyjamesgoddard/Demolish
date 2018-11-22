@@ -512,16 +512,24 @@ std::array<iREAL, 3> demolish::Object::getPrevAngularVelocity()
   return _prevAngularVelocity;
 }
 
+std::array<iREAL, 3> demolish::Object::getPrevRefAngularVelocity()
+{
+  return _prevRefAngularVelocity;
+}
 std::array<iREAL, 3> demolish::Object::getReferenceAngularVelocity()
 {
     return _refAngularVelocity;
 }
 
-void demolish::Object::setReferenceAngularVelocity(std::array<iREAL, 3>& ang)
+void demolish::Object::setReferenceAngularVelocity(std::array<iREAL, 3> ang)
 {
     _refAngularVelocity = ang;
 }
 
+void demolish::Object::setPrevRefAngularVelocity(std::array<iREAL, 3> ang)
+{
+    _prevRefAngularVelocity = ang;
+}
 iREAL demolish::Object::computeVolume()
 {
   std::vector<iREAL> xCoordinates;

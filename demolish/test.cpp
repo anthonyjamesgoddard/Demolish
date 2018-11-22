@@ -18,7 +18,7 @@ int main() {
   // CUBOID COLLIDE
   // ***********************************
 
-  int numberOfBodies = 4;
+  int numberOfBodies = 2;
 
 
   std::vector<demolish::Vertex> meshVertices;
@@ -33,18 +33,18 @@ int main() {
 
   // create the box shape that will be shared by all 
   // dynamic objects in the scene
-  demolish::CreateBox(4.0,4.0,4.0,meshVertices,meshTriangles);
+  demolish::CreateBox(2.0,4.0,3.0,meshVertices,meshTriangles);
 
   // all objects will have zero initial linear and angular velocity
-  std::array<iREAL, 3> linear = {0,-5,0};
-  std::array<iREAL, 3> angular = {0.1,0.1,0.1};
+  std::array<iREAL, 3> linear = {0,-2,0};
+  std::array<iREAL, 3> angular = {0,0,0};
   // now we define the locations and meshs the cubes
   std::vector<std::array<iREAL, 3>> locations;
   std::vector<demolish::Mesh> meshs;
 
   for(int i=0;i<numberOfBodies;i++)
   {
-      std::array<iREAL, 3> loc = {10,50+10*i,10};
+      std::array<iREAL, 3> loc = {10-20*i,40,10-20*i};
       locations.push_back(loc);
       meshs.push_back(demolish::Mesh(meshTriangles,meshVertices));
   }
@@ -87,7 +87,7 @@ int main() {
   meshTriangles.clear();meshVertices.clear();
   demolish::CreateTrunCone(40.0,
                            10.0,
-                           30.0,
+                           20.0,
                            4,meshVertices,meshTriangles);
   demolish::Mesh mc(meshTriangles,meshVertices);
   std::array<iREAL, 3> locationOfCone = {0,30,0};

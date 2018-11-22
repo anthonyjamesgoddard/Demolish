@@ -101,6 +101,8 @@ class demolish::Object
 
     void setPrevAngularVelocity(
     		  std::array<iREAL, 3>  angularVelocity);
+    void setPrevRefAngularVelocity(
+    		  std::array<iREAL, 3>  angularVelocity);
 
     void setMesh(
     		  demolish::Mesh& mesh);
@@ -160,9 +162,10 @@ class demolish::Object
     std::array<iREAL, 3> getPrevLinearVelocity();
     std::array<iREAL, 3> getAngularVelocity();
     std::array<iREAL, 3> getPrevAngularVelocity();
+    std::array<iREAL, 3> getPrevRefAngularVelocity();
     std::array<iREAL, 3> getReferenceAngularVelocity();
 
-    void                 setReferenceAngularVelocity(std::array<iREAL,3> & ang);
+    void setReferenceAngularVelocity(std::array<iREAL,3>  ang);
 
     demolish::material::MaterialType getMaterial();
 
@@ -201,6 +204,9 @@ class demolish::Object
 
     std::array<iREAL, 3>    _refAngularVelocity;
     std::array<iREAL, 3>    _referenceLocation;
+
+
+    std::array<iREAL, 3>    _prevRefAngularVelocity;
 
     std::array<iREAL, 3> 	_centreOfMass;
 
