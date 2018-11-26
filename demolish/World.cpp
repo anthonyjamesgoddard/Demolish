@@ -11,7 +11,7 @@ demolish::World::World(
     _visuals.Init();
     _visuals.BuildBuffers(objects);
     _worldPaused = false;
-    _timestep = 0.01;
+    _timestep = 0.005;
     _penetrationThreshold = 0.9;
 }
  
@@ -130,6 +130,7 @@ void demolish::World::updateWorld()
     {
         if(_contactpoints[i].depth > _penetrationThreshold)
         {
+            if(_timestep < 0.0005) break;
             std::cout << _timestep << " " << _contactpoints[i].depth <<  std::endl;
             _timestep*=0.5;
             _timeStepAltered = true;
@@ -169,7 +170,7 @@ void demolish::World::updateWorld()
         }
         
         
-        _timestep*=1.01;
+        _timestep*=1.005;
         std::cout << "dynamics" << std::endl;
 
 

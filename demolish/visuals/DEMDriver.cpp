@@ -172,12 +172,6 @@ void DEMDriver::RedrawTheWindow()
         GLnix_glBindVertexArray(VAOStatic[j]);
         glDrawElements(GL_TRIANGLES, VAOIndexCountsStatic[j], GL_UNSIGNED_INT, 0);
     }
-    glCullFace(GL_FRONT);
-    for(int j=0; j<VAOStatic.size();j++)
-    {
-        GLnix_glBindVertexArray(VAOStatic[j]);
-        glDrawElements(GL_TRIANGLES, VAOIndexCountsStatic[j], GL_UNSIGNED_INT, 0);
-    }
      
     glXSwapBuffers(Xdisplay, glX_window_handle);
 }

@@ -63,7 +63,29 @@ void demolish::CreateTrunCone(iREAL topRadius, iREAL bottomRadius,iREAL height,i
                                                               -1*height,
                                       bottomRadius*sin(2*M_PI*(i*1.0)/resolution)));
 
+    // create coordinates of top
+    for(int i=0;i<resolution;i++)
+        meshVertices.push_back(Vertex((topRadius+10)*cos(2*M_PI*(i*1.0)/resolution),
+                                                              height,
+                                      (topRadius+10)*sin(2*M_PI*(i*1.0)/resolution)));
+    // create coordinates of bottom
+    for(int i=0;i<resolution;i++)
+        meshVertices.push_back(Vertex((bottomRadius+10)*cos(2*M_PI*(i*1.0)/resolution),
+                                                              -1*height,
+                                      (bottomRadius+10)*sin(2*M_PI*(i*1.0)/resolution)));
+
     for(int i=0;i<resolution-1;i++)
+    {
+        std::array<int, 3> tri1,tri2;
+        tri1 = {i,resolution+i,1+i};
+        tri2 = {resolution+i,resolution+i+1,i+1};
+        meshTriangles.push_back(tri1);
+        meshTriangles.push_back(tri2);
+    }
+    
+    
+
+    for(int i=3*resolution-1 ;i> resolution-1;i--)
     {
         std::array<int, 3> tri1,tri2;
         tri1 = {i,i+1,resolution+i};
