@@ -63,35 +63,100 @@ void demolish::CreateTrunCone(iREAL topRadius, iREAL bottomRadius,iREAL height,i
                                                               -1*height,
                                       bottomRadius*sin(2*M_PI*(i*1.0)/resolution)));
 
-    // create coordinates of top
-    for(int i=0;i<resolution;i++)
-        meshVertices.push_back(Vertex((topRadius+10)*cos(2*M_PI*(i*1.0)/resolution),
-                                                              height,
-                                      (topRadius+10)*sin(2*M_PI*(i*1.0)/resolution)));
-    // create coordinates of bottom
-    for(int i=0;i<resolution;i++)
-        meshVertices.push_back(Vertex((bottomRadius+10)*cos(2*M_PI*(i*1.0)/resolution),
-                                                              -1*height,
-                                      (bottomRadius+10)*sin(2*M_PI*(i*1.0)/resolution)));
 
+    std::array<int, 3> tri1,tri2;
     for(int i=0;i<resolution-1;i++)
     {
-        std::array<int, 3> tri1,tri2;
         tri1 = {i,resolution+i,1+i};
         tri2 = {resolution+i,resolution+i+1,i+1};
         meshTriangles.push_back(tri1);
         meshTriangles.push_back(tri2);
-    }
+    } 
     
-    
+    tri1 = {resolution-1, 2*resolution-1,0};
+    tri2 = {2*resolution-1,resolution,0};
+    meshTriangles.push_back(tri1);
+    meshTriangles.push_back(tri2);
+}
 
-    for(int i=3*resolution-1 ;i> resolution-1;i--)
-    {
-        std::array<int, 3> tri1,tri2;
-        tri1 = {i,i+1,resolution+i};
-        tri2 = {resolution+i,i+1,resolution+i+1};
-        meshTriangles.push_back(tri1);
-        meshTriangles.push_back(tri2);
-    }
+void demolish::CreateHopper(iREAL topRadius,
+                            iREAL bottomRadius,
+                            iREAL height,
+                            std::vector<demolish::Vertex>    &meshVertices,
+                            std::vector<std::array<int, 3>>  &meshTriangles)
+{
+
+   // ***************************
+   // CONSTRUCTION OF INNER AND OUTER SHELL
+   // ***************************
+
+   // calling CreateTrunCone twice will fill in the meshVertices and meshTriangles.
+   // the second time we call this method we should increase the size of the parameters
+   // topRadius and bottomRadius so as to give the hopper some thickness.
+   int   resolution = 4;
+   std::vector<demolish::Vertex> verts1,verts2;
+   std::vector<std::array<int, 3>> tris1,tris2;
+   CreateTrunCone(topRadius,bottomRadius,height,resolution,verts1,tris1);
+   CreateTrunCone(topRadius+2,bottomRadius+2,height,resolution,verts2,tris2);
+  
+   // concatenate the verts;
+   meshVertices.reserve(verts1.size()+verts2.size());
+   meshVertices.insert(meshVertices.end(),verts1.begin(),verts1.end());
+   meshVertices.insert(meshVertices.end(),verts2.begin(),verts2.end());
+
+   // correct the indices of the outside shell
+   for(int i=0;i<2*resolution;i++)
+   {
+        tris2[i][0] += 2*resolution;
+        tris2[i][1] += 2*resolution;
+        tris2[i][2] += 2*resolution;
+   }
+
+   meshTriangles.reserve(tris1.size()+tris2.size());
+   meshTriangles.insert(meshTriangles.end(),tris1.begin(),tris1.end());
+   meshTriangles.insert(meshTriangles.end(),tris2.begin(),tris2.end());
+   
+   // now we must reverse the triangle ordering in the second call of CreateTrunCone.
+   for(int i=2*resolution;i<4*resolution;i++)
+   {
+       auto temp = meshTriangles[i][1];
+       meshTriangles[i][1] = meshTriangles[i][2];
+       meshTriangles[i][2] = temp;
+   }
+
+   // ***************************
+   // CONSTRUCTION OF CONNECTING PANELS
+   // ***************************
+
+    std::array<int, 3> tri1,tri2;
+
+   for(int i=0;i< resolution-1;i++)
+   {
+     tri1 = {i,i+1,2*resolution+i+1}; 
+     tri2 = {i,2*resolution+i+1,2*resolution+i}; 
+     meshTriangles.push_back(tri1);
+     meshTriangles.push_back(tri2);
+   }
+
+   tri1 = {resolution-1 ,0             ,2*resolution  }; 
+   tri2 = {resolution-1 ,2*resolution  ,3*resolution-1};
+
+   meshTriangles.push_back(tri1);
+   meshTriangles.push_back(tri2);
+   
+   for(int i=resolution;i< 2*resolution-1;i++)
+   {
+     tri1 = {i,2*resolution+i+1,i+1}; 
+     tri2 = {i,2*resolution+i,2*resolution+i+1}; 
+     meshTriangles.push_back(tri1);
+     meshTriangles.push_back(tri2);
+   }
+
+   tri1 = {2*resolution-1 , 3*resolution  ,   resolution}; 
+   tri2 = {2*resolution-1 , 4*resolution-1, 3*resolution};
+
+   meshTriangles.push_back(tri1);
+   meshTriangles.push_back(tri2);
+
 }
 

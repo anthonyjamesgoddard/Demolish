@@ -10,6 +10,12 @@ namespace demolish{
     void CreateTrunCone(iREAL topRadius, iREAL bottomRadius, iREAL height, int resolution,
                         std::vector<demolish::Vertex> &meshVertices,
                         std::vector<std::array<int, 3>>& meshTriangles);
+
+    void CreateHopper(iREAL topRadius,
+                                iREAL bottomRadius,
+                                iREAL height,
+                                std::vector<demolish::Vertex>    &meshVertices,
+                                std::vector<std::array<int, 3>>  &meshTriangles);
 }
 
 

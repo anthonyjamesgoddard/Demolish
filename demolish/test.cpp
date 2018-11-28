@@ -36,7 +36,7 @@ int main() {
   demolish::CreateBox(2.0,4.0,3.0,meshVertices,meshTriangles);
 
   // all objects will have zero initial linear and angular velocity
-  std::array<iREAL, 3> linear = {0,-2,0};
+  std::array<iREAL, 3> linear = {0,0,0};
   std::array<iREAL, 3> angular = {0,0,0};
   // now we define the locations and meshs the cubes
   std::vector<std::array<iREAL, 3>> locations;
@@ -57,7 +57,7 @@ int main() {
                                       false,
                                       true,
                                       true,
-                                      1.0,
+                                      0.5,
                                       linear,
                                       angular));
    }   
@@ -80,15 +80,16 @@ int main() {
                                       true,
                                       true,
                                       true,
-                                      1.0,
+                                      0.5,
                                       linear,
                                       angular));
   angular = {0,0,0};
   meshTriangles.clear();meshVertices.clear();
-  demolish::CreateTrunCone(40.0,
+  demolish::CreateHopper(40.0,
                            10.0,
                            20.0,
-                           4,meshVertices,meshTriangles);
+                           meshVertices,meshTriangles);
+
   demolish::Mesh mc(meshTriangles,meshVertices);
   std::array<iREAL, 3> locationOfCone = {0,30,0};
   linear = {0,0,0};
@@ -99,10 +100,11 @@ int main() {
                                       true,
                                       true,
                                       true,
-                                      1.0,
+                                      0.5,
                                       linear,
                                       angular));
   demolish::World aworld(objz);
+  std::cout << objz.back().getMass() << std::endl;
   aworld.runSimulation();
   return 0;
 }
