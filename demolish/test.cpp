@@ -44,7 +44,7 @@ int main() {
 
   for(int i=0;i<numberOfBodies;i++)
   {
-      std::array<iREAL, 3> loc = {10-20*i,40,10-20*i};
+      std::array<iREAL, 3> loc = {10-20*i,30,10-20*i};
       locations.push_back(loc);
       meshs.push_back(demolish::Mesh(meshTriangles,meshVertices));
   }
