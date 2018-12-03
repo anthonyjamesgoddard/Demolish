@@ -44,6 +44,8 @@ namespace demolish {
 			std::vector<iREAL> &yCoordinates,
 			std::vector<iREAL> &zCoordinates,
 			iREAL alphaZ);
+
+        
   }
 }
 

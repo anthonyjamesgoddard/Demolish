@@ -25,7 +25,8 @@ class demolish::World {
 
   public:
 	World(
-    std::vector<Object>&                objects);
+    std::vector<Object>&                objects,
+    iREAL                               gravity);
 
 	virtual ~World();
 

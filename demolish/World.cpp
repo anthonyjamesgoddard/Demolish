@@ -5,7 +5,8 @@
 #define epsilon 1E-3
 
 demolish::World::World(
-      std::vector<demolish::Object>&                 objects)
+      std::vector<demolish::Object>&                 objects,
+      iREAL                                          gravity)
 {
     _particles = objects;
     _visuals.Init();
@@ -13,6 +14,8 @@ demolish::World::World(
     _worldPaused = false;
     _timestep = 0.01;
     _penetrationThreshold = 0.5;
+    _gravity = gravity;
+
 }
  
 
@@ -252,7 +255,6 @@ void demolish::World::updateWorld()
             
         }
      
-        iREAL gravity = -0.8;
 
         for(int i=0;i<_particles.size();i++)
         {
@@ -260,7 +262,7 @@ void demolish::World::updateWorld()
            auto loc    = _particles[i].getLocation();
            auto refLoc = _particles[i].getReferenceLocation();
            auto linVel = _particles[i].getLinearVelocity();
-           linVel[1] += _timestep*gravity;
+           linVel[1] += _timestep*_gravity;
            _particles[i].setLinearVelocity(linVel);
            loc[0] += _timestep*linVel[0];
            loc[1] += _timestep*linVel[1];

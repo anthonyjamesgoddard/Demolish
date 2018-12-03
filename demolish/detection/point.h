@@ -1,7 +1,7 @@
 
 
-#ifndef DELTA_CONTACT_DETECTION_POINT_H_
-#define DELTA_CONTACT_DETECTION_POINT_H_
+#ifndef DEMOLISH_CONTACT_DETECTION_POINT_H_
+#define DEMOLISH_CONTACT_DETECTION_POINT_H_
 
 #include "../ContactPoint.h"
 #include<vector>
