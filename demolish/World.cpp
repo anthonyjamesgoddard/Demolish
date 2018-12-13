@@ -120,26 +120,22 @@ void demolish::World::updateWorld()
            
            for(int i=0;i<cntpnts.size();i++)
            {
+               std::cout << "!" << std::endl;
                _contactpoints.push_back(cntpnts[i]);
            }
 
            
         }
     }
-    
-
-    // we look at the details of the contact point
-   /* for(int i=0;i< _contactpoints.size();i++)
+    for(int i=0;i< _contactpoints.size();i++)
     {
         if(_contactpoints[i].depth > _penetrationThreshold)
         {
-            std::cout << _timestep << " " << _contactpoints[i].depth <<  std::endl;
-            _timestep*=0.5;
+            _timestep       *= 0.5;
             _timeStepAltered = true;
             break;
         }
     }
-*/
 
 //**********************************************************************
 //
@@ -172,8 +168,7 @@ void demolish::World::updateWorld()
         }
         
         
-  //      _timestep*=1.001;
-  //      std::cout << "dynamics" << std::endl;
+        _timestep*=1.001;
 
         
         for(int i=0;i<_contactpoints.size();i++)
@@ -201,7 +196,6 @@ void demolish::World::updateWorld()
                                                    torq,
                                                    (_particles[_contactpoints[i].indexA].getIsSphere() && _particles[_contactpoints[i].indexB].getIsSphere()));
 
-            std::cout << force[0] << " " << force[1] << " " << force[2] << std::endl;
 
             if(!_particles[_contactpoints[i].indexA].getIsObstacle()) 
             {
@@ -209,8 +203,8 @@ void demolish::World::updateWorld()
                 auto massA = _particles[_contactpoints[i].indexA].getMass();
 
                 std::array<iREAL, 3> newVelocityOfA = {velocityOfA[0] - _timestep*force[0]*(1/massA),
-                                                    velocityOfA[1] - _timestep*force[1]*(1/massA),
-                                                    velocityOfA[2] - _timestep*force[2]*(1/massA)};
+                                                       velocityOfA[1] - _timestep*force[1]*(1/massA),
+                                                       velocityOfA[2] - _timestep*force[2]*(1/massA)};
                 _particles[_contactpoints[i].indexA].setLinearVelocity(newVelocityOfA);
 
 
@@ -279,8 +273,7 @@ void demolish::World::updateWorld()
                                                    _timestep);
           _particles[i].setOrientation(ori);
           
-          // update verts
-          
+          // update verts 
           for(int j=0;j<(_particles[i].getMesh())->getTriangles().size()*3;j++)
           {
               demolish::dynamics::updateVertices(&_particles[i].getMesh()->getXCoordinates()[j],

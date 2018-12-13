@@ -60,7 +60,7 @@ std::vector<demolish::ContactPoint> demolish::detection::penalty(
             if (d[iB] < epsilonMargin)
             {
                 bool fric =  bool(frictionA == true && frictionB == true);
-    		    result.push_back(demolish::ContactPoint(
+    		    cnps.push_back(demolish::ContactPoint(
                 xPA[iB],
                 yPA[iB],
                 zPA[iB],
@@ -80,8 +80,8 @@ std::vector<demolish::ContactPoint> demolish::detection::penalty(
     }
     if(cnps.size()>0)
     {
-        //int minElementIndex = std::min_element(distanceVector.begin(),distanceVector.end()) - distanceVector.begin();
-        //result.push_back(cnps[minElementIndex]);
+        int minElementIndex = std::min_element(distanceVector.begin(),distanceVector.end()) - distanceVector.begin();
+        result.push_back(cnps[minElementIndex]);
     }
 
   return result;

@@ -44,7 +44,6 @@ class demolish::World {
     iREAL                                 _gravity;
     iREAL                                 _timestep;
     iREAL                                 _penetrationThreshold;
-
     DEMDriver                             _visuals;
 };
 
