@@ -12,8 +12,10 @@ demolish::World::World(
     _visuals.Init();
     _visuals.BuildBuffers(objects);
     _worldPaused = false;
-    _timestep = 0.01;
-    _penetrationThreshold = 0.5;
+    _timestep = 0.005;
+    _timeStamp =0;
+    _lastTimeStampChanged = 0; 
+    _penetrationThreshold = 0.2;
     _gravity = gravity;
 
 }
@@ -120,7 +122,6 @@ void demolish::World::updateWorld()
            
            for(int i=0;i<cntpnts.size();i++)
            {
-               std::cout << "!" << std::endl;
                _contactpoints.push_back(cntpnts[i]);
            }
 
@@ -128,13 +129,17 @@ void demolish::World::updateWorld()
         }
     }
     for(int i=0;i< _contactpoints.size();i++)
-    {
-        if(_contactpoints[i].depth > _penetrationThreshold)
+    { 
+        if(_contactpoints[i].depth > _penetrationThreshold && _lastTimeStampChanged != _timeStamp && _timestep > 0.001)
         {
-            _timestep       *= 0.5;
-            _timeStepAltered = true;
-            break;
-        }
+          std::cout << "the timestep has been reduced" << std::endl;
+          std::cout << _timeStamp << ' ' <<  _timestep << std::endl;
+          std::cout << _contactpoints[i].depth << std::endl;
+          _timestep       *= 0.5;
+          _timeStepAltered = true;
+          _lastTimeStampChanged = _timeStamp;
+          break;
+        }    
     }
 
 //**********************************************************************
@@ -153,11 +158,10 @@ void demolish::World::updateWorld()
             _particles[i].setOrientation(_particles[i].getPrevOrientation());
             _particles[i].getMesh()->setCurrentCoordinatesEqualToPrevCoordinates();
         }
-
-
     }
     else
     {
+        _timeStamp++; 
         for(int i=0;i<_particles.size();i++)
         {
             _particles[i].setPrevLocation(_particles[i].getLocation());
@@ -166,8 +170,7 @@ void demolish::World::updateWorld()
             _particles[i].setPrevOrientation(_particles[i].getOrientation());
             _particles[i].getMesh()->setPreviousCoordinatesEqualToCurrCoordinates();
         }
-        
-        
+         
         _timestep*=1.001;
 
         

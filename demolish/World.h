@@ -39,10 +39,12 @@ class demolish::World {
     bool                                  _worldPaused;
     bool                                  _timeStepAltered;
 
-	std::vector<Object> 	              _particles;
+  	std::vector<Object> 	                _particles;
     std::vector<ContactPoint>             _contactpoints;
     iREAL                                 _gravity;
     iREAL                                 _timestep;
+    int                                   _timeStamp;
+    int                                   _lastTimeStampChanged;
     iREAL                                 _penetrationThreshold;
     DEMDriver                             _visuals;
 };
