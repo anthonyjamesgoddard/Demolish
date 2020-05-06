@@ -4,9 +4,9 @@
 
 #define epsilon 1E-3
 
-demolish::World::World(
-      std::vector<demolish::Object>&                 objects,
-      iREAL                                          gravity)
+crashr::World::World(
+      std::vector<crashr::Object>&                 objects,
+      double                                          gravity)
 {
     _particles = objects;
     _visuals.Init();
@@ -21,12 +21,12 @@ demolish::World::World(
 }
  
 
-int demolish::World::runSimulation()
+int crashr::World::runSimulation()
 {
     while(_visuals.UpdateTheMessageQueue())
     {
         updateWorld();
-        _visuals.setContactPoints(_contactpoints);
+        _visuals.setcontact_points(_contactpoints);
         _visuals.UpdateScene(_particles);
     }
     
@@ -34,7 +34,7 @@ int demolish::World::runSimulation()
 }
 
 
-void demolish::World::updateWorld()
+void crashr::World::updateWorld()
 {
    _contactpoints.clear();
    _timeStepAltered = false;
@@ -53,7 +53,7 @@ void demolish::World::updateWorld()
                auto locationj = _particles[j].getLocation();
                auto radi      = _particles[i].getRad();
                auto radj      = _particles[j].getRad();
-               auto contactpoints = demolish::detection::spherewithsphere(std::get<0>(locationi),
+               auto contactpoints = crashr::detection::spherewithsphere(std::get<0>(locationi),
                                                                              std::get<1>(locationi),
                                                                              std::get<2>(locationi),
                                                                              radi,
@@ -83,7 +83,7 @@ void demolish::World::updateWorld()
                auto radiusOfSphere = _particles[sphereIndex].getRad();
                int numberOfTris    = _particles[meshIndex].getMesh()->getTriangles().size();
 
-               auto contactpoints = demolish::detection::sphereWithMesh(locationSphere[0],
+               auto contactpoints = crashr::detection::sphereWithMesh(locationSphere[0],
                                                                         locationSphere[1],
                                                                         locationSphere[2],
                                                                         radiusOfSphere,
@@ -104,7 +104,7 @@ void demolish::World::updateWorld()
                continue;
            }
 
-           auto cntpnts = demolish::detection::penalty(
+           auto cntpnts = crashr::detection::penalty(
                           _particles[i].getMesh()->getXCoordinates(),
                           _particles[i].getMesh()->getYCoordinates(),
                           _particles[i].getMesh()->getZCoordinates(),
@@ -176,9 +176,9 @@ void demolish::World::updateWorld()
         
         for(int i=0;i<_contactpoints.size();i++)
         {
-            std::array<iREAL, 3> force;
-            std::array<iREAL, 3> torq;
-            demolish::resolution::getContactForces(_contactpoints[i],
+            std::array<double, 3> force;
+            std::array<double, 3> torq;
+            crashr::resolution::getContactForces(_contactpoints[i],
                                                    _particles[_contactpoints[i].indexA].getLocation().data(),
                                                    _particles[_contactpoints[i].indexA].getReferenceLocation().data(),
                                                    _particles[_contactpoints[i].indexA].getAngularVelocity().data(),
@@ -205,7 +205,7 @@ void demolish::World::updateWorld()
                 auto velocityOfA = _particles[_contactpoints[i].indexA].getLinearVelocity();
                 auto massA = _particles[_contactpoints[i].indexA].getMass();
 
-                std::array<iREAL, 3> newVelocityOfA = {velocityOfA[0] - _timestep*force[0]*(1/massA),
+                std::array<double, 3> newVelocityOfA = {velocityOfA[0] - _timestep*force[0]*(1/massA),
                                                        velocityOfA[1] - _timestep*force[1]*(1/massA),
                                                        velocityOfA[2] - _timestep*force[2]*(1/massA)};
                 _particles[_contactpoints[i].indexA].setLinearVelocity(newVelocityOfA);
@@ -217,7 +217,7 @@ void demolish::World::updateWorld()
                 negtorq[0] *=-1;
                 negtorq[1] *=-1;
                 negtorq[2] *=-1;
-                demolish::dynamics::updateAngular(ang.data(),
+                crashr::dynamics::updateAngular(ang.data(),
                                                   _particles[_contactpoints[i].indexA].getOrientation().data(),
                                                   _particles[_contactpoints[i].indexA].getInertia().data(),
                                                   _particles[_contactpoints[i].indexA].getInverse().data(),
@@ -233,7 +233,7 @@ void demolish::World::updateWorld()
                 auto velocityOfB = _particles[_contactpoints[i].indexB].getLinearVelocity();
                 auto massB     = _particles[_contactpoints[i].indexB].getMass();
 
-                std::array<iREAL, 3> newVelocityOfB = {velocityOfB[0] + _timestep*force[0]*(1/massB),
+                std::array<double, 3> newVelocityOfB = {velocityOfB[0] + _timestep*force[0]*(1/massB),
                                                     velocityOfB[1] + _timestep*force[1]*(1/massB),
                                                     velocityOfB[2] + _timestep*force[2]*(1/massB)};
 
@@ -241,7 +241,7 @@ void demolish::World::updateWorld()
         
                 auto ang = _particles[_contactpoints[i].indexB].getReferenceAngularVelocity();
 
-                demolish::dynamics::updateAngular(ang.data(),
+                crashr::dynamics::updateAngular(ang.data(),
                                                   _particles[_contactpoints[i].indexB].getOrientation().data(),
                                                   _particles[_contactpoints[i].indexB].getInertia().data(),
                                                   _particles[_contactpoints[i].indexB].getInverse().data(),
@@ -269,7 +269,7 @@ void demolish::World::updateWorld()
           // update rotation matrix
           auto ori = _particles[i].getOrientation();
 
-          demolish::dynamics::updateRotationMatrix(
+          crashr::dynamics::updateRotationMatrix(
                                                    _particles[i].getAngularVelocity().data(),
                                                    _particles[i].getReferenceAngularVelocity().data(),
                                                    ori.data(),
@@ -279,7 +279,7 @@ void demolish::World::updateWorld()
           // update verts 
           for(int j=0;j<(_particles[i].getMesh())->getTriangles().size()*3;j++)
           {
-              demolish::dynamics::updateVertices(&_particles[i].getMesh()->getXCoordinates()[j],
+              crashr::dynamics::updateVertices(&_particles[i].getMesh()->getXCoordinates()[j],
                                                  &_particles[i].getMesh()->getYCoordinates()[j],
                                                  &_particles[i].getMesh()->getZCoordinates()[j],
                                                  &_particles[i].getMesh()->getRefXCoordinates()[j],
@@ -294,16 +294,16 @@ void demolish::World::updateWorld()
     }
 }
                 
-std::vector<demolish::Object> demolish::World::getObjects()
+std::vector<crashr::Object> crashr::World::getObjects()
 {
     return _particles;
 }
 
-std::vector<demolish::ContactPoint> demolish::World::getContactPoints()
+std::vector<crashr::contact_point> crashr::World::getcontact_points()
 {
     return _contactpoints;
 }
 
-demolish::World::~World() {
+crashr::World::~World() {
 
 }

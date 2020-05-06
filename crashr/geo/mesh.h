@@ -10,19 +10,19 @@
 #include "operators/physics.h"
 #include "operators/vertex.h"
 
-namespace demolish {
+namespace crashr {
 class Mesh;
 }
 
-class demolish::Mesh {
+class crashr::Mesh {
 public:
     Mesh();
 
     Mesh(std::vector<std::array<int, 3>>& triangleFaces,
          std::vector<Vertex>& uniqueVertices);
 
-    Mesh(std::vector<iREAL>& xCoordinates, std::vector<iREAL>& yCoordinates,
-         std::vector<iREAL>& zCoordinates);
+    Mesh(std::vector<double>& xCoordinates, std::vector<double>& yCoordinates,
+         std::vector<double>& zCoordinates);
 
     /*
      *  Flatten Data Structure
@@ -35,9 +35,9 @@ public:
      *  @param zCoordinates : z axis elements array of mesh
      *  @returns void but through parameters by reference
      */
-    void flatten(std::vector<iREAL>& xCoordinates,
-                 std::vector<iREAL>& yCoordinates,
-                 std::vector<iREAL>& zCoordinates);
+    void flatten(std::vector<double>& xCoordinates,
+                 std::vector<double>& yCoordinates,
+                 std::vector<double>& zCoordinates);
 
     /*
      *  Flatten Data Structure
@@ -64,9 +64,9 @@ public:
      *  @param zCoordinates : z axis elements array of mesh
      *  @returns void
      */
-    void replace(std::vector<iREAL>& xCoordinates,
-                 std::vector<iREAL>& yCoordinates,
-                 std::vector<iREAL>& zCoordinates);
+    void replace(std::vector<double>& xCoordinates,
+                 std::vector<double>& yCoordinates,
+                 std::vector<double>& zCoordinates);
 
     /*
      *  Move Mesh To Position
@@ -78,9 +78,9 @@ public:
      *  @param centre : centre of geometry
      *  @returns void
      */
-    void shiftMesh(iREAL centre[3]);
+    void shiftMesh(double centre[3]);
 
-    void rotateX(iREAL alphaX);
+    void rotateX(double alphaX);
 
     /*
      *  Rotate Y
@@ -92,7 +92,7 @@ public:
      *  @param alphaY : rotation value 0-1 that correspond to 0 to 360 degrees.
      *  @returns void
      */
-    void rotateY(iREAL alphaY);
+    void rotateY(double alphaY);
 
     /*
      *  Rotate Z
@@ -104,7 +104,7 @@ public:
      *  @param alphaZ : rotation value 0-1 that correspond to 0 to 360 degrees.
      *  @returns void
      */
-    void rotateZ(iREAL alphaZ);
+    void rotateZ(double alphaZ);
 
     std::vector<Vertex> getVertices();
     std::vector<std::array<int, 3>> getTriangles();
@@ -115,21 +115,21 @@ public:
      *
      *
      *  @param none
-     *  @returns iREAL
+     *  @returns double
      */
-    iREAL computeDiagonal();
+    double computeDiagonal();
 
-    iREAL* getXCoordinates();
+    double* getXCoordinates();
 
-    iREAL* getYCoordinates();
+    double* getYCoordinates();
 
-    iREAL* getZCoordinates();
+    double* getZCoordinates();
 
-    iREAL* getPrevXCoordinates();
+    double* getPrevXCoordinates();
 
-    iREAL* getPrevYCoordinates();
+    double* getPrevYCoordinates();
 
-    iREAL* getPrevZCoordinates();
+    double* getPrevZCoordinates();
 
     /*
      *  Get Width of the X Coordinates
@@ -138,9 +138,9 @@ public:
      *
      *
      *  @param none
-     *  @returns iREAL value
+     *  @returns double value
      */
-    iREAL* getRefXCoordinates();
+    double* getRefXCoordinates();
 
     /*
      *  Get Y Coordinates
@@ -149,9 +149,9 @@ public:
      *
      *
      *  @param none
-     *  @returns vector of iREAL values
+     *  @returns vector of double values
      */
-    iREAL* getRefYCoordinates();
+    double* getRefYCoordinates();
 
     /*
      *  Get Z Coordinates
@@ -160,9 +160,9 @@ public:
      *
      *
      *  @param none
-     *  @returns vector of iREAL values
+     *  @returns vector of double values
      */
-    iREAL* getRefZCoordinates();
+    double* getRefZCoordinates();
 
     /*
      *  Get Width of the X Coordinates
@@ -171,9 +171,9 @@ public:
      *
      *
      *  @param none
-     *  @returns iREAL value
+     *  @returns double value
      */
-    iREAL computeXw();
+    double computeXw();
 
     /*
      *  Get Width of the Y Coordinates
@@ -182,9 +182,9 @@ public:
      *
      *
      *  @param none
-     *  @returns iREAL value
+     *  @returns double value
      */
-    iREAL computeYw();
+    double computeYw();
 
     /*
      *  Get Width of the Z Coordinates
@@ -193,9 +193,9 @@ public:
      *
      *
      *  @param none
-     *  @returns iREAL value
+     *  @returns double value
      */
-    iREAL computeZw();
+    double computeZw();
 
     /*
      *  Get Max Value on X Axis
@@ -204,9 +204,9 @@ public:
      *
      *
      *  @param none
-     *  @returns iREAL value
+     *  @returns double value
      */
-    iREAL computeMaxXAxis();
+    double computeMaxXAxis();
 
     /*
      *  Get Max Value on Y Axis
@@ -215,9 +215,9 @@ public:
      *
      *
      *  @param none
-     *  @returns iREAL value
+     *  @returns double value
      */
-    iREAL computeMaxYAxis();
+    double computeMaxYAxis();
 
     /*
      *  Get Max Value on Z Axis
@@ -226,9 +226,9 @@ public:
      *
      *
      *  @param none
-     *  @returns iREAL value
+     *  @returns double value
      */
-    iREAL computeMaxZAxis();
+    double computeMaxZAxis();
 
     /*
      *  Get Min Value on X Axis
@@ -237,9 +237,9 @@ public:
      *
      *
      *  @param none
-     *  @returns iREAL value
+     *  @returns double value
      */
-    iREAL computeMinXAxis();
+    double computeMinXAxis();
 
     /*
      *  Get Min Value on Y Axis
@@ -248,9 +248,9 @@ public:
      *
      *
      *  @param none
-     *  @returns iREAL value
+     *  @returns double value
      */
-    iREAL computeMinYAxis();
+    double computeMinYAxis();
 
     /*
      *  Get Min Value on Z Axis
@@ -259,9 +259,9 @@ public:
      *
      *
      *  @param none
-     *  @returns iREAL value
+     *  @returns double value
      */
-    iREAL computeMinZAxis();
+    double computeMinZAxis();
 
     /*
      *  Get H Min
@@ -270,9 +270,9 @@ public:
      *
      *
      *  @param none
-     *  @returns iREAL value
+     *  @returns double value
      */
-    iREAL computeHMin();
+    double computeHMin();
 
     /*
      *  Get Min Boundary Vertex
@@ -283,7 +283,7 @@ public:
      *  @param none
      *  @returns xyz vertex
      */
-    demolish::Vertex computeBoundaryMinVertex();
+    crashr::Vertex computeBoundaryMinVertex();
 
     /*
      *  Get Max Boundary Vertex
@@ -294,7 +294,7 @@ public:
      *  @param none
      *  @returns xyz vertex
      */
-    demolish::Vertex computeBoundaryMaxVertex();
+    crashr::Vertex computeBoundaryMaxVertex();
 
     /*
      *  Get XY Width
@@ -303,9 +303,9 @@ public:
      *
      *
      *  @param none
-     *  @returns iREAL
+     *  @returns double
      */
-    iREAL computeXZw();
+    double computeXZw();
 
     /*
      *  Get Diameter Width
@@ -314,9 +314,9 @@ public:
      *
      *
      *  @param none
-     *  @returns iREAL
+     *  @returns double
      */
-    iREAL computeDiameter();
+    double computeDiameter();
 
     /*
      *  Get Triangle Faces
@@ -353,7 +353,7 @@ public:
      *  @param centreOfGeometry
      *  @returns void
      */
-    void computeCenterOfGeometry(iREAL centreOfGeometry[3]);
+    void computeCenterOfGeometry(double centreOfGeometry[3]);
 
     /*
      *  Get Center of Mass
@@ -370,9 +370,9 @@ public:
      *
      *  @returns void
      */
-    void computeCenterOfMass(iREAL& centreOfMassX, iREAL& centreOfMassY,
-                             iREAL& centreOfMassZ, iREAL& refcentreOfMassX,
-                             iREAL& refcentreOfMassY, iREAL& refcentreOfMassZ);
+    void computeCenterOfMass(double& centreOfMassX, double& centreOfMassY,
+                             double& centreOfMassZ, double& refcentreOfMassX,
+                             double& refcentreOfMassY, double& refcentreOfMassZ);
 
     /*
      *  Get X Coordinates
@@ -383,7 +383,7 @@ public:
      *  @param none
      *  @returns vector
      */
-    std::vector<iREAL> getXCoordinatesAsVector();
+    std::vector<double> getXCoordinatesAsVector();
 
     /*
      *  Get X Coordinates
@@ -394,7 +394,7 @@ public:
      *  @param none
      *  @returns vector
      */
-    std::vector<iREAL> getYCoordinatesAsVector();
+    std::vector<double> getYCoordinatesAsVector();
 
     /*
      *  Get X Coordinates
@@ -405,9 +405,9 @@ public:
      *  @param none
      *  @returns vector
      */
-    std::vector<iREAL> getZCoordinatesAsVector();
+    std::vector<double> getZCoordinatesAsVector();
 
-    void computeExplode(iREAL length);
+    void computeExplode(double length);
 
     /*
      *  Get Mass
@@ -416,9 +416,9 @@ public:
      *
      *
      *  @param material
-     *  @returns iREAL
+     *  @returns double
      */
-    iREAL computeMass(demolish::material::MaterialType material);
+    double computeMass(crashr::material::MaterialType material);
 
     /*
      *  Get Volume
@@ -427,9 +427,9 @@ public:
      *
      *
      *  @param none
-     *  @returns iREAL
+     *  @returns double
      */
-    iREAL computeVolume();
+    double computeVolume();
 
     /*
      *  Get Inertia Matrix
@@ -443,8 +443,8 @@ public:
      *  @param inertia
      *  @returns void
      */
-    void computeInertia(demolish::material::MaterialType material, iREAL& mass,
-                        iREAL center[3], iREAL inertia[9]);
+    void computeInertia(crashr::material::MaterialType material, double& mass,
+                        double center[3], double inertia[9]);
 
     /*
      *  Get Inverse Inertia Matrix
@@ -457,7 +457,7 @@ public:
      *  @param isObject
      *  @returns void
      */
-    void computeInverseInertia(iREAL inertia[9], iREAL inverse[9],
+    void computeInverseInertia(double inertia[9], double inverse[9],
                                bool isObject);
 
     /*
@@ -467,19 +467,19 @@ public:
      *
      *
      *  @param none
-     *  @returns iREAL
+     *  @returns double
      */
-    iREAL computeXYZw();
+    double computeXYZw();
 
-    iREAL getMaxMeshSize();
-    iREAL getMinMeshSize();
-    iREAL getAvgMeshSize();
+    double getMaxMeshSize();
+    double getMinMeshSize();
+    double getAvgMeshSize();
 
     void setCurrentCoordinatesEqualToPrevCoordinates();
     void setPreviousCoordinatesEqualToCurrCoordinates();
 
-    demolish::Vertex getBoundaryMinVertex();
-    demolish::Vertex getBoundaryMaxVertex();
+    crashr::Vertex getBoundaryMinVertex();
+    crashr::Vertex getBoundaryMaxVertex();
 
     virtual ~Mesh();
 
@@ -504,9 +504,9 @@ private:
      *
      *  @returns void
      */
-    void compressFromVectors(std::vector<iREAL>& xCoordinates,
-                             std::vector<iREAL>& yCoordinates,
-                             std::vector<iREAL>& zCoordinates);
+    void compressFromVectors(std::vector<double>& xCoordinates,
+                             std::vector<double>& yCoordinates,
+                             std::vector<double>& zCoordinates);
 
     /*
      *  Print arrays to screen
@@ -518,59 +518,59 @@ private:
     void toString();
 
     std::vector<std::array<int, 3>> _triangleFaces;
-    std::vector<demolish::Vertex> _uniqueVertices;
+    std::vector<crashr::Vertex> _uniqueVertices;
 
-    std::vector<iREAL> _prevxCoordinates;
-    std::vector<iREAL> _prevyCoordinates;
-    std::vector<iREAL> _prevzCoordinates;
+    std::vector<double> _prevxCoordinates;
+    std::vector<double> _prevyCoordinates;
+    std::vector<double> _prevzCoordinates;
 
-    std::vector<iREAL> _xCoordinates;
-    std::vector<iREAL> _yCoordinates;
-    std::vector<iREAL> _zCoordinates;
+    std::vector<double> _xCoordinates;
+    std::vector<double> _yCoordinates;
+    std::vector<double> _zCoordinates;
 
-    std::vector<iREAL> _refxCoordinates;
-    std::vector<iREAL> _refyCoordinates;
-    std::vector<iREAL> _refzCoordinates;
+    std::vector<double> _refxCoordinates;
+    std::vector<double> _refyCoordinates;
+    std::vector<double> _refzCoordinates;
 
-    demolish::Vertex _minBoundary;
-    demolish::Vertex _maxBoundary;
+    crashr::Vertex _minBoundary;
+    crashr::Vertex _maxBoundary;
 
     // dimensions
-    iREAL _wx;
-    iREAL _wy;
-    iREAL _wz;
+    double _wx;
+    double _wy;
+    double _wz;
 
-    iREAL _maxMeshSize;
-    iREAL _minMeshSize;
-    iREAL _avgMeshSize;
+    double _maxMeshSize;
+    double _minMeshSize;
+    double _avgMeshSize;
 
 #define TRACE(A) ((A)[0] + (A)[4] + (A)[8])
 
 #define simplex_1(J, a, b, c, d) ((J) / 6.)
 };
 
-namespace demolish {
+namespace crashr {
 namespace operators {
-void shiftMesh(std::vector<iREAL>& xCoordinates,
-               std::vector<iREAL>& yCoordinates,
-               std::vector<iREAL>& zCoordinates,
-               std::vector<demolish::Vertex>& verts, iREAL center[3]);
+void shiftMesh(std::vector<double>& xCoordinates,
+               std::vector<double>& yCoordinates,
+               std::vector<double>& zCoordinates,
+               std::vector<crashr::Vertex>& verts, double center[3]);
 
-void scaleXYZ(std::vector<iREAL>& xCoordinates,
-              std::vector<iREAL>& yCoordinates,
-              std::vector<iREAL>& zCoordinates,
-              std::vector<demolish::Vertex>& verts, iREAL scale,
-              iREAL position[3]);
+void scaleXYZ(std::vector<double>& xCoordinates,
+              std::vector<double>& yCoordinates,
+              std::vector<double>& zCoordinates,
+              std::vector<crashr::Vertex>& verts, double scale,
+              double position[3]);
 
-void rotateX(std::vector<iREAL>& xCoordinates, std::vector<iREAL>& yCoordinates,
-             std::vector<iREAL>& zCoordinates, iREAL alphaX);
+void rotateX(std::vector<double>& xCoordinates, std::vector<double>& yCoordinates,
+             std::vector<double>& zCoordinates, double alphaX);
 
-void rotateY(std::vector<iREAL>& xCoordinates, std::vector<iREAL>& yCoordinates,
-             std::vector<iREAL>& zCoordinates, iREAL alphaY);
+void rotateY(std::vector<double>& xCoordinates, std::vector<double>& yCoordinates,
+             std::vector<double>& zCoordinates, double alphaY);
 
-void rotateZ(std::vector<iREAL>& xCoordinates, std::vector<iREAL>& yCoordinates,
-             std::vector<iREAL>& zCoordinates, iREAL alphaZ);
+void rotateZ(std::vector<double>& xCoordinates, std::vector<double>& yCoordinates,
+             std::vector<double>& zCoordinates, double alphaZ);
 
 }  // namespace operators
-}  // namespace demolish
+}  // namespace crashr
 #endif

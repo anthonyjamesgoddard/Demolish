@@ -7,11 +7,11 @@
 #define _DELTA_PRIMITIVES_CYLINDER_H_
 
 
-#include "../demolish.h"
+#include "../crashr.h"
 #include "../Mesh.h"
 
 
-namespace demolish {
+namespace crashr {
   namespace primitives {
     class Cylinder;
   }
@@ -22,17 +22,17 @@ namespace demolish {
  * A cylinder
  *
  */
-class demolish::primitives::Cylinder: public demolish::Mesh {
+class crashr::primitives::Cylinder: public crashr::Mesh {
   private:
-	const iREAL _centre[3];
-	const iREAL _radius;
-	const iREAL _h;
-	const iREAL _maxZ;
-	const iREAL _minZ;
+	const double _centre[3];
+	const double _radius;
+	const double _h;
+	const double _maxZ;
+	const double _minZ;
 
-	iREAL* _xCoordinates;
-	iREAL* _yCoordinates;
-	iREAL* _zCoordinates;
+	double* _xCoordinates;
+	double* _yCoordinates;
+	double* _zCoordinates;
 
 	/**
 	 * @image html Cylinder.png
@@ -49,30 +49,30 @@ class demolish::primitives::Cylinder: public demolish::Mesh {
 	  double maxZ =  1.0,
 	 */
 	Cylinder(
-	  iREAL centre[3],
-	  iREAL radius,
-	  iREAL minZ,
-	  iREAL maxZ,
-	  iREAL h
+	  double centre[3],
+	  double radius,
+	  double minZ,
+	  double maxZ,
+	  double h
     );
 
 	Cylinder(
-	  iREAL centreX,
-	  iREAL centreY,
-	  iREAL centreZ,
-	  iREAL radius,
-	  iREAL minZ,
-	  iREAL maxZ,
-	  iREAL h
+	  double centreX,
+	  double centreY,
+	  double centreZ,
+	  double radius,
+	  double minZ,
+	  double maxZ,
+	  double h
     );
 
 	virtual ~Cylinder();
 
-	iREAL getCentreX() const  ;
-	iREAL getCentreY() const  ;
-	iREAL getCentreZ() const  ;
+	double getCentreX() const  ;
+	double getCentreY() const  ;
+	double getCentreZ() const  ;
 
-	iREAL getBoundingSphereRadius() const  ;
+	double getBoundingSphereRadius() const  ;
 
 	/**
 	 * You need at least three lines to approximate a circle. Lets assume
@@ -82,9 +82,9 @@ class demolish::primitives::Cylinder: public demolish::Mesh {
 	 * @image html Cylinder.png
 	 */
 	int getNumberOfTriangles() const  ;
-	const iREAL* getXCoordinates() const  ;
-	const iREAL* getYCoordinates() const  ;
-	const iREAL* getZCoordinates() const  ;
+	const double* getXCoordinates() const  ;
+	const double* getYCoordinates() const  ;
+	const double* getZCoordinates() const  ;
 };
 
 

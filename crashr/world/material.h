@@ -1,11 +1,11 @@
 #ifndef MATERIAL
 #define MATERIAL
 
-#include "demolish.h"
+#include "crashr.h"
 
 #include <map>
 
-namespace demolish {
+namespace crashr {
 namespace material {
 enum class MaterialType : int { GOLD = 1, GRAPHITE = 2, WOOD = 3 };
 
@@ -18,16 +18,16 @@ enum class MaterialInteraction : char {
     GRAPHITEGOLD
 };
 
-static std::map<demolish::material::MaterialType, iREAL> materialToDensitymap(
-    {{demolish::material::MaterialType::WOOD, 20000},
-     {demolish::material::MaterialType::GRAPHITE, 1000},
-     {demolish::material::MaterialType::GOLD, 1000}});
+static std::map<crashr::material::MaterialType, double> materialToDensitymap(
+    {{crashr::material::MaterialType::WOOD, 20000},
+     {crashr::material::MaterialType::GRAPHITE, 1000},
+     {crashr::material::MaterialType::GOLD, 1000}});
 
 int getInterfaceType(int materialA, int materialB);
 
 extern void materialInit();
 int getCollisionInterface();
 }  // namespace material
-}  // namespace demolish
+}  // namespace crashr
 
 #endif

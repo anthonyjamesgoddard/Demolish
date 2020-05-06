@@ -16,11 +16,7 @@
 #define ALG_PI 3.14159265358979323846 
 #define ALG_SQR2 1.4142135623730951
 
-#if iREAL==float
-#define iREAL_MAX 3.40282347E+38F
-#else
-#define iREAL_MAX 1.7976931348623157E+308
-#endif
+#define double_MAX 1.7976931348623157E+308
 
 #ifndef MIN
   #define MIN(v, w) ((v) < (w) ? (v) : (w))
@@ -326,7 +322,7 @@
   (a) [2] = b;\
 }
 
-#define SETN(a, n, b) for (iREAL *x = (a), *y = x + (n); x != y; x ++) (*x) = (b)
+#define SETN(a, n, b) for (double *x = (a), *y = x + (n); x != y; x ++) (*x) = (b)
 
 #define SETRAND(a, b)\
 {\
@@ -366,7 +362,7 @@
  * reads |((a-b)x(c-b))|/2 */
 #define TRIANGLE_AREA(a, b, c, area)\
 {\
-  iREAL ab [3], cb [3], nl [3];\
+  double ab [3], cb [3], nl [3];\
   SUB (a, b, ab);\
   SUB (c, b, cb);\
   PRODUCT (ab, cb, nl);\
@@ -376,7 +372,7 @@
 /* counter clock wise (a, b, c) normal */
 #define NORMAL(a, b, c, normal)\
 {\
-  iREAL ba [3], cb [3];\
+  double ba [3], cb [3];\
   SUB (b, a, ba);\
   SUB (c, b, cb);\
   PRODUCT (ba, cb, normal);\
@@ -384,7 +380,7 @@
 
 #define NORMALIZE(a)\
 {\
-  iREAL len = LEN (a);\
+  double len = LEN (a);\
   (a) [0] /= len;\
   (a) [1] /= len;\
   (a) [2] /= len;\
@@ -395,7 +391,7 @@
 /* p = 4-plane and line segment (a, b) intersection; call only for intersecting entities */
 #define PLANESEG(plane, a, b, p)\
 {\
-  iREAL l [3], s;\
+  double l [3], s;\
   \
   l [0] = b [0] - a [0];\
   l [1] = b [1] - a [1];\
@@ -416,7 +412,7 @@
 
 #define MAXABS(a, maximum)\
 {\
-  iREAL a0 = ABS((a)[0]),\
+  double a0 = ABS((a)[0]),\
 	 a1 = ABS((a)[1]),\
 	 a2 = ABS((a)[2]);\
   (maximum) = a0;\
@@ -426,7 +422,7 @@
 
 #define MAXABSIDX(a, imax)\
 {\
-  iREAL a0 = ABS((a)[0]),\
+  double a0 = ABS((a)[0]),\
 	 a1 = ABS((a)[1]),\
 	 a2 = ABS((a)[2]),\
          maximum = a0;\
@@ -437,7 +433,7 @@
 
 #define MAXABS2(a, maximum)\
 {\
-  iREAL a0 = ABS((a)[0]),\
+  double a0 = ABS((a)[0]),\
 	 a1 = ABS((a)[1]);\
   (maximum) = a0;\
   if ((maximum) < a1) (maximum) = a1;\
@@ -448,7 +444,7 @@
   (maximum) = ABS((a)[0]);\
   for (int i = 1; i < (n); i ++)\
   {\
-    iREAL ai = ABS((a)[i]);\
+    double ai = ABS((a)[i]);\
     if ((maximum) < ai) (maximum) = ai;\
   }\
 }
@@ -457,14 +453,14 @@
 {\
   for (int i = 0; i < (n); i ++)\
   {\
-    iREAL ai = ABS((a)[i]);\
+    double ai = ABS((a)[i]);\
     if (ai <= tol) (a)[i] = 0;\
   }\
 }
 
 #define NORMALIZE4(a)\
 {\
-  iREAL len = LEN4 (a);\
+  double len = LEN4 (a);\
   (a) [0] /= len;\
   (a) [1] /= len;\
   (a) [2] /= len;\
@@ -631,9 +627,9 @@
 
 /* 4*4 solver */
 
-/*static void solve4 (iREAL a[16], iREAL b[4], iREAL x[4])
+/*static void solve4 (double a[16], double b[4], double x[4])
 {
-    iREAL tmp;
+    double tmp;
     tmp = a[1]/a[0];
     a[13] -= a[12] * tmp;
     a[9] -= a[8] * tmp;
@@ -684,7 +680,7 @@
 
 #define MAX9(A, NORM)\
 {\
-  iREAL __AUX__;\
+  double __AUX__;\
   (NORM) = 0.0;\
   __AUX__ = fabs ((A) [0]);\
   if (__AUX__ > (NORM)) (NORM) = __AUX__;\
@@ -1160,7 +1156,7 @@ if (((DET) =\
  * outputing 'R' and 'U' computed after 'ITERS' iterations */
 #define POLAR(F, EPS, R, U, ITERS)\
 {\
-  iREAL __TMP__ [9],\
+  double __TMP__ [9],\
 	 __L2__, __MX__,\
 	 __IL2__, __IMX__,\
 	 __GAMMA__, __DET__,\
@@ -1201,7 +1197,7 @@ if (((DET) =\
  * the orthogonal rotation matrix 'R' */
 #define EXPMAP(VSKEW, R)\
 {\
-  iREAL __ANG_2__, __SIN_X__,\
+  double __ANG_2__, __SIN_X__,\
     __1_COS_XX__, __0__, __1__, __2__,\
     __01__, __02__, __12__, __S0__,\
     __S1__, __S2__;\
@@ -1274,7 +1270,7 @@ if (((DET) =\
  * spanned at identity and 'VECSKEW' */
 #define DEXPMAP(VSKEW, R)\
 {\
-  iREAL __ANG_2__, __1_XX_SIN_XXX__,\
+  double __ANG_2__, __1_XX_SIN_XXX__,\
     __1_COS_XX__, __0__, __1__, __2__,\
     __S0__, __S1__, __S2__;\
   __ANG_2__ = DOT(VSKEW, VSKEW);\
@@ -1343,7 +1339,7 @@ if (((DET) =\
  * map => useful for Newton iterations */
 #define EXPMAP123(OMEGA, R0, R1, R2)\
 {\
-  iREAL x,\
+  double x,\
          a,\
          b,\
          c,\
@@ -1449,16 +1445,16 @@ if (((DET) =\
 /* compute Mises norm of a Cauchy stress */
 #define MISES(s, v)\
   do {\
-  iREAL a = (s [0] - s [1])*(s [0] - s [1]);\
-  iREAL b = (s [0] - s [2])*(s [0] - s [2]);\
-  iREAL c = (s [2] - s [1])*(s [2] - s [1]);\
-  iREAL d = 6. * (s [3]*s [3] + s [4]*s [4] + s [5]*s [5]);\
+  double a = (s [0] - s [1])*(s [0] - s [1]);\
+  double b = (s [0] - s [2])*(s [0] - s [2]);\
+  double c = (s [2] - s [1])*(s [2] - s [1]);\
+  double d = 6. * (s [3]*s [3] + s [4]*s [4] + s [5]*s [5]);\
   v = .707106781186548 * sqrt (a + b + c + d);\
   } while (0)
 
 #define PROJECT_POINT_ON_LINE(point, line_point, line_direction, projection)\
 {\
-  iREAL dif [3], dot1, dot2, eps;\
+  double dif [3], dot1, dot2, eps;\
   \
   dot1 = DOT (line_direction, line_direction);\
   if (dot1 == 0.0) COPY (line_point, projection);\
@@ -1470,7 +1466,7 @@ if (((DET) =\
 
 #define ROTATION_MATRIX(vector, angle, R)\
 {\
-  iREAL omega [3], a = angle;\
+  double omega [3], a = angle;\
   a *=  ALG_PI / 180.0;\
   COPY (vector, omega);\
   NORMALIZE (omega);\

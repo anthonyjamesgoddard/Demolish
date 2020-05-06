@@ -3,12 +3,12 @@
 #include "math.h"
 
 /* vectorizable exponential map */
-void expmap (iREAL Omega1, iREAL Omega2, iREAL Omega3,
-                iREAL &Lambda1, iREAL &Lambda2, iREAL &Lambda3,
-			          iREAL &Lambda4, iREAL &Lambda5, iREAL &Lambda6,
-			          iREAL &Lambda7, iREAL &Lambda8, iREAL &Lambda9)
+void expmap (double Omega1, double Omega2, double Omega3,
+                double &Lambda1, double &Lambda2, double &Lambda3,
+			          double &Lambda4, double &Lambda5, double &Lambda6,
+			          double &Lambda7, double &Lambda8, double &Lambda9)
 {
-  iREAL angsq, sx, cx, v0, v1, v2, v01, v02, v12, s0, s1, s2;
+  double angsq, sx, cx, v0, v1, v2, v01, v02, v12, s0, s1, s2;
 
   v0 = Omega1 * Omega1;
   v1 = Omega2 * Omega2;
@@ -45,7 +45,7 @@ void expmap (iREAL Omega1, iREAL Omega2, iREAL Omega3,
   }
   else
   {
-    iREAL t, s, c;
+    double t, s, c;
     t = angsq;
     angsq = sqrt (angsq);
     s = sin (angsq);
@@ -81,13 +81,13 @@ void expmap (iREAL Omega1, iREAL Omega2, iREAL Omega3,
   Lambda9 += 1.0;
 }
 
- void demolish::dynamics::updateRotationMatrix(
-     iREAL *angular,
-     iREAL *refAngular,
-     iREAL *rotation,
-     iREAL step)
+ void crashr::dynamics::updateRotationMatrix(
+     double *angular,
+     double *refAngular,
+     double *rotation,
+     double step)
 {
-  iREAL DL[9], rot0[9];
+  double DL[9], rot0[9];
   expmap (step*refAngular[0], step*refAngular[1], step*refAngular[2], DL[0], DL[1], DL[2], DL[3], DL[4], DL[5], DL[6], DL[7], DL[8]);
 
   rot0[0] = rotation[0];
@@ -117,20 +117,20 @@ void expmap (iREAL Omega1, iREAL Omega2, iREAL Omega3,
   angular[2] = rotation[2]*refAngular[0]+rotation[5]*refAngular[1]+rotation[8]*refAngular[2];
 }
 
-void demolish::dynamics::updateAngular(
-    iREAL *refAngular,
-    iREAL *rotation,
-    iREAL *inertia,
-    iREAL *inverse,
-    iREAL *torque,
-    iREAL step)
+void crashr::dynamics::updateAngular(
+    double *refAngular,
+    double *rotation,
+    double *inertia,
+    double *inverse,
+    double *torque,
+    double step)
 {
-	iREAL half = 0.5*step;
+	double half = 0.5*step;
 
-	iREAL T[3];
-	iREAL DL[9];
-	iREAL A[3];
-	iREAL B[3];
+	double T[3];
+	double DL[9];
+	double A[3];
+	double B[3];
 
 	////EQUATION (13) START
 	///////////////////////
@@ -192,18 +192,18 @@ void demolish::dynamics::updateAngular(
 	/////////////////////
 }
 
-void demolish::dynamics::updateVertices(
-    iREAL *x,
-    iREAL *y,
-    iREAL *z,
-    iREAL *refx,
-    iREAL *refy,
-    iREAL *refz,
-    iREAL *rotation,
-    iREAL *position,
-    iREAL *refposition)
+void crashr::dynamics::updateVertices(
+    double *x,
+    double *y,
+    double *z,
+    double *refx,
+    double *refy,
+    double *refz,
+    double *rotation,
+    double *position,
+    double *refposition)
 {
-	iREAL C[3], c[3];
+	double C[3], c[3];
 
 	//point A REFERENCIAL
 	C[0] = *refx - refposition[0];

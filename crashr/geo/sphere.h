@@ -1,33 +1,22 @@
 #pragma once
-
 #include "geo/mesh.h"
 
 namespace crashr {
 namespace primitives {
-class Cube;
+class Sphere;
 }
 }  // namespace crashr
 
-/**
- * A cube
- */
-class crashr::primitives::Cube : public crashr::Mesh {
+class crashr::primitives::Sphere : public crashr::Mesh {
 private:
-    const double _centre[3];
-    const double _h;
-
-    double* _xCoordinates;
-    double* _yCoordinates;
-    double* _zCoordinates;
-
-    void discretise();
+    double _centre[3];
+    double _radius;
 
 public:
-    Cube(double centre[3], double h);
+    Sphere(double centre[3], double radius, double h);
 
-    Cube(double centreX, double centreY, double centreZ, double h);
-
-    virtual ~Cube();
+    Sphere(double centreX, double centreY, double centreZ, double radius,
+           double h);
 
     double getCentreX() const;
     double getCentreY() const;
@@ -40,4 +29,6 @@ public:
     const double* getYCoordinates() const;
     const double* getZCoordinates() const;
 };
+
+#endif
 

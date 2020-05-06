@@ -10,11 +10,11 @@
 #include "material.h"
 #include "Mesh.h"
 
-namespace demolish {
+namespace crashr {
     class Object;
 }
 
-class demolish::Object
+class crashr::Object
 {
   public:
 	Object();
@@ -24,14 +24,14 @@ class demolish::Object
 	 */
 	Object(
 	  int                           				particleID,
-	  std::array<iREAL, 3>         				    centre,
-	  demolish::material::MaterialType 	            material,
+	  std::array<double, 3>         				    centre,
+	  crashr::material::MaterialType 	            material,
 	  bool                          				isObstacle,
 	  bool                          				isFriction,
 	  bool                          				isConvex,
-	  iREAL 										epsilon,
-	  std::array<iREAL, 3> linear,
-	  std::array<iREAL, 3> angular
+	  double 										epsilon,
+	  std::array<double, 3> linear,
+	  std::array<double, 3> angular
 	);
 
 	/*
@@ -39,96 +39,96 @@ class demolish::Object
 	 */
 	Object(
 	  int                           				particleID,
-	  demolish::Mesh*				                mesh,
-	  std::array<iREAL, 3>         				    centre,
-	  demolish::material::MaterialType 	            material,
+	  crashr::Mesh*				                mesh,
+	  std::array<double, 3>         				    centre,
+	  crashr::material::MaterialType 	            material,
 	  bool                          				isObstacle,
 	  bool                          				isFriction,
 	  bool                          				isConvex,
-	  iREAL 										epsilon,
-	  std::array<iREAL, 3> 						    linear,
-	  std::array<iREAL, 3> 						    angular
+	  double 										epsilon,
+	  std::array<double, 3> 						    linear,
+	  std::array<double, 3> 						    angular
 	);
 
 	/*
 	 * Sphere object
 	 */
 	Object(
-	  iREAL										    rad,
+	  double										    rad,
 	  int                           				particleID,
-	  std::array<iREAL, 3>         				    centre,
-	  demolish::material::MaterialType 	            material,
+	  std::array<double, 3>         				    centre,
+	  crashr::material::MaterialType 	            material,
 	  bool                          				isObstacle,
 	  bool                          				isFriction,
-	  iREAL 										epsilon,
-	  std::array<iREAL, 3> 						    linear,
-	  std::array<iREAL, 3> 						    angular
+	  double 										epsilon,
+	  std::array<double, 3> 						    linear,
+	  std::array<double, 3> 						    angular
 	);
 
     void setParticleID(int id);
 
     void setCentre(
-    		  iREAL centre[3]);
+    		  double centre[3]);
 
-    void setCentre(std::array<iREAL, 3>& centre);
+    void setCentre(std::array<double, 3>& centre);
 
     void setRad(
-    		  iREAL rad);
+    		  double rad);
 
     void setMass(
-    		  iREAL mass);
+    		  double mass);
 
     void setEpsilon(
-    		  iREAL epsilon);
+    		  double epsilon);
 
     void setInertia(
-    		  iREAL inertia[9]);
+    		  double inertia[9]);
 
     void setInverse(
-    		  iREAL inverse[9]);
+    		  double inverse[9]);
 
     void setCentreOfMass(
-    		  iREAL	centreOfMass[3]);
+    		  double	centreOfMass[3]);
 
     void setLinearVelocity(
-    		  std::array<iREAL, 3>  linearVelocity);
+    		  std::array<double, 3>  linearVelocity);
 
     void setAngularVelocity(
-    		  std::array<iREAL, 3>  angularVelocity);
+    		  std::array<double, 3>  angularVelocity);
 
     void setPrevLinearVelocity(
-    		  std::array<iREAL, 3>  linearVelocity);
+    		  std::array<double, 3>  linearVelocity);
 
     void setPrevAngularVelocity(
-    		  std::array<iREAL, 3>  angularVelocity);
+    		  std::array<double, 3>  angularVelocity);
     void setPrevRefAngularVelocity(
-    		  std::array<iREAL, 3>  angularVelocity);
+    		  std::array<double, 3>  angularVelocity);
 
     void setMesh(
-    		  demolish::Mesh& mesh);
+    		  crashr::Mesh& mesh);
 
     void setLocation(
-          std::array<iREAL,3> newlocation);
+          std::array<double,3> newlocation);
 
     void setPrevLocation(
-          std::array<iREAL,3> newlocation);
+          std::array<double,3> newlocation);
 
     void setMesh(
-		  std::vector<iREAL> xCoordinates,
-		  std::vector<iREAL> yCoordinates,
-		  std::vector<iREAL> zCoordinates);
+		  std::vector<double> xCoordinates,
+		  std::vector<double> yCoordinates,
+		  std::vector<double> zCoordinates);
 
     std::string getComponent();
 
-    iREAL getRad();
+    double getRad();
 
-	iREAL getDiameter();
+	double getDiameter();
 
-    iREAL getMass();
+    double getMass();
 
-    iREAL getEpsilon();
+    double getEpsilon();
 
-	iREAL getHaloDiameter();
+	double getHaloDiameter();
 
 	int getNumberOfTriangles();
 
@@ -140,53 +140,53 @@ class demolish::Object
 
     bool getIsFriction();
 
-    iREAL computeVolume();
+    double computeVolume();
 
-    std::array<iREAL, 3> getLocation();
-    std::array<iREAL, 3> getPrevLocation();
-    std::array<iREAL, 3> getReferenceLocation();
+    std::array<double, 3> getLocation();
+    std::array<double, 3> getPrevLocation();
+    std::array<double, 3> getReferenceLocation();
 
-    std::array<iREAL, 9> getInertia();
+    std::array<double, 9> getInertia();
 
-    std::array<iREAL, 9> getOrientation();
-    std::array<iREAL, 9> getPrevOrientation();
+    std::array<double, 9> getOrientation();
+    std::array<double, 9> getPrevOrientation();
 
-    void setOrientation(std::array<iREAL, 9> orientation);
-    void setPrevOrientation(std::array<iREAL, 9> orientation);
+    void setOrientation(std::array<double, 9> orientation);
+    void setPrevOrientation(std::array<double, 9> orientation);
 
-    std::array<iREAL, 9> getInverse();
+    std::array<double, 9> getInverse();
 
-    std::array<iREAL, 3> getCentreOfMass();
+    std::array<double, 3> getCentreOfMass();
 
-    std::array<iREAL, 3> getLinearVelocity();
-    std::array<iREAL, 3> getPrevLinearVelocity();
-    std::array<iREAL, 3> getAngularVelocity();
-    std::array<iREAL, 3> getPrevAngularVelocity();
-    std::array<iREAL, 3> getPrevRefAngularVelocity();
-    std::array<iREAL, 3> getReferenceAngularVelocity();
+    std::array<double, 3> getLinearVelocity();
+    std::array<double, 3> getPrevLinearVelocity();
+    std::array<double, 3> getAngularVelocity();
+    std::array<double, 3> getPrevAngularVelocity();
+    std::array<double, 3> getPrevRefAngularVelocity();
+    std::array<double, 3> getReferenceAngularVelocity();
 
-    void setReferenceAngularVelocity(std::array<iREAL,3>  ang);
+    void setReferenceAngularVelocity(std::array<double,3>  ang);
 
-    demolish::material::MaterialType getMaterial();
+    crashr::material::MaterialType getMaterial();
 
-    demolish::Mesh* 	getMesh();
+    crashr::Mesh* 	getMesh();
 
 	void computeInertia(
-			demolish::material::MaterialType material,
-			iREAL& mass,
-			iREAL center[3],
-			iREAL inertia[9]);
+			crashr::material::MaterialType material,
+			double& mass,
+			double center[3],
+			double inertia[9]);
 
 	void computeInverseInertia(
-			iREAL inertia[9],
-			iREAL inverse[9],
+			double inertia[9],
+			double inverse[9],
 			bool isObject);
 
-	iREAL computeMass(
-			demolish::material::MaterialType material);
+	double computeMass(
+			crashr::material::MaterialType material);
 
-	demolish::Vertex        getMinBoundaryVertex();
-	demolish::Vertex        getMaxBoundaryVertex();
+	crashr::Vertex        getMinBoundaryVertex();
+	crashr::Vertex        getMaxBoundaryVertex();
 
 	bool getIsConvex();
     bool getIsSphere();
@@ -194,54 +194,54 @@ class demolish::Object
     virtual ~Object();
 
 
-    std::array<iREAL, 3> 	_prevLinearVelocity;
-    std::array<iREAL, 3> 	_prevAngularVelocity;
-    std::array<iREAL, 3>    _prevLocation;
+    std::array<double, 3> 	_prevLinearVelocity;
+    std::array<double, 3> 	_prevAngularVelocity;
+    std::array<double, 3>    _prevLocation;
 
-    std::array<iREAL, 3> 	_linearVelocity;
-    std::array<iREAL, 3> 	_angularVelocity;
-    std::array<iREAL, 3> 	_location;
+    std::array<double, 3> 	_linearVelocity;
+    std::array<double, 3> 	_angularVelocity;
+    std::array<double, 3> 	_location;
 
-    std::array<iREAL, 3>    _refAngularVelocity;
-    std::array<iREAL, 3>    _referenceLocation;
+    std::array<double, 3>    _refAngularVelocity;
+    std::array<double, 3>    _referenceLocation;
 
 
-    std::array<iREAL, 3>    _prevRefAngularVelocity;
+    std::array<double, 3>    _prevRefAngularVelocity;
 
-    std::array<iREAL, 3> 	_centreOfMass;
+    std::array<double, 3> 	_centreOfMass;
 
   private:
     std::string           	_component;
     int                   	_globalParticleID;
     int                  	_localParticleID;
 
-    iREAL                	_rad;
-    iREAL				 	_haloDiameter;
-    iREAL				 	_diameter;
-    iREAL               	_mass;
-    iREAL 				 	_epsilon;
+    double                	_rad;
+    double				 	_haloDiameter;
+    double				 	_diameter;
+    double               	_mass;
+    double 				 	_epsilon;
 
     //dimensions
-    iREAL                	_wx;
-    iREAL                	_wy;
-    iREAL                	_wz;
+    double                	_wx;
+    double                	_wy;
+    double                	_wz;
 
-	demolish::Mesh*      			    _mesh;
-    demolish::material::MaterialType 	_material;
+	crashr::Mesh*      			    _mesh;
+    crashr::material::MaterialType 	_material;
 
     bool                  	_isObstacle;
     bool                  	_isFriction;
     bool                  	_isConvex;
     bool                    _isSphere;
 
-    std::array<iREAL, 9>    _orientation;
-    std::array<iREAL, 9>    _prevOrientation;
+    std::array<double, 9>    _orientation;
+    std::array<double, 9>    _prevOrientation;
 
-    std::array<iREAL, 9> 	_inertia;
-    std::array<iREAL, 9> 	_inverse;
+    std::array<double, 9> 	_inertia;
+    std::array<double, 9> 	_inverse;
 
-    demolish::Vertex 	_minBoundBox;
-    demolish::Vertex 	_maxBoundBox;
+    crashr::Vertex 	_minBoundBox;
+    crashr::Vertex 	_maxBoundBox;
 };
 
 #endif

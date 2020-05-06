@@ -1,18 +1,18 @@
 #include "GeometryBuilder.h"
 
-void demolish::CreateBox(iREAL dim1, iREAL dim2, iREAL dim3,
-      std::vector<demolish::Vertex>& meshVertices,
+void crashr::CreateBox(double dim1, double dim2, double dim3,
+      std::vector<crashr::Vertex>& meshVertices,
       std::vector<std::array<int, 3>>& meshTriangles)
 {
 
-      demolish::Vertex A(-0.5*dim1,0.5*dim2,0.5*dim3);
-      demolish::Vertex B(-0.5*dim1,0.5*dim2,-0.5*dim3);
-      demolish::Vertex C(0.5*dim1,0.5*dim2,-0.5*dim3);
-      demolish::Vertex D(0.5*dim1,0.5*dim2,0.5*dim3);
-      demolish::Vertex E(-0.5*dim1,-0.5*dim2,0.5*dim3);
-      demolish::Vertex F(-0.5*dim1,-0.5*dim2,-0.5*dim3);
-      demolish::Vertex G(0.5*dim1,-0.5*dim2,-0.5*dim3);
-      demolish::Vertex H(0.5*dim1,-0.5*dim2,0.5*dim3);
+      crashr::Vertex A(-0.5*dim1,0.5*dim2,0.5*dim3);
+      crashr::Vertex B(-0.5*dim1,0.5*dim2,-0.5*dim3);
+      crashr::Vertex C(0.5*dim1,0.5*dim2,-0.5*dim3);
+      crashr::Vertex D(0.5*dim1,0.5*dim2,0.5*dim3);
+      crashr::Vertex E(-0.5*dim1,-0.5*dim2,0.5*dim3);
+      crashr::Vertex F(-0.5*dim1,-0.5*dim2,-0.5*dim3);
+      crashr::Vertex G(0.5*dim1,-0.5*dim2,-0.5*dim3);
+      crashr::Vertex H(0.5*dim1,-0.5*dim2,0.5*dim3);
       std::array<int,3> tri1 = {0,2,1};
       std::array<int,3> tri2 = {2,0,3};
       std::array<int,3> tri3 = {4,5,6};
@@ -48,8 +48,8 @@ void demolish::CreateBox(iREAL dim1, iREAL dim2, iREAL dim3,
 }
 
 
-void demolish::CreateTrunCone(iREAL topRadius, iREAL bottomRadius,iREAL height,int resolution,
-                    std::vector<demolish::Vertex> &meshVertices,
+void crashr::CreateTrunCone(double topRadius, double bottomRadius,double height,int resolution,
+                    std::vector<crashr::Vertex> &meshVertices,
                     std::vector<std::array<int, 3>>& meshTriangles)
 {
     // create coordinates of top
@@ -79,10 +79,10 @@ void demolish::CreateTrunCone(iREAL topRadius, iREAL bottomRadius,iREAL height,i
     meshTriangles.push_back(tri2);
 }
 
-void demolish::CreateHopper(iREAL topRadius,
-                            iREAL bottomRadius,
-                            iREAL height,
-                            std::vector<demolish::Vertex>    &meshVertices,
+void crashr::CreateHopper(double topRadius,
+                            double bottomRadius,
+                            double height,
+                            std::vector<crashr::Vertex>    &meshVertices,
                             std::vector<std::array<int, 3>>  &meshTriangles)
 {
 
@@ -94,7 +94,7 @@ void demolish::CreateHopper(iREAL topRadius,
    // the second time we call this method we should increase the size of the parameters
    // topRadius and bottomRadius so as to give the hopper some thickness.
    int   resolution = 4;
-   std::vector<demolish::Vertex> verts1,verts2;
+   std::vector<crashr::Vertex> verts1,verts2;
    std::vector<std::array<int, 3>> tris1,tris2;
    CreateTrunCone(topRadius,bottomRadius,height,resolution,verts1,tris1);
    CreateTrunCone(topRadius+2,bottomRadius+2,height,resolution,verts2,tris2);

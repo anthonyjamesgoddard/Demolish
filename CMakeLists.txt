@@ -12,5 +12,4 @@ include_directories(crashr)
 
 # include testing framework here
 
-add_subdirectory(docs)
 add_subdirectory(crashr)

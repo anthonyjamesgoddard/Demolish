@@ -10,26 +10,26 @@
 #define SFRICTIONWOOD 1
 #define SFRICTIONROLLING 0.5
 
-void demolish::resolution::spring(
-    iREAL normal[3],
-    iREAL conpnt[3],
-    iREAL depth,
-    iREAL vij[3],
-    iREAL positionASpatial[3],
-    iREAL positionBSpatial[3],
-    iREAL positionAReferential[3],
-    iREAL positionBReferential[3],
-    iREAL massA,
-    iREAL massB,
-    iREAL rotationA[9],
-    iREAL rotationB[9],
-    iREAL inverseA[9],
-    iREAL inverseB[9],
-    std::array<iREAL, 3>& f,
-    iREAL &forc)
+void crashr::resolution::spring(
+    double normal[3],
+    double conpnt[3],
+    double depth,
+    double vij[3],
+    double positionASpatial[3],
+    double positionBSpatial[3],
+    double positionAReferential[3],
+    double positionBReferential[3],
+    double massA,
+    double massB,
+    double rotationA[9],
+    double rotationB[9],
+    double inverseA[9],
+    double inverseB[9],
+    std::array<double, 3>& f,
+    double &forc)
 {
   //RefConPoint = Rotation^T *(spatial contact point - spatial centre) + RefCentre;
-  iREAL refconptA[3], refconptB[3], conptSubPosition[3];
+  double refconptA[3], refconptB[3], conptSubPosition[3];
 
   conptSubPosition[0] = conpnt[0] - positionASpatial[0];
   conptSubPosition[1] = conpnt[1] - positionASpatial[1];
@@ -49,8 +49,8 @@ void demolish::resolution::spring(
   refconptB[1] = (conptSubPosition[0]*rotationB[3] + conptSubPosition[1]*rotationB[4] + conptSubPosition[2]*rotationB[5])+positionBReferential[1];
   refconptB[2] = (conptSubPosition[0]*rotationB[6] + conptSubPosition[1]*rotationB[7] + conptSubPosition[2]*rotationB[8])+positionBReferential[2];
 
-  iREAL rPositionContactPnti[9];//3x3
-  iREAL rPositionContactPntj[9];
+  double rPositionContactPnti[9];//3x3
+  double rPositionContactPntj[9];
 
   rPositionContactPnti[0] = 0.0;
   rPositionContactPnti[3] = -positionAReferential[2]-refconptA[2];
@@ -72,8 +72,8 @@ void demolish::resolution::spring(
   rPositionContactPntj[8] = 0.0;
 
 
-  iREAL RIi[18];//[Rotation*(RefCentre-RefConPnt)   Identity]
-  iREAL RIj[18];
+  double RIi[18];//[Rotation*(RefCentre-RefConPnt)   Identity]
+  double RIj[18];
 
   NNMUL(rotationA, rPositionContactPnti, RIi);
 
@@ -89,8 +89,8 @@ void demolish::resolution::spring(
 
   //H_N is a 1x6 matrix; n^T is a 1x3 "matrix" (normal vector transposed);
   //[Rotation*(RefCentre-RefConPnt)   Identity] is a 3x6 matrix; 1x3 * 3x6 = 1x6;
-  iREAL Hi_n[6];
-  iREAL Hj_n[6];
+  double Hi_n[6];
+  double Hj_n[6];
 
 
   Hi_n[0] = normal[0]*RIi[0] + normal[1]*RIi[1] + normal[2]*RIi[2];
@@ -107,7 +107,7 @@ void demolish::resolution::spring(
   Hj_n[4] = normal[0]*RIj[12] + normal[1]*RIj[13] + normal[2]*RIj[14];
   Hj_n[5] = normal[0]*RIj[15] + normal[1]*RIj[16] + normal[2]*RIj[17];
 
-  iREAL ui[36];
+  double ui[36];
   ui[0] = inverseA[0]; ui[6] = inverseA[3];	ui[12] = inverseA[6];	ui[18] = 0.0;		  	  ui[24] = 0.0; 		    ui[30] = 0.0;
   ui[1] = inverseA[1]; ui[7] = inverseA[4];	ui[13] = inverseA[7];	ui[19] = 0.0;			    ui[25] = 0.0; 		    ui[31] = 0.0;
   ui[2] = inverseA[2]; ui[8] = inverseA[5];	ui[14] = inverseA[8];	ui[20] = 0.0;   		  ui[26] = 0.0; 		    ui[32] = 0.0;
@@ -115,7 +115,7 @@ void demolish::resolution::spring(
   ui[4] = 0.0;		     ui[10] = 0.0;			  ui[16] = 0.0;				  ui[22] = 0.0;   		  ui[28] = (1.0/massA); ui[34] = 0.0;
   ui[5] = 0.0;		     ui[11] = 0.0;			  ui[17] = 0.0;				  ui[23] = 0.0;   		  ui[29] = 0.0; 		    ui[35] = (1.0/massA);
 
-  iREAL uj[36];
+  double uj[36];
   uj[0] = inverseB[0]; uj[6] = inverseB[3];	uj[12] = inverseB[6];	uj[18] = 0.0;			    uj[24] = 0.0; 		    uj[30] = 0.0;
   uj[1] = inverseB[1]; uj[7] = inverseB[4];	uj[13] = inverseB[7];	uj[19] = 0.0;			    uj[25] = 0.0; 		    uj[31] = 0.0;
   uj[2] = inverseB[2]; uj[8] = inverseB[5];	uj[14] = inverseB[8];	uj[20] = 0.0;   		  uj[26] = 0.0; 		    uj[32] = 0.0;
@@ -124,7 +124,7 @@ void demolish::resolution::spring(
   uj[5] = 0.0;		     uj[11] = 0;			    uj[17] = 0.0;				  uj[23] = 0.0;   		  uj[29] = 0.0; 		    uj[35] = (1.0/massB);
 
   //H_N (1x6) * [] (6x6)
-  iREAL Hi[6], Hj[6];
+  double Hi[6], Hj[6];
 
   Hi[0] = Hi_n[0]*ui[0] + Hi_n[1]*ui[1] + Hi_n[2]*ui[2] + Hi_n[3]*ui[3] + Hi_n[4]*ui[4] + Hi_n[5]*ui[5];
   Hi[1] = Hi_n[0]*ui[6] + Hi_n[1]*ui[7] + Hi_n[2]*ui[8] + Hi_n[3]*ui[9] + Hi_n[4]*ui[10] + Hi_n[5]*ui[11];
@@ -140,17 +140,17 @@ void demolish::resolution::spring(
   Hj[4] = Hj_n[0]*uj[24] + Hj_n[1]*uj[25] + Hj_n[2]*uj[26] + Hj_n[3]*uj[27] + Hj_n[4]*uj[28] + Hj_n[5]*uj[29];
   Hj[5] = Hj_n[0]*uj[30] + Hj_n[1]*uj[31] + Hj_n[2]*uj[32] + Hj_n[3]*uj[33] + Hj_n[4]*uj[34] + Hj_n[5]*uj[35];
 
-  iREAL W_NN = (Hi[0]*Hi_n[0] + Hi[1]*Hi_n[1] + Hi[2]*Hi_n[2] + Hi[3]*Hi_n[3] + Hi[4]*Hi_n[4] + Hi[5]*Hi_n[5]) +
+  double W_NN = (Hi[0]*Hi_n[0] + Hi[1]*Hi_n[1] + Hi[2]*Hi_n[2] + Hi[3]*Hi_n[3] + Hi[4]*Hi_n[4] + Hi[5]*Hi_n[5]) +
 				   (Hj[0]*Hj_n[0] + Hj[1]*Hj_n[1] + Hj[2]*Hj_n[2] + Hj[3]*Hj_n[3] + Hj[4]*Hj_n[4] + Hj[5]*Hj_n[5]);
 
 
-  iREAL ma = 1.0/((1.0/massA) + (1.0/massB));
+  double ma = 1.0/((1.0/massA) + (1.0/massB));
 
-  iREAL velocity = (vij[0]*normal[0]) + (vij[1]*normal[1]) + (vij[2]*normal[2]);
+  double velocity = (vij[0]*normal[0]) + (vij[1]*normal[1]) + (vij[2]*normal[2]);
 
-  iREAL damp = DAMPER*2.0*SPRING*sqrt(ma)*velocity;
+  double damp = DAMPER*2.0*SPRING*sqrt(ma)*velocity;
 
-  iREAL force = SPRING*depth+damp;
+  double force = SPRING*depth+damp;
 
   f[0] = force*normal[0];
   f[1] = force*normal[1];
@@ -161,16 +161,16 @@ void demolish::resolution::spring(
 }
 
 
-void demolish::resolution::friction(
-    iREAL normal[3],
-    iREAL vi[3],
-    iREAL force,
-    std::array<iREAL, 3>& friction,
+void crashr::resolution::friction(
+    double normal[3],
+    double vi[3],
+    double force,
+    std::array<double, 3>& friction,
     int materialA,
     int materialB,
     bool isSphere)
 {
-  iREAL vt[3];
+  double vt[3];
   vt[0] = vi[0] - normal[0]*((vi[0]*normal[0]) + (vi[1]*normal[1]) + (vi[2]*normal[2]));
   vt[1] = vi[1] - normal[1]*((vi[0]*normal[0]) + (vi[1]*normal[1]) + (vi[2]*normal[2]));
   vt[2] = vi[2] - normal[2]*((vi[0]*normal[0]) + (vi[1]*normal[1]) + (vi[2]*normal[2]));
@@ -187,32 +187,32 @@ void demolish::resolution::friction(
   }
 }
 
-void demolish::resolution::getContactForces(
-  demolish::ContactPoint &conpnt,
-  iREAL positionASpatial[3],
-  iREAL positionAReferential[3],
-  iREAL angularA[3],
-  iREAL linearA[3],
-  iREAL massA,
-  iREAL inverseA[9],
-  iREAL rotationA[9],
+void crashr::resolution::getContactForces(
+  crashr::contact_point &conpnt,
+  double positionASpatial[3],
+  double positionAReferential[3],
+  double angularA[3],
+  double linearA[3],
+  double massA,
+  double inverseA[9],
+  double rotationA[9],
   int   materialA,
 
-  iREAL positionBSpatial[3],
-  iREAL positionBReferential[3],
-  iREAL angularB[3],
-  iREAL linearB[3],
-  iREAL massB,
-  iREAL inverseB[9],
-  iREAL rotationB[9],
+  double positionBSpatial[3],
+  double positionBReferential[3],
+  double angularB[3],
+  double linearB[3],
+  double massB,
+  double inverseB[9],
+  double rotationB[9],
   int   materialB,
 
-  std::array<iREAL, 3>& force,
-  std::array<iREAL, 3>& torque,
+  std::array<double, 3>& force,
+  std::array<double, 3>& torque,
   bool  isSphere)
 {
 
-    iREAL z[3], vi[3], vj[3], vij[3];
+    double z[3], vi[3], vj[3], vij[3];
 
     //contact point - position i
     z[0] = conpnt.x[0]-positionASpatial[0];
@@ -239,12 +239,12 @@ void demolish::resolution::getContactForces(
     vij[1] = vj[1] - vi[1];
     vij[2] = vj[2] - vi[2];
 
-    std::array<iREAL, 3> f, friction;
-    iREAL forc;
+    std::array<double, 3> f, friction;
+    double forc;
 
     if(isSphere)
     {
-      demolish::resolution::springSphere(conpnt.normal,
+      crashr::resolution::springSphere(conpnt.normal,
                                          conpnt.depth,
                                          vij,
                                          massA,
@@ -252,7 +252,7 @@ void demolish::resolution::getContactForces(
                                          f,
                                          forc);
     } else {
-      demolish::resolution::spring(conpnt.normal,
+      crashr::resolution::spring(conpnt.normal,
                                    conpnt.x,
                                    conpnt.depth,
                                    vij,
@@ -273,14 +273,14 @@ void demolish::resolution::getContactForces(
 
     if(conpnt.friction)
     {
-        demolish::resolution::friction(conpnt.normal, vi, forc, friction, materialA, materialB, isSphere);
+        crashr::resolution::friction(conpnt.normal, vi, forc, friction, materialA, materialB, isSphere);
 
         //accumulate force
         force[0] += f[0] + friction[0];
         force[1] += f[1] + friction[1];
         force[2] += f[2] + friction[2];
 
-        iREAL arm[3];
+        double arm[3];
         //contact-position = arm
         arm[0] = conpnt.x[0]-positionASpatial[0];
         arm[1] = conpnt.x[1]-positionASpatial[1];

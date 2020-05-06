@@ -10,21 +10,21 @@ class DEMDriver : public GLnixAPP
 public:
     DEMDriver(); /* Constructor */
     bool Init(); /* Initialisation routine */
-    void UpdateScene(std::vector<demolish::Object>& objects);
+    void UpdateScene(std::vector<crashr::Object>& objects);
     void RedrawTheWindow();
 
-    void setContactPoints(std::vector<demolish::ContactPoint>& cps);
+    void setContactPoints(std::vector<crashr::ContactPoint>& cps);
 
-    void BuildBuffers(std::vector<demolish::Object> &objects);
+    void BuildBuffers(std::vector<crashr::Object> &objects);
     void OnMouseDown(XButtonEvent btn,int x, int y);
     void OnMouseUp(XButtonEvent btn,int x, int y);
     void OnMouseMove(int x, int y);
 
 private:
-    void BuildDynamicSphereBuffer(float radius,std::array<iREAL,3> position,int counter);
-    void BuildDynamicMeshBuffer(demolish::Mesh* mesh);
-    void BuildStaticSphereBuffer(float radius,std::array<iREAL,3> position,int counter);
-    void BuildStaticMeshBuffer(demolish::Mesh* mesh);
+    void BuildDynamicSphereBuffer(float radius,std::array<double,3> position,int counter);
+    void BuildDynamicMeshBuffer(crashr::Mesh* mesh);
+    void BuildStaticSphereBuffer(float radius,std::array<double,3> position,int counter);
+    void BuildStaticMeshBuffer(crashr::Mesh* mesh);
 public:
     //graphics pipeline stuff for moving things
     std::vector<UINT>                   VAODynamic;
@@ -45,7 +45,7 @@ public:
     GeometryGenerator                         geoGen;
     std::vector<GeometryGenerator::MeshData>  geoGenObjectsDynamic;
     std::vector<GeometryGenerator::MeshData>  geoGenObjectsStatic;
-    std::vector<demolish::ContactPoint>       contactpoints;
+    std::vector<crashr::ContactPoint>       contactpoints;
 
     AV4X4FLOAT viewModelMatrix;
     AV4X4FLOAT projMatrix;

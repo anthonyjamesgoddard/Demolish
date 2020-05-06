@@ -5,40 +5,40 @@
 
 #include "../ContactPoint.h"
 #include "point.h"
-namespace demolish {
+namespace crashr {
 	namespace detection {
-	  std::vector<demolish::ContactPoint> spherewithsphere(
-		const iREAL   xCoordinatesOfPointsOfGeometryA,
-		const iREAL   yCoordinatesOfPointsOfGeometryA,
-		const iREAL   zCoordinatesOfPointsOfGeometryA,
-		const iREAL   radB,
-		const iREAL   epsilonA,
+	  std::vector<crashr::ContactPoint> spherewithsphere(
+		const double   xCoordinatesOfPointsOfGeometryA,
+		const double   yCoordinatesOfPointsOfGeometryA,
+		const double   zCoordinatesOfPointsOfGeometryA,
+		const double   radB,
+		const double   epsilonA,
 		const bool    frictionA,
 		const int 	  particleA,
 
-		const iREAL   xCoordinatesOfPointsOfGeometryB,
-		const iREAL   yCoordinatesOfPointsOfGeometryB,
-		const iREAL   zCoordinatesOfPointsOfGeometryB,
-		const iREAL   radA,
-		const iREAL   epsilonB,
+		const double   xCoordinatesOfPointsOfGeometryB,
+		const double   yCoordinatesOfPointsOfGeometryB,
+		const double   zCoordinatesOfPointsOfGeometryB,
+		const double   radA,
+		const double   epsilonB,
 		const bool    frictionB,
 		const int 	  particleB
 		);
     
-      std::vector<demolish::ContactPoint> sphereWithMesh(
-		const iREAL   xCoordinatesOfPointsOfGeometryA,
-		const iREAL   yCoordinatesOfPointsOfGeometryA,
-		const iREAL   zCoordinatesOfPointsOfGeometryA,
-		const iREAL   radA,
-		const iREAL   epsilonA,
+      std::vector<crashr::ContactPoint> sphereWithMesh(
+		const double   xCoordinatesOfPointsOfGeometryA,
+		const double   yCoordinatesOfPointsOfGeometryA,
+		const double   zCoordinatesOfPointsOfGeometryA,
+		const double   radA,
+		const double   epsilonA,
 		const bool    frictionA,
 		const int	  particleA,
 
-		const iREAL   *xCoordinatesOfPointsOfGeometryB,
-		const iREAL   *yCoordinatesOfPointsOfGeometryB,
-		const iREAL   *zCoordinatesOfPointsOfGeometryB,
+		const double   *xCoordinatesOfPointsOfGeometryB,
+		const double   *yCoordinatesOfPointsOfGeometryB,
+		const double   *zCoordinatesOfPointsOfGeometryB,
 		const int	  numberOfTrianglesOfGeometryB,
-		const iREAL   epsilonB,
+		const double   epsilonB,
 		const bool 	  frictionB,
 		const int 	  particleB
 		);

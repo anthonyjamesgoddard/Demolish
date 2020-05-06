@@ -54,7 +54,7 @@ bool DEMDriver::Init()
 }
 
 
-void DEMDriver::UpdateScene(std::vector<demolish::Object>& objects)
+void DEMDriver::UpdateScene(std::vector<crashr::Object>& objects)
 {
 	float x = radius*sinf(phi)*cosf(theta);
 	float z = radius*sinf(phi)*sinf(theta);
@@ -176,12 +176,12 @@ void DEMDriver::RedrawTheWindow()
     glXSwapBuffers(Xdisplay, glX_window_handle);
 }
 
-void DEMDriver::setContactPoints(std::vector<demolish::ContactPoint>& cps)
+void DEMDriver::setcontact_points(std::vector<crashr::contact_point>& cps)
 {
     contactpoints = cps;
 }
 
-void DEMDriver::BuildBuffers(std::vector<demolish::Object>& objects)
+void DEMDriver::BuildBuffers(std::vector<crashr::Object>& objects)
 {
     staticCount = 0; dynamicCount=0;
     for(auto& o:objects)
@@ -215,7 +215,7 @@ void DEMDriver::BuildBuffers(std::vector<demolish::Object>& objects)
     }
 }
 
-void DEMDriver::BuildDynamicSphereBuffer(float radius,std::array<iREAL,3> position,int counter)
+void DEMDriver::BuildDynamicSphereBuffer(float radius,std::array<double,3> position,int counter)
 { 
     VAODynamic.push_back(0);
     GLnix_glGenVertexArrays(1,&VAODynamic.back());
@@ -249,7 +249,7 @@ void DEMDriver::BuildDynamicSphereBuffer(float radius,std::array<iREAL,3> positi
     VBODynamic.push_back(std::make_pair(BUFFERS[0],BUFFERS[1]));
 }
 
-void DEMDriver::BuildStaticSphereBuffer(float radius,std::array<iREAL,3> position,int counter)
+void DEMDriver::BuildStaticSphereBuffer(float radius,std::array<double,3> position,int counter)
 { 
     VAOStatic.push_back(0);
     GLnix_glGenVertexArrays(1,&VAOStatic.back());
@@ -281,7 +281,7 @@ void DEMDriver::BuildStaticSphereBuffer(float radius,std::array<iREAL,3> positio
 
     VBOStatic.push_back(std::make_pair(BUFFERS[0],BUFFERS[1]));
 }
-void DEMDriver::BuildStaticMeshBuffer(demolish::Mesh* mesh)
+void DEMDriver::BuildStaticMeshBuffer(crashr::Mesh* mesh)
 {
     VAOStatic.push_back(0);
     GLnix_glGenVertexArrays(1,&VAOStatic.back());
@@ -311,7 +311,7 @@ void DEMDriver::BuildStaticMeshBuffer(demolish::Mesh* mesh)
 
     VBOStatic.push_back(std::make_pair(BUFFERS[0],BUFFERS[1]));
 }
-void DEMDriver::BuildDynamicMeshBuffer(demolish::Mesh*mesh)
+void DEMDriver::BuildDynamicMeshBuffer(crashr::Mesh*mesh)
 { 
     VAODynamic.push_back(0);
     GLnix_glGenVertexArrays(1,&VAODynamic.back());

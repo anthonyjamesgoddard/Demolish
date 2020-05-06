@@ -1,40 +1,35 @@
-#ifndef _DEMOLISH_MATH
-#define _DEMOLISH_MATH
+#pragma once
+#include "geo/vertex.h"
 
+namespace crashr {
+/**
+ * Dot product
+ */
+double dot(double a[3], double b[3]);
 
-#include "demolish.h"
-#include "Vertex.h"
+/**
+ * Cross product
+ */
+void cross(double a[3], double b[3], double result[3]);
 
-namespace demolish {
-  /**
-   * Dot product
-   */
-  iREAL dot(iREAL a[3], iREAL b[3]);
+Vertex cross(Vertex a, Vertex b);
 
-  /**
-   * Cross product
-   */
-  void cross(iREAL a[3], iREAL b[3], iREAL result[3]);
+/**
+ * Solves a 3x3 product via direct inversion. The matrix is given
+ * column-wise. The column entries are changed in-situ.
+ */
+void invert(double col0[3], double col1[3], double col2[3]);
 
-  Vertex cross(Vertex a,Vertex b);
+/**
+ * Determinant. Matrix is given column-wisely.
+ */
+double det(double col0[3], double col1[3], double col2[3]);
 
-  /**
-   * Solves a 3x3 product via direct inversion. The matrix is given
-   * column-wise. The column entries are changed in-situ.
-   */
-  void invert(iREAL col0[3], iREAL col1[3], iREAL col2[3]);
+/**
+ * Multiply a matrix given by its columns with a vector.
+ */
+void mult(double col0[3], double col1[3], double col2[3], double x[3],
+          double result[3]);
 
-  /**
-   * Determinant. Matrix is given column-wisely.
-   */
-  iREAL det(iREAL col0[3], iREAL col1[3], iREAL col2[3]);
-
-  /**
-   * Multiply a matrix given by its columns with a vector.
-   */
-  void mult(iREAL col0[3], iREAL col1[3], iREAL col2[3], iREAL x[3], iREAL result[3]);
-
-  void normalise(iREAL x[3]);
-}
-
-#endif
+void normalise(double x[3]);
+}  // namespace crashr

@@ -23,58 +23,58 @@
  (C) [8] = (A)[2]*(B)[6]+(A)[5]*(B)[7]+(A)[8]*(B)[8];\
 }
 
-namespace demolish {
+namespace crashr {
 	namespace resolution {
 	  void spring(
-		  iREAL normal[3],
-		  iREAL conpnt[3],
-		  iREAL depth,
-		  iREAL vij[3],
-		  iREAL positionASpatial[3],
-		  iREAL positionBSpatial[3],
-		  iREAL positionAReferential[3],
-		  iREAL positionBReferential[3],
+		  double normal[3],
+		  double conpnt[3],
+		  double depth,
+		  double vij[3],
+		  double positionASpatial[3],
+		  double positionBSpatial[3],
+		  double positionAReferential[3],
+		  double positionBReferential[3],
 
-		  iREAL massA,
-		  iREAL massB,
-		  iREAL rotationA[9],
-		  iREAL rotationB[9],
-		  iREAL inverseA[9],
-		  iREAL inverseB[9],
-		  std::array<iREAL, 3>& f,
-		  iREAL &forc);
+		  double massA,
+		  double massB,
+		  double rotationA[9],
+		  double rotationB[9],
+		  double inverseA[9],
+		  double inverseB[9],
+		  std::array<double, 3>& f,
+		  double &forc);
 
 	  void friction(
-		  iREAL normal[3],
-		  iREAL vi[3],
-		  iREAL force,
-		  std::array<iREAL,3>& friction,
+		  double normal[3],
+		  double vi[3],
+		  double force,
+		  std::array<double,3>& friction,
 		  int materialA,
 		  int materialB,
 		  bool isSphere);
 
 	  void getContactForces(
-		demolish::ContactPoint &conpnt,
-		iREAL positionASpatial[3],
-		iREAL positionAReferential[3],
-		iREAL angularA[3],
-		iREAL linearA[3],
-		iREAL massA,
-		iREAL inverseA[9],
-		iREAL rotationA[9],
+		crashr::ContactPoint &conpnt,
+		double positionASpatial[3],
+		double positionAReferential[3],
+		double angularA[3],
+		double linearA[3],
+		double massA,
+		double inverseA[9],
+		double rotationA[9],
 		int   materialA,
 
-		iREAL positionB[3],
-		iREAL positionBReferential[3],
-		iREAL angularB[3],
-		iREAL linearB[3],
-		iREAL massB,
-		iREAL inverseB[9],
-		iREAL rotationB[9],
+		double positionB[3],
+		double positionBReferential[3],
+		double angularB[3],
+		double linearB[3],
+		double massB,
+		double inverseB[9],
+		double rotationB[9],
 		int   materialB,
 
-		std::array<iREAL, 3> &f ,
-		std::array<iREAL, 3> &torque,
+		std::array<double, 3> &f ,
+		std::array<double, 3> &torque,
 		bool  isSphere);
 
 	}

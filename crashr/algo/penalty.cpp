@@ -2,31 +2,31 @@
 #include <algorithm>
 
 int MaxNumberOfNewtonIterations = 120;
-std::vector<demolish::ContactPoint> demolish::detection::penalty(
-    const iREAL* xCoordinatesOfPointsOfGeometryA,
-    const iREAL* yCoordinatesOfPointsOfGeometryA,
-    const iREAL* zCoordinatesOfPointsOfGeometryA,
-    const int numberOfTrianglesOfGeometryA, const iREAL epsilonA,
+std::vector<crashr::contact_point> crashr::detection::penalty(
+    const double* xCoordinatesOfPointsOfGeometryA,
+    const double* yCoordinatesOfPointsOfGeometryA,
+    const double* zCoordinatesOfPointsOfGeometryA,
+    const int numberOfTrianglesOfGeometryA, const double epsilonA,
     const bool frictionA, const int particleA,
 
-    const iREAL* xCoordinatesOfPointsOfGeometryB,
-    const iREAL* yCoordinatesOfPointsOfGeometryB,
-    const iREAL* zCoordinatesOfPointsOfGeometryB,
-    const int numberOfTrianglesOfGeometryB, const iREAL epsilonB,
+    const double* xCoordinatesOfPointsOfGeometryB,
+    const double* yCoordinatesOfPointsOfGeometryB,
+    const double* zCoordinatesOfPointsOfGeometryB,
+    const int numberOfTrianglesOfGeometryB, const double epsilonB,
     const bool frictionB, const int particleB) {
-    std::vector<demolish::ContactPoint> result;
-    std::vector<iREAL> distanceVector;
-    std::vector<demolish::ContactPoint> cnps;
+    std::vector<crashr::contact_point> result;
+    std::vector<double> distanceVector;
+    std::vector<crashr::contact_point> cnps;
 
     int numberOfTrianglesA = numberOfTrianglesOfGeometryA * 3;
     int numberOfTrianglesB = numberOfTrianglesOfGeometryB * 3;
 
     for (int iA = 0; iA < numberOfTrianglesA; iA += 3) {
-        iREAL xPA[10000], yPA[10000], zPA[10000], xPB[10000], yPB[10000],
+        double xPA[10000], yPA[10000], zPA[10000], xPB[10000], yPB[10000],
             zPB[10000], d[10000];
         for (int iB = 0; iB < numberOfTrianglesB; iB += 3) {
             bool failed = false;
-            const iREAL MaxError = (epsilonA + epsilonB) / 16.0;
+            const double MaxError = (epsilonA + epsilonB) / 16.0;
             penaltySolver(xCoordinatesOfPointsOfGeometryA + (iA),
                           yCoordinatesOfPointsOfGeometryA + (iA),
                           zCoordinatesOfPointsOfGeometryA + (iA),
@@ -41,13 +41,13 @@ std::vector<demolish::ContactPoint> demolish::detection::penalty(
                               ((zPB[iB] - zPA[iB]) * (zPB[iB] - zPA[iB])));
         }
 
-        iREAL epsilonMargin = 1 * (epsilonA + epsilonB);
+        double epsilonMargin = 1 * (epsilonA + epsilonB);
 
         for (int iB = 0; iB < numberOfTrianglesB; iB += 3) {
             bool outside = true;
             if (d[iB] < epsilonMargin) {
                 bool fric = bool(frictionA == true && frictionB == true);
-                cnps.push_back(demolish::ContactPoint(
+                cnps.push_back(crashr::contact_point(
                     xPA[iB], yPA[iB], zPA[iB], xPB[iB], yPB[iB], zPB[iB],
                     outside, epsilonA, epsilonB, particleA, particleB, fric));
 
@@ -65,18 +65,18 @@ std::vector<demolish::ContactPoint> demolish::detection::penalty(
     return result;
 }
 
-void demolish::detection::penaltySolver(
-    const iREAL* xCoordinatesOfTriangleA, const iREAL* yCoordinatesOfTriangleA,
-    const iREAL* zCoordinatesOfTriangleA, const iREAL* xCoordinatesOfTriangleB,
-    const iREAL* yCoordinatesOfTriangleB, const iREAL* zCoordinatesOfTriangleB,
-    iREAL& xPA, iREAL& yPA, iREAL& zPA, iREAL& xPB, iREAL& yPB, iREAL& zPB,
-    iREAL maxError, int& numberOfNewtonIterationsRequired) {
-    iREAL BA[3];
-    iREAL CA[3];
-    iREAL ED[3];
-    iREAL FD[3];
-    iREAL hessian[16];
-    iREAL x[4];
+void crashr::detection::penaltySolver(
+    const double* xCoordinatesOfTriangleA, const double* yCoordinatesOfTriangleA,
+    const double* zCoordinatesOfTriangleA, const double* xCoordinatesOfTriangleB,
+    const double* yCoordinatesOfTriangleB, const double* zCoordinatesOfTriangleB,
+    double& xPA, double& yPA, double& zPA, double& xPB, double& yPB, double& zPB,
+    double maxError, int& numberOfNewtonIterationsRequired) {
+    double BA[3];
+    double CA[3];
+    double ED[3];
+    double FD[3];
+    double hessian[16];
+    double x[4];
 
     BA[0] = xCoordinatesOfTriangleA[1] - xCoordinatesOfTriangleA[0];
     BA[1] = yCoordinatesOfTriangleA[1] - yCoordinatesOfTriangleA[0];
@@ -114,11 +114,11 @@ void demolish::detection::penaltySolver(
     hessian[14] = hessian[11];
     hessian[15] = 2. * DOT(FD, FD);
 
-    iREAL eps = 1E-2;
-    iREAL delta = (hessian[0] + hessian[5] + hessian[10] + hessian[15]) * eps;
-    iREAL lambda =
+    double eps = 1E-2;
+    double delta = (hessian[0] + hessian[5] + hessian[10] + hessian[15]) * eps;
+    double lambda =
         sqrt(0.0125 * (hessian[0] + hessian[5] + hessian[10] + hessian[15]));
-    iREAL r = lambda * 1E5;
+    double r = lambda * 1E5;
 
     // initial guess
     x[0] = 0.33;
@@ -129,12 +129,12 @@ void demolish::detection::penaltySolver(
     // Newton loop
     for (int i = 0; i < MaxNumberOfNewtonIterations; i++) {
         // Declare loop variables;
-        iREAL dx[4];
-        iREAL a[16];
-        iREAL SUBXY[3];
-        iREAL b[4];
-        iREAL dh[8];
-        iREAL tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, mx[6];
+        double dx[4];
+        double a[16];
+        double SUBXY[3];
+        double b[4];
+        double dh[8];
+        double tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, mx[6];
 
         dh[0] = (-x[0] <= 0) ? 0.0 : -1;
         mx[0] = (-x[0] <= 0) ? 0.0 : -x[0];
@@ -206,7 +206,7 @@ void demolish::detection::penaltySolver(
             (b[0] - (a[4] * dx[1] + hessian[8] * dx[2] + hessian[12] * dx[3])) /
             a[0];
 
-        iREAL error = DOT4(dx, dx) / DOT4(x, x);
+        double error = DOT4(dx, dx) / DOT4(x, x);
 
         if (error < maxError * maxError) {
             break;

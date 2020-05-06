@@ -1,121 +1,86 @@
 #pragma once
 
-#include <iostream> 
-#include <string>
 #include <cmath>
+#include <iostream>
 #include <limits>
-#include <cmath>
 #include <sstream>
+#include <string>
 
-namespace demolish {
-  struct ContactPoint;
-}
-
-
+namespace crashr {
 /**
  * Simple struct representing a contact point
  */
-struct demolish::ContactPoint {
-  
-  
-  /**
-   * Position in space
-   */
-  iREAL 	x[3];
+struct contact_point {
+    /**
+     * Position in space
+     */
+    double x[3];
 
-  /**
-   * Normal onto next surface. Always normalised.
-   */
-  iREAL 	normal[3];
+    /**
+     * Normal onto next surface. Always normalised.
+     */
+    double normal[3];
 
-  /**
-   * Distance to next surface along normal. We use the sign to indicate whether contact
-   * point is inside (negative) or outside (positive) of the corresponding
-   * shapes.
-   */
-  iREAL 	distance;
+    /**
+     * Distance to next surface along normal. We use the sign to indicate
+     * whether contact point is inside (negative) or outside (positive) of the
+     * corresponding shapes.
+     */
+    double distance;
 
-  /**
-   * Allows us to tie a contact point to an object via an index
-   */
-  int 	    indexA;
-  int 	    indexB;
+    /**
+     * Allows us to tie a contact point to an object via an index
+     */
+    int indexA;
+    int indexB;
 
+    /**
+     * Tells us how far the objects have overlapped
+     */
 
-  /**
-   * Tells us how far the objects have overlapped
-   */
+    double depth;
 
-  iREAL depth;
+    bool friction;
 
-  
-  bool friction;
+    contact_point();
+    contact_point(const contact_point& copy);
 
-  ContactPoint();
-  ContactPoint(const ContactPoint& copy);
+    /**
+     * This constructor is given two points on two triangles that are close to
+     * each other. The points are PA and PB. The operation determines the
+     * contact point at x,y,z (which is half the distance between the two
+     * points PA and PB) and the corresponding normal xN,yN,zN.
+     */
+    contact_point(const double& xPA, const double& yPA, const double& zPA,
 
-  /**
-   * This constructor is given two points on two triangles that are close to
-   * each other. The points are PA and PB. The operation determines the
-   * contact point at x,y,z (which is half the distance between the two
-   * points PA and PB) and the corresponding normal xN,yN,zN.
-   */
-  ContactPoint(
-    const iREAL&  	xPA,
-	const iREAL&  	yPA,
-	const iREAL&  	zPA,
+                 const double& xQB, const double& yQB, const double& zQB,
 
-	const iREAL&  	xQB,
-	const iREAL&  	yQB,
-	const iREAL&  	zQB,
+                 const bool& outside);
 
-    const bool&     outside
-  );
+    contact_point(const double PA[3], const double QB[3], const bool& outside);
 
-  ContactPoint(
-    const iREAL PA[3],
-	const iREAL QB[3],
-    const bool&     outside
-  );
-    
-  ContactPoint(  
-    const iREAL&  	xPA,
-	const iREAL&  	yPA,
-	const iREAL&  	zPA,
+    contact_point(const double& xPA, const double& yPA, const double& zPA,
 
-	const iREAL&  	xQB,
-	const iREAL&  	yQB,
-	const iREAL&  	zQB,
+                 const double& xQB, const double& yQB, const double& zQB,
 
-    const bool&     outside,
+                 const bool& outside,
 
-    const iREAL&    epsilonA,
-    const iREAL&    epsilonB,
-    
-    bool            fric);
+                 const double& epsilonA, const double& epsilonB,
 
-  ContactPoint(  
-    const iREAL&  	xPA,
-	const iREAL&  	yPA,
-	const iREAL&  	zPA,
+                 bool fric);
 
-	const iREAL&  	xQB,
-	const iREAL&  	yQB,
-	const iREAL&  	zQB,
+    contact_point(const double& xPA, const double& yPA, const double& zPA,
 
-    const bool&     outside,
+                 const double& xQB, const double& yQB, const double& zQB,
 
-    const iREAL&     epsilonA,
-    const iREAL&     epsilonB,
+                 const bool& outside,
 
-    const int&        particleA,
-    const int&        particleB,
+                 const double& epsilonA, const double& epsilonB,
 
-    bool            fric
-    );
+                 const int& particleA, const int& particleB,
+
+                 bool fric);
 
     void printInformation();
-
 };
-
-#endif
+}  // namespace crashr

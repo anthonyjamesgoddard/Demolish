@@ -1,11 +1,6 @@
+#pragma once
 
-#ifndef DELTA_DYNAMICS_DYNAMICS_H_
-#define DELTA_DYNAMICS_DYNAMICS_H_
-
-
-#include"../demolish.h"
-
-namespace demolish {
+namespace crashr {
   namespace dynamics {
 
 	/*
@@ -23,12 +18,12 @@ namespace demolish {
 	* @return void
 	*/
     void updateAngular(
-        iREAL *refAngular,
-        iREAL *rotation,
-        iREAL *inertia,
-        iREAL *inverse,
-        iREAL *torque,
-        iREAL step);
+        double *refAngular,
+        double *rotation,
+        double *inertia,
+        double *inverse,
+        double *torque,
+        double step);
 
 	/*
 	* Update Rotational Matrix
@@ -42,10 +37,10 @@ namespace demolish {
 	* @return void
 	*/
     void updateRotationMatrix(
-        iREAL *angular,
-        iREAL *refAngular,
-        iREAL *rotation,
-        iREAL step);
+        double *angular,
+        double *refAngular,
+        double *rotation,
+        double step);
 
 	/*
 	* Update Vertices
@@ -64,15 +59,14 @@ namespace demolish {
 	* @return void
 	*/
     void updateVertices(
-        iREAL* x,
-        iREAL* y,
-        iREAL* z,
-        iREAL* refx,
-        iREAL* refy,
-        iREAL* refz,
-        iREAL* rotation,
-        iREAL* position,
-        iREAL* refposition);
+        double* x,
+        double* y,
+        double* z,
+        double* refx,
+        double* refy,
+        double* refz,
+        double* rotation,
+        double* position,
+        double* refposition);
   }
 }
-#endif

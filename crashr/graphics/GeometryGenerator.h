@@ -1,7 +1,7 @@
 #ifndef GEOMETRYGENERATOR_H
 #define GEOMETRYGENERATOR_H
 #include "antmath.h"
-#include "../demolish.h"
+#include "../crashr.h"
 #include "../Mesh.h"
 #include "../Vertex.h"
 #include "../math.h"
@@ -46,12 +46,12 @@ public:
                       UINT sliceCount,
                       UINT stackCount,
                       MeshData& meshData,
-                      std::array<iREAL,3> position);
+                      std::array<double,3> position);
 
 
 	void CreateGrid(float width, float depth, UINT m, UINT n, MeshData& meshData);
 
-    void CreateMeshFromMesh(demolish::Mesh* mesh,MeshData& meshData);
+    void CreateMeshFromMesh(crashr::Mesh* mesh,MeshData& meshData);
 };
 
 #endif 

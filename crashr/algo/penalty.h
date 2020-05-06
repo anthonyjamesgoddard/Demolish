@@ -5,40 +5,40 @@
 #include "../algo.h"
 
 
-namespace demolish {
+namespace crashr {
     namespace detection {
-	  std::vector<demolish::ContactPoint> penalty(
-		const iREAL*    xCoordinatesOfPointsOfGeometryA,
-		const iREAL*    yCoordinatesOfPointsOfGeometryA,
-		const iREAL*    zCoordinatesOfPointsOfGeometryA,
+	  std::vector<crashr::ContactPoint> penalty(
+		const double*    xCoordinatesOfPointsOfGeometryA,
+		const double*    yCoordinatesOfPointsOfGeometryA,
+		const double*    zCoordinatesOfPointsOfGeometryA,
 		const int       numberOfTrianglesOfGeometryA,
-		const iREAL     epsilonA,
+		const double     epsilonA,
 		const bool      frictionA,
 		const int 	    particleA,
 
-		const iREAL*    xCoordinatesOfPointsOfGeometryB,
-		const iREAL*    yCoordinatesOfPointsOfGeometryB,
-		const iREAL*    zCoordinatesOfPointsOfGeometryB,
+		const double*    xCoordinatesOfPointsOfGeometryB,
+		const double*    yCoordinatesOfPointsOfGeometryB,
+		const double*    zCoordinatesOfPointsOfGeometryB,
 		const int       numberOfTrianglesOfGeometryB,
-		const iREAL     epsilonB,
+		const double     epsilonB,
 		const bool      frictionB,
 		const int       particleB
 		);
 
 	  void penaltySolver(
-		const iREAL			*xCoordinatesOfTriangleA,
-		const iREAL			*yCoordinatesOfTriangleA,
-		const iREAL			*zCoordinatesOfTriangleA,
-		const iREAL			*xCoordinatesOfTriangleB,
-		const iREAL			*yCoordinatesOfTriangleB,
-		const iREAL			*zCoordinatesOfTriangleB,
-		iREAL&				xPA,
-		iREAL&				yPA,
-		iREAL&				zPA,
-		iREAL&				xPB,
-		iREAL&				yPB,
-		iREAL&				zPB,
-		iREAL				maxError,
+		const double			*xCoordinatesOfTriangleA,
+		const double			*yCoordinatesOfTriangleA,
+		const double			*zCoordinatesOfTriangleA,
+		const double			*xCoordinatesOfTriangleB,
+		const double			*yCoordinatesOfTriangleB,
+		const double			*zCoordinatesOfTriangleB,
+		double&				xPA,
+		double&				yPA,
+		double&				zPA,
+		double&				xPB,
+		double&				yPB,
+		double&				zPB,
+		double				maxError,
 		int&          		numberOfNewtonIterationsRequired);
 	}
 }

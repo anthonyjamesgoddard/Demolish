@@ -1,23 +1,23 @@
 #include"sphere.h"
 #include<math.h>
 #include<iostream>
-void demolish::resolution::springSphere(
-    iREAL normal[3],
-    iREAL depth,
-    iREAL relativeVelocity[3],
-    iREAL massA,
-    iREAL massB,
-    std::array<iREAL, 3>& f,
-    iREAL &forc)
+void crashr::resolution::springSphere(
+    double normal[3],
+    double depth,
+    double relativeVelocity[3],
+    double massA,
+    double massB,
+    std::array<double, 3>& f,
+    double &forc)
 {
-  iREAL ma = 1.0/sqrt((1.0/massA) + (1.0/massB));
+  double ma = 1.0/sqrt((1.0/massA) + (1.0/massB));
 
-  iREAL velocity = (relativeVelocity[0]*normal[0]) + (relativeVelocity[1]*normal[1]) + (relativeVelocity[2]*normal[2]);
+  double velocity = (relativeVelocity[0]*normal[0]) + (relativeVelocity[1]*normal[1]) + (relativeVelocity[2]*normal[2]);
 
 
-  iREAL damp = 2.0 * SDAMPER * sqrt(ma)*velocity;
+  double damp = 2.0 * SDAMPER * sqrt(ma)*velocity;
 
-  iREAL force = SSPRING*sqrt(SSPRING)*depth + damp;
+  double force = SSPRING*sqrt(SSPRING)*depth + damp;
 
   f[0] = force*normal[0];
   f[1] = force*normal[1];

@@ -2,7 +2,7 @@
 #ifndef TRIANGLE
 #define TRIANGLE
 
-#include"demolish.h"
+#include"crashr.h"
 #include"Vertex.h"
 #include <map>
 #include <vector>
@@ -10,15 +10,15 @@
 #include <cmath>
 #include <limits>
 
-namespace demolish {
+namespace crashr {
 
 	  class Triangle;
 
 }
 
-using demolish::Vertex;
+using crashr::Vertex;
 
-class demolish::Triangle {
+class crashr::Triangle {
   public:
 	Triangle(
 		Vertex& A,
@@ -26,22 +26,22 @@ class demolish::Triangle {
 		Vertex& C);
 
 	Triangle(
-		iREAL A[3],
-		iREAL B[3],
-		iREAL C[3]);
+		double A[3],
+		double B[3],
+		double C[3]);
 
 	Triangle(
-		iREAL Ax,
-		iREAL Ay,
-		iREAL Az,
+		double Ax,
+		double Ay,
+		double Az,
 
-		iREAL Bx,
-		iREAL By,
-		iREAL Bz,
+		double Bx,
+		double By,
+		double Bz,
 
-		iREAL Cx,
-		iREAL Cy,
-		iREAL Cz);
+		double Cx,
+		double Cy,
+		double Cz);
 
 	/*
 	 *  Gets Vertex A
@@ -49,9 +49,9 @@ class demolish::Triangle {
 	 *  Returns the A vertex of the triangle
 	 *
 	 *  @param none
-	 *  @returns std::array of three elements of type iREAL
+	 *  @returns std::array of three elements of type double
 	 */
-	demolish::Vertex getVertexA();
+	crashr::Vertex getVertexA();
 
 	/*
 	 *  Gets Vertex B
@@ -59,9 +59,9 @@ class demolish::Triangle {
 	 *  Returns the B vertex of the triangle
 	 *
 	 *  @param none
-	 *  @returns std::array of three elements of type iREAL
+	 *  @returns std::array of three elements of type double
 	 */
-	demolish::Vertex getVertexB();
+	crashr::Vertex getVertexB();
 
 	/*
 	 *  Gets Vertex C
@@ -69,9 +69,9 @@ class demolish::Triangle {
 	 *  Returns the C vertex of the triangle
 	 *
 	 *  @param none
-	 *  @returns std::array of three elements of type iREAL
+	 *  @returns std::array of three elements of type double
 	 */
-	demolish::Vertex getVertexC();
+	crashr::Vertex getVertexC();
 
 	/*
 	 *  Gets Minimum Boundary Vertex
@@ -79,9 +79,9 @@ class demolish::Triangle {
 	 *  Returns the minimum vertex that defines the bounding box of the triangle
 	 *
 	 *  @param none
-	 *  @returns std::array of three elements of type iREAL
+	 *  @returns std::array of three elements of type double
 	 */
-	demolish::Vertex getMinBoundaryVertex();
+	crashr::Vertex getMinBoundaryVertex();
 
 	/*
 	 *  Gets Maximum Boundary Vertex
@@ -89,9 +89,9 @@ class demolish::Triangle {
 	 *  Returns the maximum vertex that defines the bounding box of the triangle
 	 *
 	 *  @param none
-	 *  @returns std::array of three elements of type iREAL
+	 *  @returns std::array of three elements of type double
 	 */
-	demolish::Vertex getMaxBoundaryVertex();
+	crashr::Vertex getMaxBoundaryVertex();
 
 	/*
 	 *  Gets Triangle Length
@@ -99,9 +99,9 @@ class demolish::Triangle {
 	 *  Returns maximum line segment length of triangle
 	 *
 	 *  @param none
-	 *  @returns std::array of three elements of type iREAL
+	 *  @returns std::array of three elements of type double
 	 */
-	iREAL getTriangleLength();
+	double getTriangleLength();
 
 	/*
 	 *  Gets Width X
@@ -109,9 +109,9 @@ class demolish::Triangle {
 	 *  Returns width of x axis coordinates
 	 *
 	 *  @param none
-	 *  @returns type iREAL
+	 *  @returns type double
 	 */
-	iREAL getXw();
+	double getXw();
 
 	/*
 	 *  Gets Width Y
@@ -119,9 +119,9 @@ class demolish::Triangle {
 	 *  Returns width of y axis coordinates
 	 *
 	 *  @param none
-	 *  @returns type iREAL
+	 *  @returns type double
 	 */
-	iREAL getYw();
+	double getYw();
 
 	/*
 	 *  Gets Width Y
@@ -129,9 +129,9 @@ class demolish::Triangle {
 	 *  Returns width of y axis coordinates
 	 *
 	 *  @param none
-	 *  @returns type iREAL
+	 *  @returns type double
 	 */
-	iREAL getZw();
+	double getZw();
 
 	/*
 	 *  Gets Max X
@@ -139,9 +139,9 @@ class demolish::Triangle {
 	 *  Returns max x axis value
 	 *
 	 *  @param none
-	 *  @returns type iREAL
+	 *  @returns type double
 	 */
-	iREAL getMaxXAxis();
+	double getMaxXAxis();
 
 	/*
 	 *  Gets Max X
@@ -149,9 +149,9 @@ class demolish::Triangle {
 	 *  Returns max x axis value
 	 *
 	 *  @param none
-	 *  @returns type iREAL
+	 *  @returns type double
 	 */
-	iREAL getMaxYAxis();
+	double getMaxYAxis();
 
 	/*
 	 *  Gets Max X
@@ -159,9 +159,9 @@ class demolish::Triangle {
 	 *  Returns max x axis value
 	 *
 	 *  @param none
-	 *  @returns type iREAL
+	 *  @returns type double
 	 */
-	iREAL getMaxZAxis();
+	double getMaxZAxis();
 
 
 	/*
@@ -170,9 +170,9 @@ class demolish::Triangle {
 	 *  Returns max x axis value
 	 *
 	 *  @param none
-	 *  @returns type iREAL
+	 *  @returns type double
 	 */
-	iREAL getMinXAxis();
+	double getMinXAxis();
 
 	/*
 	 *  Gets Max Y
@@ -180,9 +180,9 @@ class demolish::Triangle {
 	 *  Returns max y axis value
 	 *
 	 *  @param none
-	 *  @returns type iREAL
+	 *  @returns type double
 	 */
-	iREAL getMinYAxis();
+	double getMinYAxis();
 
 	/*
 	 *  Gets Max Z
@@ -190,9 +190,9 @@ class demolish::Triangle {
 	 *  Returns max z axis value
 	 *
 	 *  @param none
-	 *  @returns type iREAL
+	 *  @returns type double
 	 */
-	iREAL getMinZAxis();
+	double getMinZAxis();
 
 	/*
 	 *  Gets XYZ width
@@ -200,9 +200,9 @@ class demolish::Triangle {
 	 *  Returns width on xyz axis.
 	 *
 	 *  @param none
-	 *  @returns type iREAL
+	 *  @returns type double
 	 */
-	iREAL getXYZWidth();
+	double getXYZWidth();
 
 	/*
 	 *  Gets XY width
@@ -210,9 +210,9 @@ class demolish::Triangle {
 	 *  Returns width on xy axis.
 	 *
 	 *  @param none
-	 *  @returns type iREAL
+	 *  @returns type double
 	 */
-	iREAL getXZWidth();
+	double getXZWidth();
 
 	virtual ~Triangle();
   private:

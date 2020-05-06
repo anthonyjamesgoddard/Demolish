@@ -12,24 +12,24 @@
 #include <unordered_set>
 #include <vector>
 
-demolish::Mesh::Mesh() {}
+crashr::Mesh::Mesh() {}
 
-demolish::Mesh::Mesh(std::vector<std::array<int, 3>>& triangleFaces,
+crashr::Mesh::Mesh(std::vector<std::array<int, 3>>& triangleFaces,
                      std::vector<Vertex>& uniqueVertices) {
     _triangleFaces = triangleFaces;
     _uniqueVertices = uniqueVertices;
 
-    demolish::Mesh::flatten();
+    crashr::Mesh::flatten();
 }
 
-demolish::Mesh::Mesh(std::vector<iREAL>& xCoordinates,
-                     std::vector<iREAL>& yCoordinates,
-                     std::vector<iREAL>& zCoordinates) {
+crashr::Mesh::Mesh(std::vector<double>& xCoordinates,
+                     std::vector<double>& yCoordinates,
+                     std::vector<double>& zCoordinates) {
     _maxMeshSize = 0;
     _minMeshSize = 1E99;
 
-    iREAL min = 1E99;
-    iREAL max = 0;
+    double min = 1E99;
+    double max = 0;
 
     //#pragma omp parallel for
     for (int i = 0; i < xCoordinates.size(); i += 3) {
@@ -48,7 +48,7 @@ demolish::Mesh::Mesh(std::vector<iREAL>& xCoordinates,
         ///////////////////////////////////////////////////
 
         //#pragma omp parallel for
-        iREAL A[3], B[3], C[3];
+        double A[3], B[3], C[3];
         A[0] = xCoordinates[i];
         A[1] = yCoordinates[i];
         A[2] = zCoordinates[i];
@@ -61,18 +61,18 @@ demolish::Mesh::Mesh(std::vector<iREAL>& xCoordinates,
         C[1] = yCoordinates[i + 2];
         C[2] = zCoordinates[i + 2];
 
-        iREAL AB =
+        double AB =
             sqrt((A[0] - B[0]) * (A[0] - B[0]) + (A[1] - B[1]) * (A[1] - B[1]) +
                  (A[2] - B[2]) * (A[2] - B[2]));
-        iREAL BC =
+        double BC =
             sqrt((B[0] - C[0]) * (B[0] - C[0]) + (B[1] - C[1]) * (B[1] - C[1]) +
                  (B[2] - C[2]) * (B[2] - C[2]));
-        iREAL CA =
+        double CA =
             sqrt((C[0] - A[0]) * (C[0] - A[0]) + (C[1] - A[1]) * (C[1] - A[1]) +
                  (C[2] - A[2]) * (C[2] - A[2]));
 
-        iREAL hmin = std::min(std::min(AB, BC), CA);
-        iREAL hmax = std::max(std::max(AB, BC), CA);
+        double hmin = std::min(std::min(AB, BC), CA);
+        double hmax = std::max(std::max(AB, BC), CA);
 
         if (hmin < min) min = hmin;
         if (hmax > max) max = hmax;
@@ -89,25 +89,25 @@ demolish::Mesh::Mesh(std::vector<iREAL>& xCoordinates,
     compressFromVectors();
 }
 
-void demolish::Mesh::compressFromVectors() {
+void crashr::Mesh::compressFromVectors() {
     _uniqueVertices.clear();
     _triangleFaces.clear();
 
     //#pragma omp parallel for
     for (int i = 0; i < _xCoordinates.size(); i += 3) {
-        iREAL xA = _xCoordinates[i];
-        iREAL yA = _yCoordinates[i];
-        iREAL zA = _zCoordinates[i];
+        double xA = _xCoordinates[i];
+        double yA = _yCoordinates[i];
+        double zA = _zCoordinates[i];
 
-        iREAL xB = _xCoordinates[i + 1];
-        iREAL yB = _yCoordinates[i + 1];
-        iREAL zB = _zCoordinates[i + 1];
+        double xB = _xCoordinates[i + 1];
+        double yB = _yCoordinates[i + 1];
+        double zB = _zCoordinates[i + 1];
 
-        iREAL xC = _xCoordinates[i + 2];
-        iREAL yC = _yCoordinates[i + 2];
-        iREAL zC = _zCoordinates[i + 2];
+        double xC = _xCoordinates[i + 2];
+        double yC = _yCoordinates[i + 2];
+        double zC = _zCoordinates[i + 2];
 
-        std::map<unsigned int, demolish::Vertex> hashToVerticesMap;
+        std::map<unsigned int, crashr::Vertex> hashToVerticesMap;
         std::map<unsigned int, unsigned int> hashToUniqueVertexPositionMap;
 
         std::hash<std::string> v_hash;
@@ -118,7 +118,7 @@ void demolish::Mesh::compressFromVectors() {
         unsigned int uniqueIDA = v_hash(A);
 
         if (hashToVerticesMap.count(uniqueIDA) == 0) {
-            hashToVerticesMap[uniqueIDA] = demolish::Vertex(xA, yA, zA);
+            hashToVerticesMap[uniqueIDA] = crashr::Vertex(xA, yA, zA);
             _uniqueVertices.push_back(hashToVerticesMap[uniqueIDA]);
             hashToUniqueVertexPositionMap[uniqueIDA] =
                 _uniqueVertices.size() - 1;
@@ -130,7 +130,7 @@ void demolish::Mesh::compressFromVectors() {
         unsigned int uniqueIDB = v_hash(B);
 
         if (hashToVerticesMap.count(uniqueIDB) == 0) {
-            hashToVerticesMap[uniqueIDB] = demolish::Vertex(xA, yA, zA);
+            hashToVerticesMap[uniqueIDB] = crashr::Vertex(xA, yA, zA);
             _uniqueVertices.push_back(hashToVerticesMap[uniqueIDB]);
             hashToUniqueVertexPositionMap[uniqueIDB] =
                 _uniqueVertices.size() - 1;
@@ -142,7 +142,7 @@ void demolish::Mesh::compressFromVectors() {
         unsigned int uniqueIDC = v_hash(C);
 
         if (hashToVerticesMap.count(uniqueIDC) == 0) {
-            hashToVerticesMap[uniqueIDC] = demolish::Vertex(xC, yC, zC);
+            hashToVerticesMap[uniqueIDC] = crashr::Vertex(xC, yC, zC);
             _uniqueVertices.push_back(hashToVerticesMap[uniqueIDC]);
             hashToUniqueVertexPositionMap[uniqueIDC] =
                 _uniqueVertices.size() - 1;
@@ -159,25 +159,25 @@ void demolish::Mesh::compressFromVectors() {
     //  printf("compressed vertices: %i\n", _uniqueVertices.size());
 }
 
-void demolish::Mesh::compressFromVectors(std::vector<iREAL>& xCoordinates,
-                                         std::vector<iREAL>& yCoordinates,
-                                         std::vector<iREAL>& zCoordinates) {
+void crashr::Mesh::compressFromVectors(std::vector<double>& xCoordinates,
+                                         std::vector<double>& yCoordinates,
+                                         std::vector<double>& zCoordinates) {
     std::hash<std::string> v_hash;
-    std::map<unsigned int, std::array<iREAL, 3>> vertices;
+    std::map<unsigned int, std::array<double, 3>> vertices;
 
     //#pragma omp parallel for
     for (int i = 0; i < xCoordinates.size(); i += 3) {
-        iREAL xA = xCoordinates[i];
-        iREAL yA = yCoordinates[i];
-        iREAL zA = zCoordinates[i];
+        double xA = xCoordinates[i];
+        double yA = yCoordinates[i];
+        double zA = zCoordinates[i];
 
-        iREAL xB = xCoordinates[i + 1];
-        iREAL yB = yCoordinates[i + 1];
-        iREAL zB = zCoordinates[i + 1];
+        double xB = xCoordinates[i + 1];
+        double yB = yCoordinates[i + 1];
+        double zB = zCoordinates[i + 1];
 
-        iREAL xC = xCoordinates[i + 2];
-        iREAL yC = yCoordinates[i + 2];
-        iREAL zC = zCoordinates[i + 2];
+        double xC = xCoordinates[i + 2];
+        double yC = yCoordinates[i + 2];
+        double zC = zCoordinates[i + 2];
 
         std::map<unsigned int, Vertex> hashToVerticesMap;
         std::map<unsigned int, unsigned int> hashToVertexPositionMap;
@@ -188,7 +188,7 @@ void demolish::Mesh::compressFromVectors(std::vector<iREAL>& xCoordinates,
         unsigned int uniqueIDA = v_hash(A);
 
         if (hashToVerticesMap.count(uniqueIDA) == 0) {
-            hashToVerticesMap[uniqueIDA] = demolish::Vertex(xA, yA, zA);
+            hashToVerticesMap[uniqueIDA] = crashr::Vertex(xA, yA, zA);
             _uniqueVertices.push_back(hashToVerticesMap[uniqueIDA]);
             hashToVertexPositionMap[uniqueIDA] = _uniqueVertices.size() - 1;
         }
@@ -199,7 +199,7 @@ void demolish::Mesh::compressFromVectors(std::vector<iREAL>& xCoordinates,
         unsigned int uniqueIDB = v_hash(B);
 
         if (hashToVerticesMap.count(uniqueIDB) == 0) {
-            hashToVerticesMap[uniqueIDB] = demolish::Vertex(xB, yB, zB);
+            hashToVerticesMap[uniqueIDB] = crashr::Vertex(xB, yB, zB);
             _uniqueVertices.push_back(hashToVerticesMap[uniqueIDB]);
             hashToVertexPositionMap[uniqueIDB] = _uniqueVertices.size() - 1;
         }
@@ -210,7 +210,7 @@ void demolish::Mesh::compressFromVectors(std::vector<iREAL>& xCoordinates,
         unsigned int uniqueIDC = v_hash(C);
 
         if (hashToVerticesMap.count(uniqueIDC) == 0) {
-            hashToVerticesMap[uniqueIDC] = demolish::Vertex(xC, yC, zC);
+            hashToVerticesMap[uniqueIDC] = crashr::Vertex(xC, yC, zC);
             _uniqueVertices.push_back(hashToVerticesMap[uniqueIDC]);
             hashToVertexPositionMap[uniqueIDC] = _uniqueVertices.size() - 1;
         }
@@ -225,7 +225,7 @@ void demolish::Mesh::compressFromVectors(std::vector<iREAL>& xCoordinates,
     }
 }
 
-void demolish::Mesh::flatten() {
+void crashr::Mesh::flatten() {
     _xCoordinates.clear();
     _yCoordinates.clear();
     _zCoordinates.clear();
@@ -233,8 +233,8 @@ void demolish::Mesh::flatten() {
     _maxMeshSize = 0;
     _minMeshSize = 1E99;
 
-    iREAL min = 1E99;
-    iREAL max = 0;
+    double min = 1E99;
+    double max = 0;
 
     //#pragma omp parallel for
     for (int i = 0; i < _triangleFaces.size(); i++) {
@@ -242,9 +242,9 @@ void demolish::Mesh::flatten() {
         int idxB = _triangleFaces[i][1];
         int idxC = _triangleFaces[i][2];
 
-        demolish::Vertex A = _uniqueVertices[idxA];
-        demolish::Vertex B = _uniqueVertices[idxB];
-        demolish::Vertex C = _uniqueVertices[idxC];
+        crashr::Vertex A = _uniqueVertices[idxA];
+        crashr::Vertex B = _uniqueVertices[idxB];
+        crashr::Vertex C = _uniqueVertices[idxC];
 
         _xCoordinates.push_back(A[0]);
         _yCoordinates.push_back(A[1]);
@@ -270,18 +270,18 @@ void demolish::Mesh::flatten() {
         _refyCoordinates.push_back(C[1]);
         _refzCoordinates.push_back(C[2]);
 
-        iREAL AB =
+        double AB =
             sqrt((A[0] - B[0]) * (A[0] - B[0]) + (A[1] - B[1]) * (A[1] - B[1]) +
                  (A[2] - B[2]) * (A[2] - B[2]));
-        iREAL BC =
+        double BC =
             sqrt((B[0] - C[0]) * (B[0] - C[0]) + (B[1] - C[1]) * (B[1] - C[1]) +
                  (B[2] - C[2]) * (B[2] - C[2]));
-        iREAL CA =
+        double CA =
             sqrt((C[0] - A[0]) * (C[0] - A[0]) + (C[1] - A[1]) * (C[1] - A[1]) +
                  (C[2] - A[2]) * (C[2] - A[2]));
 
-        iREAL hmin = std::min(std::min(AB, BC), CA);
-        iREAL hmax = std::max(std::max(AB, BC), CA);
+        double hmin = std::min(std::min(AB, BC), CA);
+        double hmax = std::max(std::max(AB, BC), CA);
 
         if (hmin < min) min = hmin;
         if (hmax > max) max = hmax;
@@ -296,31 +296,31 @@ void demolish::Mesh::flatten() {
     _avgMeshSize = _avgMeshSize / _xCoordinates.size();
 }
 
-std::vector<demolish::Vertex> demolish::Mesh::getVertices() {
+std::vector<crashr::Vertex> crashr::Mesh::getVertices() {
     return _uniqueVertices;
 }
 
-std::vector<std::array<int, 3>> demolish::Mesh::getTriangles() {
+std::vector<std::array<int, 3>> crashr::Mesh::getTriangles() {
     return _triangleFaces;
 }
 
-void demolish::Mesh::flatten(std::vector<iREAL>& xCoordinates,
-                             std::vector<iREAL>& yCoordinates,
-                             std::vector<iREAL>& zCoordinates) {
+void crashr::Mesh::flatten(std::vector<double>& xCoordinates,
+                             std::vector<double>& yCoordinates,
+                             std::vector<double>& zCoordinates) {
     _maxMeshSize = 0;
     _minMeshSize = 1E99;
 
-    iREAL min = 1E99;
-    iREAL max = 0;
+    double min = 1E99;
+    double max = 0;
 
     //#pragma omp parallel for
     for (int i = 0; i < _triangleFaces.size(); i++) {
         int idxA = _triangleFaces[i][0];
         int idxB = _triangleFaces[i][1];
         int idxC = _triangleFaces[i][2];
-        demolish::Vertex A = _uniqueVertices[idxA];
-        demolish::Vertex B = _uniqueVertices[idxB];
-        demolish::Vertex C = _uniqueVertices[idxC];
+        crashr::Vertex A = _uniqueVertices[idxA];
+        crashr::Vertex B = _uniqueVertices[idxB];
+        crashr::Vertex C = _uniqueVertices[idxC];
 
         xCoordinates.push_back(A[0]);
         yCoordinates.push_back(A[1]);
@@ -334,18 +334,18 @@ void demolish::Mesh::flatten(std::vector<iREAL>& xCoordinates,
         yCoordinates.push_back(C[1]);
         zCoordinates.push_back(C[2]);
 
-        iREAL AB =
+        double AB =
             sqrt((A[0] - B[0]) * (A[0] - B[0]) + (A[1] - B[1]) * (A[1] - B[1]) +
                  (A[2] - B[2]) * (A[2] - B[2]));
-        iREAL BC =
+        double BC =
             sqrt((B[0] - C[0]) * (B[0] - C[0]) + (B[1] - C[1]) * (B[1] - C[1]) +
                  (B[2] - C[2]) * (B[2] - C[2]));
-        iREAL CA =
+        double CA =
             sqrt((C[0] - A[0]) * (C[0] - A[0]) + (C[1] - A[1]) * (C[1] - A[1]) +
                  (C[2] - A[2]) * (C[2] - A[2]));
 
-        iREAL hmin = std::min(std::min(AB, BC), CA);
-        iREAL hmax = std::max(std::max(AB, BC), CA);
+        double hmin = std::min(std::min(AB, BC), CA);
+        double hmax = std::max(std::max(AB, BC), CA);
 
         if (hmin < min) min = hmin;
         if (hmax > max) max = hmax;
@@ -360,9 +360,9 @@ void demolish::Mesh::flatten(std::vector<iREAL>& xCoordinates,
     _avgMeshSize = _avgMeshSize / _xCoordinates.size();
 }
 
-void demolish::Mesh::replace(std::vector<iREAL>& xCoordinates,
-                             std::vector<iREAL>& yCoordinates,
-                             std::vector<iREAL>& zCoordinates) {
+void crashr::Mesh::replace(std::vector<double>& xCoordinates,
+                             std::vector<double>& yCoordinates,
+                             std::vector<double>& zCoordinates) {
     _xCoordinates.clear();
     _yCoordinates.clear();
     _zCoordinates.clear();
@@ -385,120 +385,120 @@ void demolish::Mesh::replace(std::vector<iREAL>& xCoordinates,
     compressFromVectors();
 }
 
-std::vector<iREAL> demolish::Mesh::getXCoordinatesAsVector() {
+std::vector<double> crashr::Mesh::getXCoordinatesAsVector() {
     return _xCoordinates;
 }
 
-std::vector<iREAL> demolish::Mesh::getYCoordinatesAsVector() {
+std::vector<double> crashr::Mesh::getYCoordinatesAsVector() {
     return _yCoordinates;
 }
 
-std::vector<iREAL> demolish::Mesh::getZCoordinatesAsVector() {
+std::vector<double> crashr::Mesh::getZCoordinatesAsVector() {
     return _zCoordinates;
 }
 
-iREAL* demolish::Mesh::getXCoordinates() { return _xCoordinates.data(); }
+double* crashr::Mesh::getXCoordinates() { return _xCoordinates.data(); }
 
-iREAL* demolish::Mesh::getYCoordinates() { return _yCoordinates.data(); }
+double* crashr::Mesh::getYCoordinates() { return _yCoordinates.data(); }
 
-iREAL* demolish::Mesh::getZCoordinates() { return _zCoordinates.data(); }
+double* crashr::Mesh::getZCoordinates() { return _zCoordinates.data(); }
 
-iREAL* demolish::Mesh::getPrevXCoordinates() {
+double* crashr::Mesh::getPrevXCoordinates() {
     return _prevxCoordinates.data();
 }
 
-iREAL* demolish::Mesh::getPrevYCoordinates() {
+double* crashr::Mesh::getPrevYCoordinates() {
     return _prevyCoordinates.data();
 }
 
-iREAL* demolish::Mesh::getPrevZCoordinates() {
+double* crashr::Mesh::getPrevZCoordinates() {
     return _prevzCoordinates.data();
 }
 
-iREAL* demolish::Mesh::getRefXCoordinates() { return _refxCoordinates.data(); }
+double* crashr::Mesh::getRefXCoordinates() { return _refxCoordinates.data(); }
 
-iREAL* demolish::Mesh::getRefYCoordinates() { return _refyCoordinates.data(); }
+double* crashr::Mesh::getRefYCoordinates() { return _refyCoordinates.data(); }
 
-iREAL* demolish::Mesh::getRefZCoordinates() { return _refzCoordinates.data(); }
+double* crashr::Mesh::getRefZCoordinates() { return _refzCoordinates.data(); }
 
-void demolish::Mesh::shiftMesh(iREAL centre[3]) {
-    demolish::operators::shiftMesh(_xCoordinates, _yCoordinates, _zCoordinates,
+void crashr::Mesh::shiftMesh(double centre[3]) {
+    crashr::operators::shiftMesh(_xCoordinates, _yCoordinates, _zCoordinates,
                                    _uniqueVertices, centre);
 }
 
-void demolish::Mesh::rotateX(iREAL alphaX) {
-    demolish::operators::rotateX(_xCoordinates, _yCoordinates, _zCoordinates,
+void crashr::Mesh::rotateX(double alphaX) {
+    crashr::operators::rotateX(_xCoordinates, _yCoordinates, _zCoordinates,
                                  alphaX);
 }
 
-void demolish::Mesh::rotateY(iREAL alphaY) {
-    demolish::operators::rotateY(_xCoordinates, _yCoordinates, _zCoordinates,
+void crashr::Mesh::rotateY(double alphaY) {
+    crashr::operators::rotateY(_xCoordinates, _yCoordinates, _zCoordinates,
                                  alphaY);
 }
 
-void demolish::Mesh::rotateZ(iREAL alphaZ) {
-    demolish::operators::rotateZ(_xCoordinates, _yCoordinates, _zCoordinates,
+void crashr::Mesh::rotateZ(double alphaZ) {
+    crashr::operators::rotateZ(_xCoordinates, _yCoordinates, _zCoordinates,
                                  alphaZ);
 }
 
-void demolish::Mesh::setCurrentCoordinatesEqualToPrevCoordinates() {
+void crashr::Mesh::setCurrentCoordinatesEqualToPrevCoordinates() {
     _xCoordinates = _prevxCoordinates;
     _yCoordinates = _prevyCoordinates;
     _zCoordinates = _prevzCoordinates;
 }
 
-void demolish::Mesh::setPreviousCoordinatesEqualToCurrCoordinates() {
+void crashr::Mesh::setPreviousCoordinatesEqualToCurrCoordinates() {
     _prevxCoordinates = _xCoordinates;
     _prevyCoordinates = _yCoordinates;
     _prevzCoordinates = _zCoordinates;
 }
 
-iREAL demolish::Mesh::computeDiameter() {
-    return demolish::operators::computeXYZw(_xCoordinates, _yCoordinates,
+double crashr::Mesh::computeDiameter() {
+    return crashr::operators::computeXYZw(_xCoordinates, _yCoordinates,
                                             _zCoordinates);
 }
 
-iREAL demolish::Mesh::computeXYZw() {
-    return demolish::operators::computeXYZw(_xCoordinates, _yCoordinates,
+double crashr::Mesh::computeXYZw() {
+    return crashr::operators::computeXYZw(_xCoordinates, _yCoordinates,
                                             _zCoordinates);
 }
 
-iREAL demolish::Mesh::computeXZw() {
-    return demolish::operators::computeXZw(_xCoordinates, _yCoordinates,
+double crashr::Mesh::computeXZw() {
+    return crashr::operators::computeXZw(_xCoordinates, _yCoordinates,
                                            _zCoordinates);
 }
 
-iREAL demolish::Mesh::computeXw() {
-    return demolish::operators::computeXw(_xCoordinates, _yCoordinates,
+double crashr::Mesh::computeXw() {
+    return crashr::operators::computeXw(_xCoordinates, _yCoordinates,
                                           _zCoordinates);
 }
 
-iREAL demolish::Mesh::computeYw() {
-    return demolish::operators::computeYw(_xCoordinates, _yCoordinates,
+double crashr::Mesh::computeYw() {
+    return crashr::operators::computeYw(_xCoordinates, _yCoordinates,
                                           _zCoordinates);
 }
 
-iREAL demolish::Mesh::computeZw() {
-    return demolish::operators::computeZw(_xCoordinates, _yCoordinates,
+double crashr::Mesh::computeZw() {
+    return crashr::operators::computeZw(_xCoordinates, _yCoordinates,
                                           _zCoordinates);
 }
 
-demolish::Vertex demolish::Mesh::computeBoundaryMinVertex() {
-    return demolish::operators::computeBoundaryMinVertex(
+crashr::Vertex crashr::Mesh::computeBoundaryMinVertex() {
+    return crashr::operators::computeBoundaryMinVertex(
         _xCoordinates, _yCoordinates, _zCoordinates);
 }
 
-demolish::Vertex demolish::Mesh::computeBoundaryMaxVertex() {
-    return demolish::operators::computeBoundaryMaxVertex(
+crashr::Vertex crashr::Mesh::computeBoundaryMaxVertex() {
+    return crashr::operators::computeBoundaryMaxVertex(
         _xCoordinates, _yCoordinates, _zCoordinates);
 }
 
-iREAL demolish::Mesh::computeDiagonal() {
-    return demolish::operators::computeDiagonal(_xCoordinates, _yCoordinates,
+double crashr::Mesh::computeDiagonal() {
+    return crashr::operators::computeDiagonal(_xCoordinates, _yCoordinates,
                                                 _zCoordinates);
 }
 
-void demolish::Mesh::computeCenterOfGeometry(iREAL centreOfGeometry[3]) {
+void crashr::Mesh::computeCenterOfGeometry(double centreOfGeometry[3]) {
     centreOfGeometry[0] = 0.0;
     centreOfGeometry[1] = 0.0;
     centreOfGeometry[2] = 0.0;
@@ -516,9 +516,9 @@ void demolish::Mesh::computeCenterOfGeometry(iREAL centreOfGeometry[3]) {
     centreOfGeometry[2] = centreOfGeometry[2] / (nVertices);
 }
 
-void demolish::Mesh::computeCenterOfMass(
-    iREAL& centreOfMassX, iREAL& centreOfMassY, iREAL& centreOfMassZ,
-    iREAL& refcentreOfMassX, iREAL& refcentreOfMassY, iREAL& refcentreOfMassZ) {
+void crashr::Mesh::computeCenterOfMass(
+    double& centreOfMassX, double& centreOfMassY, double& centreOfMassZ,
+    double& refcentreOfMassX, double& refcentreOfMassY, double& refcentreOfMassZ) {
     centreOfMassX = 0.0;
     centreOfMassY = 0.0;
     centreOfMassZ = 0.0;
@@ -541,12 +541,12 @@ void demolish::Mesh::computeCenterOfMass(
     refcentreOfMassZ = centreOfMassZ;
 }
 
-void demolish::Mesh::computeExplode(iREAL length) {
-    std::vector<iREAL> exCoordinates, eyCoordinates, ezCoordinates;
+void crashr::Mesh::computeExplode(double length) {
+    std::vector<double> exCoordinates, eyCoordinates, ezCoordinates;
 
     //#pragma omp parallel for
     for (unsigned i = 0; i < _xCoordinates.size(); i += 3) {
-        iREAL A[3], B[3], C[3];
+        double A[3], B[3], C[3];
         A[0] = _xCoordinates[i];
         A[1] = _yCoordinates[i];
         A[2] = _zCoordinates[i];
@@ -559,7 +559,7 @@ void demolish::Mesh::computeExplode(iREAL length) {
         C[1] = _yCoordinates[i + 2];
         C[2] = _zCoordinates[i + 2];
 
-        iREAL V[3], W[3], N[3];
+        double V[3], W[3], N[3];
         V[0] = B[0] - A[0];
         V[1] = B[1] - A[1];
         V[2] = B[2] - A[2];
@@ -572,7 +572,7 @@ void demolish::Mesh::computeExplode(iREAL length) {
         N[1] = (V[2] * W[0]) - (V[0] * W[2]);
         N[2] = (V[0] * W[1]) - (V[1] * W[0]);
 
-        iREAL mag = std::sqrt((N[0] * N[0]) + (N[1] * N[1]) + (N[2] * N[2]));
+        double mag = std::sqrt((N[0] * N[0]) + (N[1] * N[1]) + (N[2] * N[2]));
         N[0] = N[0] / mag;
         N[1] = N[1] / mag;
         N[2] = N[2] / mag;
@@ -601,12 +601,12 @@ void demolish::Mesh::computeExplode(iREAL length) {
                          ezCoordinates.end());
 }
 
-iREAL demolish::Mesh::computeHMin() {
-    iREAL min = 1E99;
+double crashr::Mesh::computeHMin() {
+    double min = 1E99;
 
     //#pragma omp parallel for
     for (unsigned i = 0; i < _xCoordinates.size(); i += 3) {
-        iREAL A[3], B[3], C[3];
+        double A[3], B[3], C[3];
         A[0] = _xCoordinates[i];
         A[1] = _yCoordinates[i];
         A[2] = _zCoordinates[i];
@@ -619,13 +619,13 @@ iREAL demolish::Mesh::computeHMin() {
         C[1] = _yCoordinates[i + 2];
         C[2] = _zCoordinates[i + 2];
 
-        iREAL AB =
+        double AB =
             sqrt((A[0] - B[0]) * (A[0] - B[0]) + (A[1] - B[1]) * (A[1] - B[1]) +
                  (A[2] - B[2]) * (A[2] - B[2]));
-        iREAL BC =
+        double BC =
             sqrt((B[0] - C[0]) * (B[0] - C[0]) + (B[1] - C[1]) * (B[1] - C[1]) +
                  (B[2] - C[2]) * (B[2] - C[2]));
-        iREAL CA =
+        double CA =
             sqrt((C[0] - A[0]) * (C[0] - A[0]) + (C[1] - A[1]) * (C[1] - A[1]) +
                  (C[2] - A[2]) * (C[2] - A[2]));
 
@@ -642,48 +642,48 @@ iREAL demolish::Mesh::computeHMin() {
 /*
  *gets the inertia using simplex integration from solfec
  */
-void demolish::Mesh::computeInertia(demolish::material::MaterialType material,
-                                    iREAL& mass, iREAL center[3],
-                                    iREAL inertia[9]) {
-    demolish::operators::computeInertia(_xCoordinates, _yCoordinates,
+void crashr::Mesh::computeInertia(crashr::material::MaterialType material,
+                                    double& mass, double center[3],
+                                    double inertia[9]) {
+    crashr::operators::computeInertia(_xCoordinates, _yCoordinates,
                                         _zCoordinates, material, mass, center,
                                         inertia);
 }
 
-iREAL demolish::Mesh::computeMass(demolish::material::MaterialType material) {
-    return demolish::operators::computeMass(_xCoordinates, _yCoordinates,
+double crashr::Mesh::computeMass(crashr::material::MaterialType material) {
+    return crashr::operators::computeMass(_xCoordinates, _yCoordinates,
                                             _zCoordinates, material);
 }
 
-void demolish::Mesh::computeInverseInertia(iREAL inertia[9], iREAL inverse[9],
+void crashr::Mesh::computeInverseInertia(double inertia[9], double inverse[9],
                                            bool isObject) {
-    demolish::operators::computeInverseInertia(inertia, inverse, isObject);
+    crashr::operators::computeInverseInertia(inertia, inverse, isObject);
 }
 
-iREAL demolish::Mesh::computeVolume() {
-    return demolish::operators::computeVolume(_xCoordinates, _yCoordinates,
+double crashr::Mesh::computeVolume() {
+    return crashr::operators::computeVolume(_xCoordinates, _yCoordinates,
                                               _zCoordinates);
 }
 
-std::vector<std::array<int, 3>> demolish::Mesh::getTriangleFaces() {
+std::vector<std::array<int, 3>> crashr::Mesh::getTriangleFaces() {
     return _triangleFaces;
 }
 
-std::vector<demolish::Vertex> demolish::Mesh::getUniqueVertices() {
+std::vector<crashr::Vertex> crashr::Mesh::getUniqueVertices() {
     return _uniqueVertices;
 }
 
-iREAL demolish::Mesh::getMaxMeshSize() { return _maxMeshSize; }
+double crashr::Mesh::getMaxMeshSize() { return _maxMeshSize; }
 
-iREAL demolish::Mesh::getMinMeshSize() { return _minMeshSize; }
+double crashr::Mesh::getMinMeshSize() { return _minMeshSize; }
 
-iREAL demolish::Mesh::getAvgMeshSize() { return _avgMeshSize; }
+double crashr::Mesh::getAvgMeshSize() { return _avgMeshSize; }
 
-demolish::Vertex demolish::Mesh::getBoundaryMinVertex() { return _minBoundary; }
+crashr::Vertex crashr::Mesh::getBoundaryMinVertex() { return _minBoundary; }
 
-demolish::Vertex demolish::Mesh::getBoundaryMaxVertex() { return _maxBoundary; }
+crashr::Vertex crashr::Mesh::getBoundaryMaxVertex() { return _maxBoundary; }
 
-void demolish::Mesh::toString() {
+void crashr::Mesh::toString() {
     for (int i = 0; i < _xCoordinates.size(); i += 3) {
         std::cout << _xCoordinates[i] << _yCoordinates[i] << _zCoordinates[i];
         std::cout << _xCoordinates[i + 1] << _yCoordinates[i + 1]
@@ -693,13 +693,13 @@ void demolish::Mesh::toString() {
     }
 }
 
-demolish::Mesh::Mesh::~Mesh() {}
+crashr::Mesh::Mesh::~Mesh() {}
 
-void demolish::operators::shiftMesh(std::vector<iREAL>& xCoordinates,
-                                    std::vector<iREAL>& yCoordinates,
-                                    std::vector<iREAL>& zCoordinates,
-                                    std::vector<demolish::Vertex>& verts,
-                                    iREAL center[3]) {
+void crashr::operators::shiftMesh(std::vector<double>& xCoordinates,
+                                    std::vector<double>& yCoordinates,
+                                    std::vector<double>& zCoordinates,
+                                    std::vector<crashr::Vertex>& verts,
+                                    double center[3]) {
 #ifdef OMPProcess
     //	#pragma omp parallel for
 #endif
@@ -711,19 +711,19 @@ void demolish::operators::shiftMesh(std::vector<iREAL>& xCoordinates,
 
     // we only need this for the visualisation.
     // there is something I can do to deal with this.
-    demolish::Vertex shift(center[0], center[1], center[2]);
+    crashr::Vertex shift(center[0], center[1], center[2]);
 
     for (unsigned i = 0; i < verts.size(); i++) {
         verts[i] = verts[i] - shift;
     }
 }
 
-void demolish::operators::scaleXYZ(std::vector<iREAL>& xCoordinates,
-                                   std::vector<iREAL>& yCoordinates,
-                                   std::vector<iREAL>& zCoordinates,
-                                   std::vector<demolish::Vertex>& verts,
-                                   iREAL scale, iREAL position[3]) {
-    demolish::operators::shiftMesh(xCoordinates, yCoordinates, zCoordinates,
+void crashr::operators::scaleXYZ(std::vector<double>& xCoordinates,
+                                   std::vector<double>& yCoordinates,
+                                   std::vector<double>& zCoordinates,
+                                   std::vector<crashr::Vertex>& verts,
+                                   double scale, double position[3]) {
+    crashr::operators::shiftMesh(xCoordinates, yCoordinates, zCoordinates,
                                    verts, position);
 
     for (unsigned i = 0; i < xCoordinates.size(); i++) {
@@ -731,23 +731,23 @@ void demolish::operators::scaleXYZ(std::vector<iREAL>& xCoordinates,
         yCoordinates[i] = yCoordinates[i] * scale;
         zCoordinates[i] = zCoordinates[i] * scale;
     }
-    iREAL backToPosition[3] = {-position[0], -position[1], -position[2]};
-    demolish::operators::shiftMesh(xCoordinates, yCoordinates, zCoordinates,
+    double backToPosition[3] = {-position[0], -position[1], -position[2]};
+    crashr::operators::shiftMesh(xCoordinates, yCoordinates, zCoordinates,
                                    verts, backToPosition);
 }
 
-void demolish::operators::rotateX(std::vector<iREAL>& xCoordinates,
-                                  std::vector<iREAL>& yCoordinates,
-                                  std::vector<iREAL>& zCoordinates,
-                                  iREAL alphaX) {
-    const iREAL pi = std::acos(-1);
+void crashr::operators::rotateX(std::vector<double>& xCoordinates,
+                                  std::vector<double>& yCoordinates,
+                                  std::vector<double>& zCoordinates,
+                                  double alphaX) {
+    const double pi = std::acos(-1);
 
     for (unsigned i = 0; i < xCoordinates.size(); i++) {
-        iREAL x = xCoordinates[i];
-        iREAL y = yCoordinates[i];
-        iREAL z = zCoordinates[i];
+        double x = xCoordinates[i];
+        double y = yCoordinates[i];
+        double z = zCoordinates[i];
 
-        iREAL M[] = {1.0,
+        double M[] = {1.0,
                      0.0,
                      0.0,
                      0.0,
@@ -763,17 +763,17 @@ void demolish::operators::rotateX(std::vector<iREAL>& xCoordinates,
     }
 }
 
-void demolish::operators::rotateY(std::vector<iREAL>& xCoordinates,
-                                  std::vector<iREAL>& yCoordinates,
-                                  std::vector<iREAL>& zCoordinates,
-                                  iREAL alphaY) {
-    const iREAL pi = std::acos(-1);
+void crashr::operators::rotateY(std::vector<double>& xCoordinates,
+                                  std::vector<double>& yCoordinates,
+                                  std::vector<double>& zCoordinates,
+                                  double alphaY) {
+    const double pi = std::acos(-1);
     for (unsigned i = 0; i < xCoordinates.size(); i++) {
-        iREAL x = xCoordinates[i];
-        iREAL y = yCoordinates[i];
-        iREAL z = zCoordinates[i];
+        double x = xCoordinates[i];
+        double y = yCoordinates[i];
+        double z = zCoordinates[i];
 
-        iREAL M[] = {std::cos(2 * pi * alphaY),
+        double M[] = {std::cos(2 * pi * alphaY),
                      0.0,
                      std::sin(2 * pi * alphaY),
                      0.0,
@@ -789,18 +789,18 @@ void demolish::operators::rotateY(std::vector<iREAL>& xCoordinates,
     }
 }
 
-void demolish::operators::rotateZ(std::vector<iREAL>& xCoordinates,
-                                  std::vector<iREAL>& yCoordinates,
-                                  std::vector<iREAL>& zCoordinates,
-                                  iREAL alphaZ) {
-    const iREAL pi = std::acos(-1);
+void crashr::operators::rotateZ(std::vector<double>& xCoordinates,
+                                  std::vector<double>& yCoordinates,
+                                  std::vector<double>& zCoordinates,
+                                  double alphaZ) {
+    const double pi = std::acos(-1);
 
     for (unsigned i = 0; i < xCoordinates.size(); i++) {
-        iREAL x = xCoordinates[i];
-        iREAL y = yCoordinates[i];
-        iREAL z = zCoordinates[i];
+        double x = xCoordinates[i];
+        double y = yCoordinates[i];
+        double z = zCoordinates[i];
 
-        iREAL M[] = {std::cos(2 * pi * alphaZ),
+        double M[] = {std::cos(2 * pi * alphaZ),
                      std::sin(2 * pi * alphaZ),
                      0.0,
                      -std::sin(2 * pi * alphaZ),

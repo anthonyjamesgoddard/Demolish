@@ -2,9 +2,9 @@
 
 #include<cmath>
 
-using demolish::Vertex;
+using crashr::Vertex;
 
-Vertex::Vertex(iREAL x,iREAL y,iREAL z)
+Vertex::Vertex(double x,double y,double z)
 {
     _x = x; _y = y; _z = z;
     _r = 0; _theta = 0; _phi = 0;
@@ -39,37 +39,37 @@ bool Vertex::operator<(const Vertex&v) const
 
 Vertex Vertex::operator+(const Vertex&v) const
 {
-    iREAL X = _x + v._x, Y = _y + v._y, Z = _z + v._z;
+    double X = _x + v._x, Y = _y + v._y, Z = _z + v._z;
     Vertex w = Vertex(X,Y,Z);
     return w;
 }
 
 Vertex Vertex::operator-(const Vertex&v) const
 {
-    iREAL X = _x - v._x, Y = _y - v._y, Z = _z - v._z;
+    double X = _x - v._x, Y = _y - v._y, Z = _z - v._z;
     Vertex w = Vertex(X,Y,Z);
     return w;
 }
 
-Vertex Vertex::operator*(const iREAL&a) const
+Vertex Vertex::operator*(const double&a) const
 {
-    iREAL X = _x*a, Y = _y*a, Z = _z*a;
+    double X = _x*a, Y = _y*a, Z = _z*a;
     Vertex v = Vertex(X,Y,Z);
     return v;
 }
 
-iREAL Vertex::operator*(const Vertex&v) const
+double Vertex::operator*(const Vertex&v) const
 {
     return v._x*_x + v._y*_y + v._z*_z;
 }
 
-Vertex& Vertex::operator*=(const iREAL&a)
+Vertex& Vertex::operator*=(const double&a)
 {
     _x*=a;_y*=a;_z*=a;
     return *this;
 }
 
-iREAL   Vertex::operator[](int         i)
+double   Vertex::operator[](int         i)
 {
     if(i==0)return _x;
     if(i==1)return _y;
@@ -79,14 +79,14 @@ iREAL   Vertex::operator[](int         i)
 
 
 
-iREAL Vertex::norm()
+double Vertex::norm()
 {
     return std::sqrt(_x*_x+_y*_y+_z*_z);
 }
 
 void Vertex::normalise()
 {
-    iREAL norm = this->norm();
+    double norm = this->norm();
     _x /= norm;_y/=norm;_z/=norm;
 }
 

@@ -1,18 +1,18 @@
 #include "sphere.h"
 
-std::vector<demolish::ContactPoint> demolish::detection::spherewithsphere(
-    const iREAL xCoordinatesOfPointsOfGeometryA,
-    const iREAL yCoordinatesOfPointsOfGeometryA,
-    const iREAL zCoordinatesOfPointsOfGeometryA, const iREAL radA,
-    const iREAL epsilonA, const bool frictionA, const int particleA,
+std::vector<crashr::contact_point> crashr::detection::spherewithsphere(
+    const double xCoordinatesOfPointsOfGeometryA,
+    const double yCoordinatesOfPointsOfGeometryA,
+    const double zCoordinatesOfPointsOfGeometryA, const double radA,
+    const double epsilonA, const bool frictionA, const int particleA,
 
-    const iREAL xCoordinatesOfPointsOfGeometryB,
-    const iREAL yCoordinatesOfPointsOfGeometryB,
-    const iREAL zCoordinatesOfPointsOfGeometryB, const iREAL radB,
-    const iREAL epsilonB, const bool frictionB, const int particleB) {
-    std::vector<demolish::ContactPoint> result;
+    const double xCoordinatesOfPointsOfGeometryB,
+    const double yCoordinatesOfPointsOfGeometryB,
+    const double zCoordinatesOfPointsOfGeometryB, const double radB,
+    const double epsilonB, const bool frictionB, const int particleB) {
+    std::vector<crashr::contact_point> result;
 
-    iREAL distance = std::sqrt(
+    double distance = std::sqrt(
         ((xCoordinatesOfPointsOfGeometryB - xCoordinatesOfPointsOfGeometryA) *
          (xCoordinatesOfPointsOfGeometryB - xCoordinatesOfPointsOfGeometryA)) +
         ((yCoordinatesOfPointsOfGeometryB - yCoordinatesOfPointsOfGeometryA) *
@@ -24,54 +24,54 @@ std::vector<demolish::ContactPoint> demolish::detection::spherewithsphere(
         return result;
     }
 
-    iREAL xd =
+    double xd =
         xCoordinatesOfPointsOfGeometryB - xCoordinatesOfPointsOfGeometryA;
-    iREAL yd =
+    double yd =
         yCoordinatesOfPointsOfGeometryB - yCoordinatesOfPointsOfGeometryA;
-    iREAL zd =
+    double zd =
         zCoordinatesOfPointsOfGeometryB - zCoordinatesOfPointsOfGeometryA;
 
-    iREAL xnormal = (1.0 / distance) * xd;
-    iREAL ynormal = (1.0 / distance) * yd;
-    iREAL znormal = (1.0 / distance) * zd;
+    double xnormal = (1.0 / distance) * xd;
+    double ynormal = (1.0 / distance) * yd;
+    double znormal = (1.0 / distance) * zd;
 
-    iREAL xPA = xCoordinatesOfPointsOfGeometryA + (radA * xnormal);
-    iREAL yPA = yCoordinatesOfPointsOfGeometryA + (radA * ynormal);
-    iREAL zPA = zCoordinatesOfPointsOfGeometryA + (radA * znormal);
+    double xPA = xCoordinatesOfPointsOfGeometryA + (radA * xnormal);
+    double yPA = yCoordinatesOfPointsOfGeometryA + (radA * ynormal);
+    double zPA = zCoordinatesOfPointsOfGeometryA + (radA * znormal);
 
-    iREAL xPB = xCoordinatesOfPointsOfGeometryB - (radB * xnormal);
-    iREAL yPB = yCoordinatesOfPointsOfGeometryB - (radB * ynormal);
-    iREAL zPB = zCoordinatesOfPointsOfGeometryB - (radB * znormal);
+    double xPB = xCoordinatesOfPointsOfGeometryB - (radB * xnormal);
+    double yPB = yCoordinatesOfPointsOfGeometryB - (radB * ynormal);
+    double zPB = zCoordinatesOfPointsOfGeometryB - (radB * znormal);
 
     bool outside = true;
     if (distance < radA + radB) outside = false;
-    demolish::ContactPoint newContactPoint(xPA, yPA, zPA, xPB, yPB, zPB,
+    crashr::contact_point newcontact_point(xPA, yPA, zPA, xPB, yPB, zPB,
                                            outside, epsilonA, epsilonB,
                                            (frictionA && frictionB));
-    newContactPoint.indexA = particleA;
-    newContactPoint.indexB = particleB;
-    result.push_back(newContactPoint);
+    newcontact_point.indexA = particleA;
+    newcontact_point.indexB = particleB;
+    result.push_back(newcontact_point);
     return result;
 }
 
-std::vector<demolish::ContactPoint> demolish::detection::sphereWithMesh(
-    iREAL xCoordinatesOfPointsOfGeometryA,
-    iREAL yCoordinatesOfPointsOfGeometryA,
-    iREAL zCoordinatesOfPointsOfGeometryA, iREAL radA, iREAL epsilonA,
+std::vector<crashr::contact_point> crashr::detection::sphereWithMesh(
+    double xCoordinatesOfPointsOfGeometryA,
+    double yCoordinatesOfPointsOfGeometryA,
+    double zCoordinatesOfPointsOfGeometryA, double radA, double epsilonA,
     bool frictionA, int particleA,
 
-    const iREAL *xCoordinatesOfPointsOfGeometryB,
-    const iREAL *yCoordinatesOfPointsOfGeometryB,
-    const iREAL *zCoordinatesOfPointsOfGeometryB,
-    int numberOfTrianglesOfGeometryB, iREAL epsilonB, bool frictionB,
+    const double *xCoordinatesOfPointsOfGeometryB,
+    const double *yCoordinatesOfPointsOfGeometryB,
+    const double *zCoordinatesOfPointsOfGeometryB,
+    int numberOfTrianglesOfGeometryB, double epsilonB, bool frictionB,
     int particleB) {
-    std::vector<demolish::ContactPoint> result;
+    std::vector<crashr::contact_point> result;
 
     for (int i = 0; i < numberOfTrianglesOfGeometryB * 3; i += 3) {
-        iREAL P[3], Q[3];
-        iREAL xPA, yPA, zPA, xPB, yPB, zPB;
+        double P[3], Q[3];
+        double xPA, yPA, zPA, xPB, yPB, zPB;
 
-        iREAL TP1[3], TP2[3], TP3[3];
+        double TP1[3], TP2[3], TP3[3];
         TP1[0] = xCoordinatesOfPointsOfGeometryB[i];
         TP1[1] = yCoordinatesOfPointsOfGeometryB[i];
         TP1[2] = zCoordinatesOfPointsOfGeometryB[i];
@@ -91,12 +91,12 @@ std::vector<demolish::ContactPoint> demolish::detection::sphereWithMesh(
         // std::cout << TP1[0] << " " << TP1[1] << " " << TP1[2] << std::endl;
         // std::cout << TP2[0] << " " << TP2[1] << " " << TP2[2] << std::endl;
         // std::cout << TP3[0] << " " << TP3[1] << " " << TP3[2] << std::endl;
-        iREAL distance = demolish::detection::pt(TP1, TP2, TP3, P, Q) - radA;
+        double distance = crashr::detection::pt(TP1, TP2, TP3, P, Q) - radA;
         if (distance > epsilonA + epsilonB) continue;
         // std::cout << distance << std::endl;
-        iREAL xnormal = (Q[0] - P[0]) / (distance + radA);
-        iREAL ynormal = (Q[1] - P[1]) / (distance + radA);
-        iREAL znormal = (Q[2] - P[2]) / (distance + radA);
+        double xnormal = (Q[0] - P[0]) / (distance + radA);
+        double ynormal = (Q[1] - P[1]) / (distance + radA);
+        double znormal = (Q[2] - P[2]) / (distance + radA);
 
         xPA = P[0] + (radA * xnormal);
         yPA = P[1] + (radA * ynormal);
@@ -108,13 +108,13 @@ std::vector<demolish::ContactPoint> demolish::detection::sphereWithMesh(
 
         bool outside = true;
         if (distance < 0) outside = false;
-        demolish::ContactPoint newContactPoint(xPA, yPA, zPA, xPB, yPB, zPB,
+        crashr::contact_point newcontact_point(xPA, yPA, zPA, xPB, yPB, zPB,
                                                outside, epsilonA, epsilonB,
                                                (frictionA && frictionB));
 
-        newContactPoint.indexA = particleA;
-        newContactPoint.indexB = particleB;
-        result.push_back(newContactPoint);
+        newcontact_point.indexA = particleA;
+        newcontact_point.indexB = particleB;
+        result.push_back(newcontact_point);
         break;
     }
     return result;

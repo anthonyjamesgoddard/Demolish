@@ -1,36 +1,36 @@
 #include "point.h"
 #include "../algo.h"
 
-iREAL demolish::detection::pt(iREAL TP1[3], iREAL TP2[3], iREAL TP3[3], iREAL cPoint[3], iREAL tq[3])
+double crashr::detection::pt(double TP1[3], double TP2[3], double TP3[3], double cPoint[3], double tq[3])
 {
   //191 flops
-  iREAL E0[3];
+  double E0[3];
   E0[0] = TP2[0] - TP1[0];
   E0[1] = TP2[1] - TP1[1];
   E0[2] = TP2[2] - TP1[2];
 
-  iREAL E1[3];
+  double E1[3];
   E1[0] = TP3[0] - TP1[0];
   E1[1] = TP3[1] - TP1[1];
   E1[2] = TP3[2] - TP1[2];
 
-  iREAL D[3];
+  double D[3];
   D[0] = TP1[0] - cPoint[0];
   D[1] = TP1[1] - cPoint[1];
   D[2] = TP1[2] - cPoint[2];
 
-  iREAL a = DOT(E0,E0);
-  iREAL b = DOT(E0,E1);
-  iREAL c = DOT(E1,E1);
-  iREAL d = DOT(E0,D);
-  iREAL e = DOT(E1,D);
-  iREAL f = DOT(D,D);
+  double a = DOT(E0,E0);
+  double b = DOT(E0,E1);
+  double c = DOT(E1,E1);
+  double d = DOT(E0,D);
+  double e = DOT(E1,D);
+  double f = DOT(D,D);
 
-  iREAL det = a*c - b*b; //% do we have to use abs here?
-  iREAL s   = b*e - c*d;
-  iREAL t   = b*d - a*e;
+  double det = a*c - b*b; //% do we have to use abs here?
+  double s   = b*e - c*d;
+  double t   = b*d - a*e;
 
-  iREAL sqrDistance=0;
+  double sqrDistance=0;
 
   if ((s+t) <= det){
 	  if (s < 0){
@@ -94,7 +94,7 @@ iREAL demolish::detection::pt(iREAL TP1[3], iREAL TP2[3], iREAL TP3[3], iREAL cP
 			  }
 		  }else {
 			  // region 0
-			  iREAL invDet = 1/det;
+			  double invDet = 1/det;
 			  s = s*invDet;
 			  t = t*invDet;
 			  sqrDistance = s*(a*s + b*t + 2*d) + t*(b*s + c*t + 2*e) + f;
@@ -103,11 +103,11 @@ iREAL demolish::detection::pt(iREAL TP1[3], iREAL TP2[3], iREAL TP3[3], iREAL cP
   }else {
 	  if (s < 0){
 		  // region 2
-		  iREAL tmp0 = b + d;
-		  iREAL tmp1 = c + e;
+		  double tmp0 = b + d;
+		  double tmp1 = c + e;
 		  if (tmp1 > tmp0){ // minimum on edge s+t=1
-			  iREAL numer = tmp1 - tmp0;
-			  iREAL denom = a - 2*b + c;
+			  double numer = tmp1 - tmp0;
+			  double denom = a - 2*b + c;
 			  if (numer >= denom){
 				  s = 1;
 				  t = 0;
@@ -135,11 +135,11 @@ iREAL demolish::detection::pt(iREAL TP1[3], iREAL TP2[3], iREAL TP3[3], iREAL cP
 	  }else {
 		  if (t < 0) {
 			  //region6
-			  iREAL tmp0 = b + e;
-			  iREAL tmp1 = a + d;
+			  double tmp0 = b + e;
+			  double tmp1 = a + d;
 			  if (tmp1 > tmp0){
-				  iREAL numer = tmp1 - tmp0;
-				  iREAL denom = a-2*b+c;
+				  double numer = tmp1 - tmp0;
+				  double denom = a-2*b+c;
 				  if (numer >= denom){
 					  t = 1;
 					  s = 0;
@@ -167,13 +167,13 @@ iREAL demolish::detection::pt(iREAL TP1[3], iREAL TP2[3], iREAL TP3[3], iREAL cP
 			  //end of region 6
 		  }else {
 			  // region 1
-			  iREAL numer = c + e - b - d;
+			  double numer = c + e - b - d;
 			  if (numer <= 0){
 				  s = 0;
 				  t = 1;
 				  sqrDistance = c + 2*e + f;
 			  }else {
-				  iREAL denom = a - 2*b + c;
+				  double denom = a - 2*b + c;
 				  if (numer >= denom){
 					  s = 1;
 					  t = 0;
@@ -200,28 +200,28 @@ iREAL demolish::detection::pt(iREAL TP1[3], iREAL TP2[3], iREAL TP3[3], iREAL cP
   return sqrt(sqrDistance);
 }
 
-std::vector<demolish::ContactPoint> demolish::detection::pointToGeometry(
-iREAL   xCoordinatesOfPointOfGeometryA,
-iREAL   yCoordinatesOfPointOfGeometryA,
-iREAL   zCoordinatesOfPointOfGeometryA,
+std::vector<crashr::contact_point> crashr::detection::pointToGeometry(
+double   xCoordinatesOfPointOfGeometryA,
+double   yCoordinatesOfPointOfGeometryA,
+double   zCoordinatesOfPointOfGeometryA,
 int 		particleA,
-iREAL   epsilonA,
+double   epsilonA,
 
-const iREAL   *xCoordinatesOfPointsOfGeometryB,
-const iREAL   *yCoordinatesOfPointsOfGeometryB,
-const iREAL   *zCoordinatesOfPointsOfGeometryB,
+const double   *xCoordinatesOfPointsOfGeometryB,
+const double   *yCoordinatesOfPointsOfGeometryB,
+const double   *zCoordinatesOfPointsOfGeometryB,
 int   			numberOfTrianglesOfGeometryB,
 int				particleB,
-iREAL   			epsilonB)
+double   			epsilonB)
 {
-  std::vector<demolish::ContactPoint> result;
+  std::vector<crashr::contact_point> result;
   #pragma code_align(byteAlignment)
   #pragma omp simd
   for(int i=0; i<numberOfTrianglesOfGeometryB*3; i+=3)
   {
-	iREAL P[3], Q[3];
+	double P[3], Q[3];
 
-	iREAL TP1[3], TP2[3], TP3[3];
+	double TP1[3], TP2[3], TP3[3];
 	TP1[0] = xCoordinatesOfPointsOfGeometryB[i];
 	TP1[1] = yCoordinatesOfPointsOfGeometryB[i];
 	TP1[2] = zCoordinatesOfPointsOfGeometryB[i];
@@ -238,13 +238,13 @@ iREAL   			epsilonB)
 	P[1] = yCoordinatesOfPointOfGeometryA;
 	P[2] = zCoordinatesOfPointOfGeometryA;
 
-	iREAL distance = demolish::detection::pt(TP1, TP2, TP3, P, Q);
+	double distance = crashr::detection::pt(TP1, TP2, TP3, P, Q);
 
 	if(distance <= (epsilonA+epsilonB))
 	{
-	  demolish::ContactPoint newContactPoint(P[0], P[1], P[2],
+	  crashr::contact_point newcontact_point(P[0], P[1], P[2],
                                             Q[0], Q[1], Q[2],false);
-	  result.push_back( newContactPoint );
+	  result.push_back( newcontact_point );
 	}
   }
   return result;

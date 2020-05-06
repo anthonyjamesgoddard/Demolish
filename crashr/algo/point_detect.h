@@ -6,24 +6,24 @@
 #include "../ContactPoint.h"
 #include<vector>
 
-namespace demolish{
+namespace crashr{
 	namespace detection {
 
-	std::vector<demolish::ContactPoint> pointToGeometry(
-		iREAL   xCoordinatesOfPointOfGeometryA,
-		iREAL   yCoordinatesOfPointOfGeometryA,
-		iREAL   zCoordinatesOfPointOfGeometryA,
+	std::vector<crashr::ContactPoint> pointToGeometry(
+		double   xCoordinatesOfPointOfGeometryA,
+		double   yCoordinatesOfPointOfGeometryA,
+		double   zCoordinatesOfPointOfGeometryA,
 		int 		particleA,
-		iREAL   epsilonA,
+		double   epsilonA,
 
-		const iREAL   *xCoordinatesOfPointsOfGeometryB,
-		const iREAL   *yCoordinatesOfPointsOfGeometryB,
-		const iREAL   *zCoordinatesOfPointsOfGeometryB,
+		const double   *xCoordinatesOfPointsOfGeometryB,
+		const double   *yCoordinatesOfPointsOfGeometryB,
+		const double   *zCoordinatesOfPointsOfGeometryB,
 		int   			numberOfTrianglesOfGeometryB,
 		int				particleB,
-		iREAL   			epsilonB);
+		double   			epsilonB);
 
-	iREAL pt(iREAL TP1[3], iREAL TP2[3], iREAL TP3[3], iREAL cPoint[3], iREAL tq[3]);
+	double pt(double TP1[3], double TP2[3], double TP3[3], double cPoint[3], double tq[3]);
 
 	} 
 } 

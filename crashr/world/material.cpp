@@ -2,12 +2,12 @@
 
 #include "material.h"
 
-void demolish::material::materialInit()
+void crashr::material::materialInit()
 {
     // hello
 }
 
-int demolish::material::getInterfaceType(int materialA, int materialB)
+int crashr::material::getInterfaceType(int materialA, int materialB)
 {
   return materialA*materialB;
 }

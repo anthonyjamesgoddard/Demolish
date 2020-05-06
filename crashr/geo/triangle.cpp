@@ -1,7 +1,7 @@
 
 #include "Triangle.h"
 
-demolish::Triangle::Triangle(
+crashr::Triangle::Triangle(
 	Vertex& A,
 	Vertex& B,
 	Vertex& C)
@@ -11,123 +11,123 @@ demolish::Triangle::Triangle(
   _C = C;
 }
 
-demolish::Triangle::Triangle(
-	iREAL A[3],
-	iREAL B[3],
-	iREAL C[3])
+crashr::Triangle::Triangle(
+	double A[3],
+	double B[3],
+	double C[3])
 {
   _A.set(A[0], A[1], A[2]);
   _B.set(B[0], B[1], B[2]);
   _C.set(C[0], C[1], C[2]);
 }
 
-demolish::Triangle::Triangle(
-	iREAL Ax,
-	iREAL Ay,
-	iREAL Az,
+crashr::Triangle::Triangle(
+	double Ax,
+	double Ay,
+	double Az,
 
-	iREAL Bx,
-	iREAL By,
-	iREAL Bz,
+	double Bx,
+	double By,
+	double Bz,
 
-	iREAL Cx,
-	iREAL Cy,
-	iREAL Cz)
+	double Cx,
+	double Cy,
+	double Cz)
 {
   _A.set(Ax, Ay, Az);
   _B.set(Bx, By, Bz);
   _C.set(Cx, Cy, Cz);
 }
 
-Vertex demolish::Triangle::getVertexA()
+Vertex crashr::Triangle::getVertexA()
 {
   return _A;
 }
 
-Vertex demolish::Triangle::getVertexB()
+Vertex crashr::Triangle::getVertexB()
 {
   return _B;
 }
 
-Vertex demolish::Triangle::getVertexC()
+Vertex crashr::Triangle::getVertexC()
 {
   return _C;
 }
 
-iREAL demolish::Triangle::getTriangleLength()
+double crashr::Triangle::getTriangleLength()
 {
-  iREAL xw = demolish::Triangle::getXw();
-  iREAL yw = demolish::Triangle::getYw();
-  iREAL zw = demolish::Triangle::getZw();
+  double xw = crashr::Triangle::getXw();
+  double yw = crashr::Triangle::getYw();
+  double zw = crashr::Triangle::getZw();
 
-  iREAL tmp = xw > yw ? xw : yw;
-  iREAL width = tmp>zw ? tmp : zw;
+  double tmp = xw > yw ? xw : yw;
+  double width = tmp>zw ? tmp : zw;
 
   return getXYZWidth();
 }
 
-iREAL demolish::Triangle::getXYZWidth()
+double crashr::Triangle::getXYZWidth()
 {
-  iREAL xw = demolish::Triangle::getXw();
-  iREAL yw = demolish::Triangle::getYw();
-  iREAL zw = demolish::Triangle::getZw();
+  double xw = crashr::Triangle::getXw();
+  double yw = crashr::Triangle::getYw();
+  double zw = crashr::Triangle::getZw();
 
-  iREAL tmp = xw > yw ? xw : yw;
-  iREAL width = tmp>zw ? tmp : zw;
+  double tmp = xw > yw ? xw : yw;
+  double width = tmp>zw ? tmp : zw;
 
   return width;
 }
 
-iREAL demolish::Triangle::getXZWidth()
+double crashr::Triangle::getXZWidth()
 {
-  iREAL xw = demolish::Triangle::getXw();
-  iREAL zw = demolish::Triangle::getZw();
-  iREAL width = xw>zw ? xw : zw;
+  double xw = crashr::Triangle::getXw();
+  double zw = crashr::Triangle::getZw();
+  double width = xw>zw ? xw : zw;
 
   return width;
 }
 
-iREAL demolish::Triangle::getXw()
+double crashr::Triangle::getXw()
 {
-  Vertex min = demolish::Triangle::getMinBoundaryVertex();
-  Vertex max = demolish::Triangle::getMaxBoundaryVertex();
+  Vertex min = crashr::Triangle::getMinBoundaryVertex();
+  Vertex max = crashr::Triangle::getMaxBoundaryVertex();
 
   return std::abs(min.getX() - max.getX());
 }
 
-iREAL demolish::Triangle::getYw()
+double crashr::Triangle::getYw()
 {
-  Vertex min = demolish::Triangle::getMinBoundaryVertex();
-  Vertex max = demolish::Triangle::getMaxBoundaryVertex();
+  Vertex min = crashr::Triangle::getMinBoundaryVertex();
+  Vertex max = crashr::Triangle::getMaxBoundaryVertex();
 
   return std::abs(min.getY() - max.getY());
 }
 
-iREAL demolish::Triangle::getZw()
+double crashr::Triangle::getZw()
 {
-  Vertex min = demolish::Triangle::getMinBoundaryVertex();
-  Vertex max = demolish::Triangle::getMaxBoundaryVertex();
+  Vertex min = crashr::Triangle::getMinBoundaryVertex();
+  Vertex max = crashr::Triangle::getMaxBoundaryVertex();
 
   return std::abs(min.getZ() - max.getZ());
 }
 
-Vertex demolish::Triangle::getMinBoundaryVertex()
+Vertex crashr::Triangle::getMinBoundaryVertex()
 {
   Vertex vertex(getMinXAxis(),getMinYAxis(),getMinZAxis());
   return vertex;
 }
 
-Vertex demolish::Triangle::getMaxBoundaryVertex()
+Vertex crashr::Triangle::getMaxBoundaryVertex()
 {
   Vertex vertex(getMaxXAxis(),getMaxYAxis(),getMaxZAxis());
   return vertex;
 }
 
-iREAL demolish::Triangle::getMaxXAxis()
+double crashr::Triangle::getMaxXAxis()
 {
-  iREAL x[3] = {_A.getX(), _B.getX(), _C.getX()};
+  double x[3] = {_A.getX(), _B.getX(), _C.getX()};
 
-  iREAL max = std::numeric_limits<iREAL>::min();
+  double max = std::numeric_limits<double>::min();
 
   for(unsigned i=0;i<3;i++)
   {
@@ -136,11 +136,11 @@ iREAL demolish::Triangle::getMaxXAxis()
   return max;
 }
 
-iREAL demolish::Triangle::getMaxYAxis()
+double crashr::Triangle::getMaxYAxis()
 {
-  iREAL y[3] = {_A.getY(), _B.getY(), _C.getY()};
+  double y[3] = {_A.getY(), _B.getY(), _C.getY()};
 
-  iREAL max = std::numeric_limits<iREAL>::min();
+  double max = std::numeric_limits<double>::min();
 
   for(unsigned i=0;i<3;i++)
   {
@@ -149,11 +149,11 @@ iREAL demolish::Triangle::getMaxYAxis()
   return max;
 }
 
-iREAL demolish::Triangle::getMaxZAxis()
+double crashr::Triangle::getMaxZAxis()
 {
-  iREAL z[3] = {_A.getZ(), _B.getZ(), _C.getZ()};
+  double z[3] = {_A.getZ(), _B.getZ(), _C.getZ()};
 
-  iREAL max = std::numeric_limits<iREAL>::min();
+  double max = std::numeric_limits<double>::min();
 
   for(unsigned i=0; i<3; i++)
   {
@@ -162,11 +162,11 @@ iREAL demolish::Triangle::getMaxZAxis()
   return max;
 }
 
-iREAL demolish::Triangle::getMinXAxis()
+double crashr::Triangle::getMinXAxis()
 {
-  iREAL x[3] = {_A.getX(), _B.getX(), _C.getX()};
+  double x[3] = {_A.getX(), _B.getX(), _C.getX()};
 
-  iREAL min = std::numeric_limits<iREAL>::max();
+  double min = std::numeric_limits<double>::max();
 
   for(unsigned i=0; i<3; i++)
   {
@@ -175,11 +175,11 @@ iREAL demolish::Triangle::getMinXAxis()
   return min;
 }
 
-iREAL demolish::Triangle::getMinYAxis()
+double crashr::Triangle::getMinYAxis()
 {
-  iREAL y[3] = {_A.getY(), _B.getY(), _C.getY()};
+  double y[3] = {_A.getY(), _B.getY(), _C.getY()};
 
-  iREAL min = std::numeric_limits<iREAL>::max();
+  double min = std::numeric_limits<double>::max();
 
   for(unsigned i=0; i<3; i++)
   {
@@ -188,11 +188,11 @@ iREAL demolish::Triangle::getMinYAxis()
   return min;
 }
 
-iREAL demolish::Triangle::getMinZAxis()
+double crashr::Triangle::getMinZAxis()
 {
-  iREAL z[3] = {_A.getZ(), _B.getZ(), _C.getZ()};
+  double z[3] = {_A.getZ(), _B.getZ(), _C.getZ()};
 
-  iREAL min = std::numeric_limits<iREAL>::max();
+  double min = std::numeric_limits<double>::max();
 
   for(unsigned i=0; i<3; i++)
   {
@@ -201,7 +201,7 @@ iREAL demolish::Triangle::getMinZAxis()
   return min;
 }
 
-demolish::Triangle::~Triangle() {
+crashr::Triangle::~Triangle() {
 
 }
 

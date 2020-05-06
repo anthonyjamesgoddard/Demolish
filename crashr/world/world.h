@@ -15,16 +15,16 @@
 #include "detection/penalty.h"
 
 
-namespace demolish{
+namespace crashr{
 	class World;
 }
 
-class demolish::World {
+class crashr::World {
 
   public:
 	World(
     std::vector<Object>&                objects,
-    iREAL                               gravity);
+    double                               gravity);
 
 	virtual ~World();
 
@@ -39,11 +39,11 @@ class demolish::World {
 
   	std::vector<Object> 	                _particles;
     std::vector<ContactPoint>             _contactpoints;
-    iREAL                                 _gravity;
-    iREAL                                 _timestep;
+    double                                 _gravity;
+    double                                 _timestep;
     int                                   _timeStamp;
     int                                   _lastTimeStampChanged;
-    iREAL                                 _penetrationThreshold;
+    double                                 _penetrationThreshold;
     DEMDriver                             _visuals;
 };
 

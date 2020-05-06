@@ -5,10 +5,10 @@
 
 #include "../material.h"
 #include "../algo.h"
-#include "../demolish.h"
+#include "../crashr.h"
 #include <vector>
 
-namespace demolish {
+namespace crashr {
 	namespace operators {
 
 		/*
@@ -16,12 +16,12 @@ namespace demolish {
 		 *
 		 *  return volume of geomety
 		 *  @param none
-		 *  @return iREAL
+		 *  @return double
 		 */
-		iREAL computeVolume(
-			std::vector<iREAL>& xCoordinates,
-			std::vector<iREAL>& yCoordinates,
-			std::vector<iREAL>& zCoordinates);
+		double computeVolume(
+			std::vector<double>& xCoordinates,
+			std::vector<double>& yCoordinates,
+			std::vector<double>& zCoordinates);
 
 		/*
 		 *  Get Inertia Matrix
@@ -36,13 +36,13 @@ namespace demolish {
 		 *  @returns void
 		 */
 		void computeInertia(
-			std::vector<iREAL>& xCoordinates,
-			std::vector<iREAL>& yCoordinates,
-			std::vector<iREAL>& zCoordinates,
-			demolish::material::MaterialType material,
-			iREAL& mass,
-			iREAL center[3],
-			iREAL inertia[9]);
+			std::vector<double>& xCoordinates,
+			std::vector<double>& yCoordinates,
+			std::vector<double>& zCoordinates,
+			crashr::material::MaterialType material,
+			double& mass,
+			double center[3],
+			double inertia[9]);
 
 		/*
 		 *  Get Mass
@@ -54,13 +54,13 @@ namespace demolish {
 		 *  @param yCoordinates
 		 *  @param zCoordinates
 		 *  @param material
-		 *  @returns iREAL
+		 *  @returns double
 		 */
-		iREAL computeMass(
-			std::vector<iREAL>& xCoordinates,
-			std::vector<iREAL>& yCoordinates,
-			std::vector<iREAL>& zCoordinates,
-			demolish::material::MaterialType material);
+		double computeMass(
+			std::vector<double>& xCoordinates,
+			std::vector<double>& yCoordinates,
+			std::vector<double>& zCoordinates,
+			crashr::material::MaterialType material);
 
 		/*
 		 *  Get Inverse Inertia Matrix
@@ -74,15 +74,15 @@ namespace demolish {
 		 *  @returns void
 		 */
 		void computeInverseInertia(
-			iREAL inertia[9],
-			iREAL inverse[9],
+			double inertia[9],
+			double inverse[9],
 			bool isObject);
 
 		/*
 		 * simplex integration from solfec
 		 */
-		iREAL simplex_J(
-			iREAL *a, iREAL *b, iREAL *c, iREAL *d);
+		double simplex_J(
+			double *a, double *b, double *c, double *d);
   } 
 } 
 

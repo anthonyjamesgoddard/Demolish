@@ -1,14 +1,14 @@
 #include "physics.h"
 
-iREAL demolish::operators::computeVolume(
-	std::vector<iREAL>& xCoordinates,
-	std::vector<iREAL>& yCoordinates,
-	std::vector<iREAL>& zCoordinates)
+double crashr::operators::computeVolume(
+	std::vector<double>& xCoordinates,
+	std::vector<double>& yCoordinates,
+	std::vector<double>& zCoordinates)
 {
 
-  iREAL vol=0, a[3], b[3], c[3], J;
+  double vol=0, a[3], b[3], c[3], J;
 
-  iREAL zero[3];
+  double zero[3];
   zero[0] = 0;
   zero[1] = 0;
   zero[2] = 0;
@@ -38,19 +38,19 @@ iREAL demolish::operators::computeVolume(
 /*
  * gets the inertia using simplex integration from solfec
  */
-void demolish::operators::computeInertia(
-	std::vector<iREAL>& xCoordinates,
-	std::vector<iREAL>& yCoordinates,
-	std::vector<iREAL>& zCoordinates,
-	demolish::material::MaterialType material,
-	iREAL& mass,
-	iREAL center[3],
-	iREAL inertia[9])
+void crashr::operators::computeInertia(
+	std::vector<double>& xCoordinates,
+	std::vector<double>& yCoordinates,
+	std::vector<double>& zCoordinates,
+	crashr::material::MaterialType material,
+	double& mass,
+	double center[3],
+	double inertia[9])
 {
 
-  iREAL me, sx, sy, sz, euler[9], a[3], b[3], c[3], J;
+  double me, sx, sy, sz, euler[9], a[3], b[3], c[3], J;
 
-  iREAL zero[3];
+  double zero[3];
   zero[0] = 0;
   zero[1] = 0;
   zero[2] = 0;
@@ -60,7 +60,7 @@ void demolish::operators::computeInertia(
   euler[3] = euler[4] = euler[5] =
   euler[6] = euler[7] = euler[8] = 0.0;
 
-  iREAL rho = iREAL(demolish::material::materialToDensitymap.find(material)->second);	
+  double rho = double(crashr::material::materialToDensitymap.find(material)->second);	
 
   for (unsigned i=0;i<xCoordinates.size(); i+=3)
   {
@@ -117,7 +117,7 @@ void demolish::operators::computeInertia(
   euler[5] = euler[7];
 
   /* convert Euler tensor to the inertia tensor */
-  iREAL trace = TRACE (euler);
+  double trace = TRACE (euler);
   inertia[0] = trace - euler[0];
   inertia[4] = trace - euler[4];
   inertia[8] = trace - euler[8];
@@ -132,21 +132,21 @@ void demolish::operators::computeInertia(
 //#endif
 }
 
-iREAL demolish::operators::computeMass(
-	std::vector<iREAL>& xCoordinates,
-	std::vector<iREAL>& yCoordinates,
-	std::vector<iREAL>& zCoordinates,
-    demolish::material::MaterialType material)
+double crashr::operators::computeMass(
+	std::vector<double>& xCoordinates,
+	std::vector<double>& yCoordinates,
+	std::vector<double>& zCoordinates,
+    crashr::material::MaterialType material)
 {
 
-  iREAL me=0, a[3], b[3], c[3], J;
+  double me=0, a[3], b[3], c[3], J;
 
-  iREAL zero[3];
+  double zero[3];
   zero[0] = 0;
   zero[1] = 0;
   zero[2] = 0;
 
-  int rho= int(demolish::material::materialToDensitymap.find(material)->second);
+  int rho= int(crashr::material::materialToDensitymap.find(material)->second);
 
   for (unsigned i=0;i<xCoordinates.size(); i+=3)
   {
@@ -169,14 +169,14 @@ iREAL demolish::operators::computeMass(
   return me;
 }
 
-void demolish::operators::computeInverseInertia(
-    iREAL inertia[9],
-    iREAL inverse[9],
+void crashr::operators::computeInverseInertia(
+    double inertia[9],
+    double inverse[9],
     bool isObject)
 {
-  iREAL det;
+  double det;
 
-  iREAL a[9], x[9];
+  double a[9], x[9];
 
   for (int j = 0; j < 9; j++)
   {
@@ -199,10 +199,10 @@ void demolish::operators::computeInverseInertia(
   }
 }
 
-iREAL demolish::operators::simplex_J (
-    iREAL *a, iREAL *b, iREAL *c, iREAL *d)
+double crashr::operators::simplex_J (
+    double *a, double *b, double *c, double *d)
 {
-  iREAL q [9], J;
+  double q [9], J;
 
   q [0] = b [0] - a [0];
   q [1] = c [0] - a [0];

@@ -9,12 +9,12 @@ namespace {
 }
 
 
-demolish::primitives::Cylinder::Cylinder(
-  iREAL centre[3],
-  iREAL radius,
+crashr::primitives::Cylinder::Cylinder(
+  double centre[3],
+  double radius,
   double minZ,
   double maxZ,
-  iREAL h
+  double h
 ):
   Cylinder(
     centre[0],
@@ -28,14 +28,14 @@ demolish::primitives::Cylinder::Cylinder(
 }
 
 
-demolish::primitives::Cylinder::Cylinder(
-  iREAL centreX,
-  iREAL centreY,
-  iREAL centreZ,
-  iREAL radius,
-  iREAL minZ,
-  iREAL maxZ,
-  iREAL h
+crashr::primitives::Cylinder::Cylinder(
+  double centreX,
+  double centreY,
+  double centreZ,
+  double radius,
+  double minZ,
+  double maxZ,
+  double h
 ):
   _centre{ centreX, centreY, centreZ },
   _radius(radius),
@@ -45,8 +45,8 @@ demolish::primitives::Cylinder::Cylinder(
   _xCoordinates(nullptr),
   _yCoordinates(nullptr),
   _zCoordinates(nullptr) {
-  #if DELTA_DEBUG>=1
-  std::cout << demolish::getOutputPrefix() << "create sphere around ("
+  #if DEBUG>=1
+  std::cout << crashr::getOutputPrefix() << "create sphere around ("
 		    << centreX << ","
 		    << centreY << ","
 		    << "[" << minZ << "," << maxZ << "])^T with radius " << radius << std::endl;
@@ -55,7 +55,7 @@ demolish::primitives::Cylinder::Cylinder(
 }
 
 
-demolish::primitives::Cylinder::~Cylinder() {
+crashr::primitives::Cylinder::~Cylinder() {
   assert( _xCoordinates!=nullptr );
   assert( _yCoordinates!=nullptr );
   assert( _zCoordinates!=nullptr );
@@ -66,23 +66,23 @@ demolish::primitives::Cylinder::~Cylinder() {
 }
 
 
-iREAL demolish::primitives::Cylinder::getCentreX() const {
+double crashr::primitives::Cylinder::getCentreX() const {
   return _centre[0];
 }
 
 
-iREAL demolish::primitives::Cylinder::getCentreY() const {
+double crashr::primitives::Cylinder::getCentreY() const {
   return _centre[1];
 }
 
 
-iREAL demolish::primitives::Cylinder::getCentreZ() const {
+double crashr::primitives::Cylinder::getCentreZ() const {
   return _centre[2];
 }
 
 
-int demolish::primitives::Cylinder::getNumberOfTrianglesPerCircle() const {
-  const iREAL surface = 2.0 * PI * _radius;
+int crashr::primitives::Cylinder::getNumberOfTrianglesPerCircle() const {
+  const double surface = 2.0 * PI * _radius;
   return std::max(
 	3,
 	static_cast<int>( std::floor( surface / _h + 0.5) )
@@ -90,20 +90,20 @@ int demolish::primitives::Cylinder::getNumberOfTrianglesPerCircle() const {
 }
 
 
-int demolish::primitives::Cylinder::getNumberOfTriangles() const {
+int crashr::primitives::Cylinder::getNumberOfTriangles() const {
   return 4*getNumberOfTrianglesPerCircle();
 }
 
 
-iREAL demolish::primitives::Cylinder::getBoundingSphereRadius() const {
+double crashr::primitives::Cylinder::getBoundingSphereRadius() const {
   return std::sqrt(_radius*_radius + (_maxZ-_minZ)*(_maxZ-_minZ) );
 }
 
 
-void demolish::primitives::Cylinder::discretise() {
-  _xCoordinates = new iREAL[3*getNumberOfTriangles()];
-  _yCoordinates = new iREAL[3*getNumberOfTriangles()];
-  _zCoordinates = new iREAL[3*getNumberOfTriangles()];
+void crashr::primitives::Cylinder::discretise() {
+  _xCoordinates = new double[3*getNumberOfTriangles()];
+  _yCoordinates = new double[3*getNumberOfTriangles()];
+  _zCoordinates = new double[3*getNumberOfTriangles()];
 
   assert(getNumberOfTriangles()%2==0);
 
@@ -178,7 +178,7 @@ void demolish::primitives::Cylinder::discretise() {
 }
 
 
-const iREAL* demolish::primitives::Cylinder::getXCoordinates() const {
+const double* crashr::primitives::Cylinder::getXCoordinates() const {
   assert( _xCoordinates!=nullptr );
   assert( _yCoordinates!=nullptr );
   assert( _zCoordinates!=nullptr );
@@ -186,7 +186,7 @@ const iREAL* demolish::primitives::Cylinder::getXCoordinates() const {
 }
 
 
-const iREAL* demolish::primitives::Cylinder::getYCoordinates() const {
+const double* crashr::primitives::Cylinder::getYCoordinates() const {
   assert( _xCoordinates!=nullptr );
   assert( _yCoordinates!=nullptr );
   assert( _zCoordinates!=nullptr );
@@ -194,7 +194,7 @@ const iREAL* demolish::primitives::Cylinder::getYCoordinates() const {
 }
 
 
-const iREAL* demolish::primitives::Cylinder::getZCoordinates() const {
+const double* crashr::primitives::Cylinder::getZCoordinates() const {
   assert( _xCoordinates!=nullptr );
   assert( _yCoordinates!=nullptr );
   assert( _zCoordinates!=nullptr );

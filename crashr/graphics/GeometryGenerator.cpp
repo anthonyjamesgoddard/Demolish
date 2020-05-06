@@ -87,7 +87,7 @@ void GeometryGenerator::CreateSphere(float radius,
                                      UINT sliceCount,
                                      UINT stackCount,
                                      MeshData& meshData,
-                                     std::array<iREAL,3> position)
+                                     std::array<double,3> position)
 {
 	meshData.Vertices.clear();
 	meshData.Indices.clear();
@@ -259,12 +259,12 @@ void GeometryGenerator::CreateGrid(float width, float depth, UINT m, UINT n, Mes
 	}
 }
 
-void GeometryGenerator::CreateMeshFromMesh(demolish::Mesh* mesh, MeshData& meshData)
+void GeometryGenerator::CreateMeshFromMesh(crashr::Mesh* mesh, MeshData& meshData)
 {
     meshData.Vertices.clear();
     meshData.Indices.clear();
 
-    std::vector<demolish::Vertex> normals;
+    std::vector<crashr::Vertex> normals;
 
     auto XX = mesh->getXCoordinates();
     auto YY = mesh->getYCoordinates();
@@ -278,7 +278,7 @@ void GeometryGenerator::CreateMeshFromMesh(demolish::Mesh* mesh, MeshData& meshD
     int j =0;
     for(int i=0;i<triangles.size();i++)
     {
-        demolish::Vertex normal(0,0,0);
+        crashr::Vertex normal(0,0,0);
         mdvs[triangles[i][0]].Position.x = XX[j];    
         mdvs[triangles[i][0]].Position.y = YY[j];    
         mdvs[triangles[i][0]].Position.z = ZZ[j];  

@@ -1,4 +1,4 @@
-#include"../demolish.h"
+#include"../crashr.h"
 
 #include<array>
 
@@ -8,7 +8,7 @@
 #define SFRICTIONWOOD 1
 #define SFRICTIONROLLING 0.5
 
-namespace demolish{
+namespace crashr{
     namespace resolution{
 
 	  /*
@@ -26,13 +26,13 @@ namespace demolish{
 	   * @return void
 	   */
 	  void springSphere(
-		  iREAL normal[3],
-		  iREAL depth,
-		  iREAL relativeVelocity[3],
-		  iREAL massA,
-		  iREAL massB,
-		  std::array<iREAL, 3> & f,
-		  iREAL& forc);
+		  double normal[3],
+		  double depth,
+		  double relativeVelocity[3],
+		  double massA,
+		  double massB,
+		  std::array<double, 3> & f,
+		  double& forc);
 
     }
 }
