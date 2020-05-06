@@ -1,4 +1,3 @@
-
 #ifndef _DEMOLISH_MATH
 #define _DEMOLISH_MATH
 

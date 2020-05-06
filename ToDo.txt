@@ -1,7 +1,0 @@
-adaptive timestepping causes lockup in simulation
-
-Solution:
-
-  only go back once per timestep.
-  check swapping interface.
-  ^ this is where the lockup is

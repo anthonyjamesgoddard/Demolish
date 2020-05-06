@@ -1,5 +1,3 @@
-
-
 #ifndef WORLD
 #define WORLD
 

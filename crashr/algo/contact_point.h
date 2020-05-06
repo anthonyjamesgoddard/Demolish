@@ -1,8 +1,5 @@
+#pragma once
 
-#ifndef _DEMOLISH_CONTACTPOINT
-#define _DEMOLISH_CONTACTPOINT
-
-#include"demolish.h"
 #include <iostream> 
 #include <string>
 #include <cmath>
