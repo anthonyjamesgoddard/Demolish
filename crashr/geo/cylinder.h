@@ -7,8 +7,7 @@
 #define _DELTA_PRIMITIVES_CYLINDER_H_
 
 
-#include "../crashr.h"
-#include "../Mesh.h"
+#include "geo/mesh.h"
 
 
 namespace crashr {

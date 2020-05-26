@@ -1,8 +1,6 @@
 #ifndef MATERIAL
 #define MATERIAL
 
-#include "crashr.h"
-
 #include <map>
 
 namespace crashr {

@@ -1,14 +1,10 @@
 #ifndef GEOMETRY_STRUCTURES_MESH_H_
 #define GEOMETRY_STRUCTURES_MESH_H_
 
-#include "Triangle.h"
-#include "Vertex.h"
-
-#include "algo.h"
-#include "material.h"
-#include "operators/mesh.h"
-#include "operators/physics.h"
-#include "operators/vertex.h"
+#include "algo/algo.h"
+#include "geo/triangle.h"
+#include "geo/vertex.h"
+#include "world/material.h"
 
 namespace crashr {
 class Mesh;
@@ -372,7 +368,8 @@ public:
      */
     void computeCenterOfMass(double& centreOfMassX, double& centreOfMassY,
                              double& centreOfMassZ, double& refcentreOfMassX,
-                             double& refcentreOfMassY, double& refcentreOfMassZ);
+                             double& refcentreOfMassY,
+                             double& refcentreOfMassZ);
 
     /*
      *  Get X Coordinates
@@ -562,13 +559,16 @@ void scaleXYZ(std::vector<double>& xCoordinates,
               std::vector<crashr::Vertex>& verts, double scale,
               double position[3]);
 
-void rotateX(std::vector<double>& xCoordinates, std::vector<double>& yCoordinates,
+void rotateX(std::vector<double>& xCoordinates,
+             std::vector<double>& yCoordinates,
              std::vector<double>& zCoordinates, double alphaX);
 
-void rotateY(std::vector<double>& xCoordinates, std::vector<double>& yCoordinates,
+void rotateY(std::vector<double>& xCoordinates,
+             std::vector<double>& yCoordinates,
              std::vector<double>& zCoordinates, double alphaY);
 
-void rotateZ(std::vector<double>& xCoordinates, std::vector<double>& yCoordinates,
+void rotateZ(std::vector<double>& xCoordinates,
+             std::vector<double>& yCoordinates,
              std::vector<double>& zCoordinates, double alphaZ);
 
 }  // namespace operators
